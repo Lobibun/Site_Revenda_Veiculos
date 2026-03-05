@@ -1,0 +1,97 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 40px;
+    background-color: #000000;
+    color: white;
+}
+
+.menu-principal ul {
+     font-size: 20px;
+     list-style: none;
+     padding: 0;
+     margin: 0;
+     display: flex;
+     gap: 20px;
+}
+
+footer {
+    background-color: #000000;
+    color: white;
+    padding: 20px;
+}
+
+nav {
+    display: flex;
+    gap: 20px;
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+nav a:hover {
+    color: #a00b0b;
+}
+
+.banner {
+    background-image: url("../img/Capa.png");
+    height: 500px;
+    background-size: cover;
+    background-position: center top;
+    display: flex;
+    align-items: center;
+    padding-left: 50px;
+    margin-top: 10px;
+}
+
+.texto-banner h2 {
+    color: black;
+    font-size: 42px;
+     margin-top: 10px;
+    
+}
+
+.texto-banner h3 {
+    color: black;
+    font-size: 36px;
+
+}
+
+.botao-banner {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 12px 30px;
+    background-color: #a00b0b; /* vermelho */
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 5px;
+    transition: 0.3s;
+}
+
+.botao-banner:hover {
+    background-color: #000000; /* fica preto ao passar o mouse */
+}
