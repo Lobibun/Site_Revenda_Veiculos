@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Modificar Estoque</title>
+        <link rel="stylesheet" href="../css/style.css">
+    </head>
+    <body>
+        <h1>Adicionar Veículo</h1>
+
+        <form id="form-carro"  enctype="multipart/form-data">
+
+        <input type="text" name="marca" placeholder="Marca" required>
+
+        <input type="text" name="modelo" placeholder="Modelo" required>
+
+        <input type="number" name="ano" placeholder="Ano" required>
+
+        <input type="number" name="preco" placeholder="Preço" required>
+
+        <input type="number" name="fipe" placeholder="Valor FIPE" required>
+
+        <input type="number" name="quilometragem" placeholder="Quilometragem" required>
+
+        <select name="cambio">
+            <option value="manual">Manual</option>
+            <option value="automatico">Automático</option>
+        </select>
+
+        <label>Fotos do veículo</label>
+        <input type="file" name="fotos" accept="image/*" multiple required>
+        <button>Adicionar ao Estoque</button>
+        </form>
+        <script src="/admin/js/adicionar-carro.js"></script>
+    </body>
+</html>

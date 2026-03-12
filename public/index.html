@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <script src="js/components/cardCarro.js"></script>
+        <script src="js/destaque.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
         <title>Revendedora</title>
         <link rel="stylesheet" href="css/style.css">
     </head>
@@ -29,15 +32,19 @@
         <a href="carros.html" class="botao-banner">Nosso Estoque</a>
             </div>
         </section>
-            <h2>Carro Destaque </h2>
-            <p>Marca: Toyota</p>
-            <p>Modelo: Corolla</p>
-            <p>Ano: 2020</p>
-            <p>Preço: R$ 80.000</p>
+
+            <section class="carros-destaque">
+                <h1 class="titulo-secao">Carros em Destaque</h1>
+                <ul id="carros-destaque"></ul>
+                <nav class="link-estoque">
+                    <a href="carros.html" class="botao-banner">Ver Estoque</a>
+                </nav>
+            </section>
+            
         </main>
 
         <footer>
-        <p>© 2026 Revendedora - Todos os direitos reservados</p>
+            <p>© 2026 Revendedora - Todos os direitos reservados</p>
          </footer>
 
     </body>
