@@ -116,3 +116,17 @@ ADD FOREIGN KEY (marca_id) REFERENCES Marcas(id);
 
 UPDATE Carros SET marca_id = 3 WHERE id = 2;
 UPDATE Carros SET marca_id = 7 WHERE id = 4;
+
+
+INSERT INTO CarroOpcionais (carro_id, opcional_id) VALUES
+(1, 1), -- Ar condicionado
+(1, 2), -- Direção hidráulica
+(1, 4), -- Trava elétrica
+(1, 5), -- Airbag
+(1, 6), -- Freio ABS
+(1, 7), -- Central multimídia
+(1, 8), -- Sensor de ré
+(1, 9), -- Câmera de ré
+(1, 10), -- Controle de estabilidade
+(1, 11), -- Bancos de couro
+(1, 12); -- Rodas de liga leve

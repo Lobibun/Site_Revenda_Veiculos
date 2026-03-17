@@ -1,14 +1,12 @@
 <!DOCTYPE html>
 <html>
     <head>
-        
-        <title>Carros</title>
-         <script src="js/components/cardCarro.js"></script>
-        <script src="js/carros.js"></script>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+        <title>Detalhes do Veículo</title>
         <link rel="stylesheet" href="css/style.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+        <script src="js/detalhe-veiculo.js" defer></script>
     </head>
-    <body class="pagina-carros"> 
+    <body class="pagina-detalhe-veiculo">
         <header class="topo-site">
             <a href="index.html">
                 <img src="Img/Logo.png" alt="Logo da Revendedora" width="170">
@@ -24,20 +22,18 @@
                 </ul>
             </nav>
         </header>
+
         <main>
-            <h1 class="titulo-secao">Nosso Estoque</h1>
-            <div id="lista-carros"></div>
+            <section id="detalhe-veiculo"></section>
 
-            <nav class="paginacao">
-                <ul id="paginacao"></ul>
-            </nav>
-
+            <section class="carros-relacionados">
+                <h2>Carros Relacionados</h2>
+                <div id="carros-relacionados"></div>
+            </section>
         </main>
 
         <footer>
             <p>© 2026 Revendedora - Todos os direitos reservados</p>
-         </footer>
-
-        
+        </footer>
     </body>
-</html>
+</html>>

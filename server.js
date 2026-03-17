@@ -157,3 +157,54 @@ res.status(500).json({ erro: "Erro ao carregar destaques" });
 }
 
 });
+
+app.get("/carros/:id", async (req, res) => {
+    try {
+
+        const id = req.params.id;
+
+        const [carros] = await db.query(`
+        SELECT 
+        Carros.*,
+        Marcas.nome AS marca,
+        (SELECT caminho 
+        FROM FotosCarro 
+        WHERE carro_id = Carros.id 
+        LIMIT 1) AS imagem_principal
+        FROM Carros
+        JOIN Marcas ON Carros.marca_id = Marcas.id
+        WHERE Carros.id = ?
+        `, [id]);
+
+        if (carros.length === 0) {
+            return res.status(404).json({ erro: "Carro não encontrado" });
+        }
+
+        const carro = carros[0];
+
+        const [fotos] = await db.query(`
+            SELECT caminho
+            FROM FotosCarro
+            WHERE carro_id = ?
+         `, [id]);
+         carro.fotos = fotos;
+
+        const [opcionais] = await db.query(`
+        SELECT Opcionais.nome
+        FROM CarroOpcionais
+        JOIN Opcionais ON CarroOpcionais.opcional_id = Opcionais.id
+        WHERE CarroOpcionais.carro_id = ?
+        `, [id]);
+
+        carro.opcionais = opcionais;
+
+        res.json(carro);
+
+    } catch (erro) {
+
+        console.error(erro);
+        res.status(500).json({ erro: "Erro ao carregar detalhes do carro" });
+
+    }
+
+});

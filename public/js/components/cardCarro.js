@@ -10,6 +10,7 @@ if (Number(carro.preco) < Number(carro.fipe)) {
 }
 
 card.innerHTML = `
+<a href="detalhe-veiculo.html?id=${carro.id}" class="link-carro">
 <img src="${carro.imagem_principal}" class="foto-carro" alt="Foto do ${carro.marca} ${carro.modelo}">
 
 <p class="info-carro-bar">
@@ -29,6 +30,7 @@ card.innerHTML = `
 <li><span class="label-destaque">Opcionais:</span> ${carro.Opcionais ? 'Sim' : 'Não'}</li>
 <li><span class="label-destaque">Leilão:</span> ${carro.leilao ? 'Sim' : 'Não'}</li>
 </ul>
+</a>
 `;
 
 return card;
