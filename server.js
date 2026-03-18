@@ -208,3 +208,38 @@ app.get("/carros/:id", async (req, res) => {
     }
 
 });
+
+app.get("/carros/:id/relacionados", async (req, res) => {
+    const id = req.params.id;
+
+    const [carroAtual] = await db.query(`SELECT * FROM Carros WHERE id = ?`, [id]);
+    const [todosCarros] = await db.query(`
+    SELECT 
+    Carros.*,
+    Marcas.nome AS marca,
+    (SELECT caminho 
+    FROM FotosCarro 
+    WHERE carro_id = Carros.id 
+    LIMIT 1) AS imagem_principal
+    FROM Carros
+    JOIN Marcas ON Carros.marca_id = Marcas.id
+    WHERE Carros.id != ?`, [id]);
+
+    const atual = carroAtual[0];
+
+    const relacionados = todosCarros
+        .map(c => {
+            let score = 0;
+
+            if (c.marca_id === atual.marca_id) score += 50;
+
+            const diff = Math.abs(c.preco - atual.preco);
+            score += Math.max(0, 100 - diff / 1000);
+
+            return { ...c, score };
+        })
+        .sort((a, b) => b.score - a.score)
+        .slice(0, 6);
+
+        res.json(relacionados);
+});

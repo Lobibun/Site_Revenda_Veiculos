@@ -86,3 +86,27 @@ async function  carregarDetalhesVeiculo() {
  }
 
     carregarDetalhesVeiculo();
+
+
+async function carregarCarrosRelacionados() {
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get('id');
+
+    if (!id) return;
+
+    const resposta = await fetch(`/carros/${id}/relacionados`);
+    const carros = await resposta.json();
+
+    const container = document.getElementById("carros-relacionados");
+
+    container.innerHTML = "";
+
+    carros.forEach(carro => {
+        const card = criarCardCarro(carro);
+        container.appendChild(card);
+    });
+
+}
+
+carregarCarrosRelacionados();
+
