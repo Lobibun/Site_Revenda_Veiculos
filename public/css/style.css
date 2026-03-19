@@ -267,7 +267,7 @@ font-weight:bold;
 .veiculo-detalhe{
     max-width: 800px;
     margin: 40px auto;
-    padding: 20px;
+    padding: 30px;
     background: white;
     border-radius: 10px;
 }
@@ -302,66 +302,65 @@ margin: 20px 0;
     margin: 25px auto 0 auto;
     overflow: hidden;
     margin: 25px auto 0 auto;
-}
-
-.slides{
     display: flex;
-    list-style: none;
-    padding: 0;
-    margin: 0;
 }
 
-.slide{
-    min-width: 100%;
+.carrossel {
+    border-radius: 16px;
+    padding: 30px;
+    margin-bottom: 20px;
 }
 
-.slide img{
+.slide {
+    display: none;
+    width: 100%;
+    height: 100%;
+
+    display: flex;              
+    justify-content: center;    
+    align-items: center;       
+}
+
+.slides {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.slide img {
     max-width: 100%;
-    height: auto;
+    max-height: 100%;
     object-fit: contain;
-    border-radius: 10px 10px 0 0;
+    border-radius: 12px;
+    cursor: zoom-in;
 }
-
-/* botões */
-
-.btn-carrossel{
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background: rgba(0,0,0,0.6);
-    color: white;
-    border: none;
-    padding: 12px;
-    cursor: pointer;
-    font-size: 20px;
-    border-radius: 50%;
-}
-
-#anterior{
-    left: 10px;
-}
-
-#proximo{
-    right: 10px;
-}
-
 /* informações do carro */
 
 .preco-status{
 display:flex;
 justify-content:space-between;
-align-items:center;
+align-items:flex-start;;
 margin: 0;
-padding:15px 25px;
-background:#f8f8f8;
+padding:15px 30px;
+background:#ffffff;
 border-radius:0 0 10px 10px;
-box-shadow:0 2px 6px rgba(0,0,0,0.08);
+box-shadow:0 4px 12px rgba(0,0,0,0.08);
 }
 
 .preco-detalhe{
-font-size:38px;
+font-size:42px;
 font-weight:bold;
 color:#b80e0e;
+}
+
+.preco-detalhe::before {
+    content: "Preço";
+    display: block;
+    font-size: 14px;
+    color: #777;
 }
 
 .status{
@@ -389,11 +388,11 @@ box-shadow:0 2px 6px rgba(220,53,69,0.3);
 
 .detalhes-veiculo,
 .opcionais{
-background:#f8f8f8;
+background:#ffffff;
+border-radius:0 0 10px 10px;
+box-shadow:0 4px 12px rgba(0,0,0,0.08);
 padding:20px;
-border-radius:10px;
 margin-top:25px;
-box-shadow:0 2px 6px rgba(0,0,0,0.05);
 }
 
 .detalhes-detalhe{
@@ -406,7 +405,8 @@ margin-top:15px;
 }
 
 .detalhes-detalhe li{
-background:#f8f8f8;
+background: #fff;
+border: 1px solid #eee;
 padding:10px 15px;
 border-radius:8px;
 box-shadow:0 2px 5px rgba(0,0,0,0.05);
@@ -456,4 +456,95 @@ display: grid;
 text-align: center;
 font-size: 28px;
 margin-bottom: 30px;
+}
+
+.miniaturas {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 15px;
+    flex-wrap: wrap;
+}
+
+.miniatura {
+    width: 80px;
+    height: 60px;
+    object-fit: cover;
+    cursor: pointer;
+    border-radius: 6px;
+    opacity: 0.8;
+    transition: 0.3s;
+     border: 2px solid transparent;
+}
+
+.miniatura:hover {
+    opacity: 1;
+}
+
+.miniatura.ativa {
+    opacity: 1;
+    border: 2px solid #a00b0b;
+    transform: scale(1.05);
+}
+
+body.pagina-detalhe-veiculo {
+    background: #f2f2f2;
+}
+
+.modal-imagem {
+    display: none;
+    position: fixed;
+    z-index: 999;
+    padding-top: 60px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.9);
+}
+
+.modal-imagem img#img-ampliada {
+    margin: auto;
+    display: block;
+    max-width: 90%;
+    max-height: 70%;
+    border-radius: 10px;
+}
+
+.fechar {
+    position: absolute;
+    top: 20px;
+    right: 40px;
+    color: white;
+    font-size: 40px;
+    cursor: pointer;
+}
+
+.miniaturas-modal {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+}
+
+.miniaturas-modal img {
+    width: 70px;
+    height: 50px;
+    object-fit: cover;
+    cursor: pointer;
+    border-radius: 6px;
+    opacity: 0.7;
+    border: 2px solid transparent;
+    transition: 0.3s;
+}
+
+.miniaturas-modal img:hover {
+    opacity: 1;
+}
+
+.miniaturas-modal img.ativa {
+    opacity: 1;
+    border: 2px solid #fff;
+    transform: scale(1.1);
 }

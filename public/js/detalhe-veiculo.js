@@ -8,7 +8,7 @@ async function  carregarDetalhesVeiculo() {
     const carro = await resposta.json();
 
     const container = document.getElementById("detalhe-veiculo");
-
+    const miniaturasModal = document.getElementById("miniaturas-modal");
     const fotosHTML = carro.fotos.length
     ? carro.fotos.map(f => `
         <li class="slide">
@@ -23,8 +23,19 @@ async function  carregarDetalhesVeiculo() {
     ? carro.opcionais.map(op => `<li>${op.nome}</li>`).join("")
     : "<li>Sem opcionais informados</li>";
 
-    container.innerHTML = `
+    const miniaturasHTML = carro.fotos.length  
+    ? carro.fotos.map((f, i) => `
+        <img src="${f.caminho}" class="miniatura" data-index="${i}" alt="${carro.marca} ${carro.modelo}">
+    `).join("")
+    : `<img src="${carro.imagem_principal}" class="miniatura" data-index="0" alt="${carro.marca} ${carro.modelo}">`;
 
+    const miniaturasModalHTML = carro.fotos.length  
+    ? carro.fotos.map((f, i) => `
+    <img src="${f.caminho}" data-index="${i}">
+    `).join("")
+:   `<img src="${carro.imagem_principal}" data-index="0">`;    
+
+    container.innerHTML = `
     <article class="veiculo-detalhe">
 
         <header class="titulo-veiculo">
@@ -32,19 +43,12 @@ async function  carregarDetalhesVeiculo() {
         </header>    
     
     <section class="carrossel">
-
-        <button class="btn-carrossel" id="anterior">
-            <i class="fa-solid fa-chevron-left"></i>
-        </button>
-
         <ul class="slides">
             ${fotosHTML}
         </ul>
-
-         <button class="btn-carrossel" id="proximo">
-             <i class="fa-solid fa-chevron-right"></i>
-        </button>
-
+    </section>
+    <section class="miniaturas">
+        ${miniaturasHTML}
     </section>
 
         <p class="preco-status">
@@ -83,6 +87,124 @@ async function  carregarDetalhesVeiculo() {
 
  `;
     
+let indexAtual = 0;
+
+const slides = container.querySelectorAll(".slide");
+const miniaturas = container.querySelectorAll(".miniatura");
+miniaturasModal.innerHTML = miniaturasModalHTML;
+// MODAL
+const modal = document.getElementById("modal-imagem");
+const imgAmpliada = document.getElementById("img-ampliada");
+const fechar = document.querySelector(".fechar");
+
+const miniaturasModalImgs = miniaturasModal.querySelectorAll("img");
+
+miniaturasModalImgs.forEach(mini => {
+    mini.addEventListener("click", () => {
+        indexAtual = Number(mini.dataset.index);
+        atualizarModal();
+        mostrarSlide(indexAtual);
+
+        // atualizar destaque
+        miniaturasModalImgs.forEach(m => m.classList.remove("ativa"));
+        mini.classList.add("ativa");
+    });
+});
+
+// MOSTRAR SLIDE
+function mostrarSlide(index) {
+    slides.forEach((slide, i) => {
+        slide.style.display = i === index ? "flex" : "none";
+    });
+
+    miniaturas.forEach((mini, i) => {
+        mini.classList.toggle("ativa", i === index);
+    });
+
+    indexAtual = index;
+}
+
+// CLIQUE NAS MINIATURAS
+miniaturas.forEach(mini => {
+    mini.addEventListener("click", () => {
+        mostrarSlide(Number(mini.dataset.index));
+    });
+});
+
+// ABRIR MODAL AO CLICAR NA IMAGEM
+slides.forEach((slide, i) => {
+    const img = slide.querySelector("img");
+
+    img.addEventListener("click", () => {
+        modal.style.display = "block";
+        indexAtual = i;
+        atualizarModal();
+    });
+});
+
+// ATUALIZA IMAGEM DO MODAL
+function atualizarModal() {
+    const imgAtual = slides[indexAtual].querySelector("img");
+    imgAmpliada.src = imgAtual.src;
+}
+
+// FECHAR MODAL
+fechar.addEventListener("click", () => {
+    modal.style.display = "none";
+});
+
+modal.addEventListener("click", (e) => {
+    if (e.target === modal) {
+        modal.style.display = "none";
+    }
+});
+
+
+// 👉 SWIPE (ARRASTAR)
+let startX = 0;
+
+imgAmpliada.addEventListener("touchstart", (e) => {
+    startX = e.touches[0].clientX;
+});
+
+imgAmpliada.addEventListener("touchend", (e) => {
+    let endX = e.changedTouches[0].clientX;
+
+    if (startX - endX > 50) {
+        proximoSlide();
+    } else if (endX - startX > 50) {
+        slideAnterior();
+    }
+});
+
+// 👉 CLICK ESQUERDA/DIREITA (DESKTOP)
+imgAmpliada.addEventListener("click", (e) => {
+    const largura = imgAmpliada.clientWidth;
+    const cliqueX = e.offsetX;
+
+    if (cliqueX < largura / 2) {
+        slideAnterior();
+    } else {
+        proximoSlide();
+    }
+});
+
+// FUNÇÕES DE NAVEGAÇÃO
+function proximoSlide() {
+    indexAtual = (indexAtual + 1) % slides.length;
+    atualizarModal();
+    mostrarSlide(indexAtual);
+}
+
+function slideAnterior() {
+    indexAtual = (indexAtual - 1 + slides.length) % slides.length;
+    atualizarModal();
+    mostrarSlide(indexAtual);
+}
+
+// iniciar
+mostrarSlide(0);
+
  }
 
     carregarDetalhesVeiculo();
