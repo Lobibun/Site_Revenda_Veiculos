@@ -130,3 +130,21 @@ INSERT INTO CarroOpcionais (carro_id, opcional_id) VALUES
 (1, 10), -- Controle de estabilidade
 (1, 11), -- Bancos de couro
 (1, 12); -- Rodas de liga leve
+
+CREATE TABLE Vendedores (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE,
+    telefone VARCHAR(20) NOT NULL
+);
+
+INSERT INTO Vendedores (nome, email, telefone) VALUES
+('João Silva', 'joao.silva@email.com', '(11) 99999-9999');
+
+ALTER TABLE Vendedores
+ADD Foto VARCHAR(255);
+
+UPDATE Vendedores SET foto = 'img/vendedores/Joao Silva/joao_Silva.png' WHERE id = 1;
+
+INSERT INTO Vendedores (nome, email, telefone, foto) VALUES
+('Maria Oliveira', 'maria.oliveira@email.com', '(11) 98765-4321', 'img/vendedores/Maria Oliveira/maria_oliveira.jpg');

@@ -243,3 +243,18 @@ app.get("/carros/:id/relacionados", async (req, res) => {
 
         res.json(relacionados);
 });
+
+app.get("/vendedores", async (req, res) => {
+    try {
+        const [vendedores] = await db.query(`
+            SELECT id, nome, telefone, email, foto
+            FROM Vendedores
+            `);
+
+            res.json(vendedores);
+
+    } catch (erro) {
+        console.error(erro);
+        res.status(500).json({ erro: "Erro ao carregar vendedores" });
+    }
+});

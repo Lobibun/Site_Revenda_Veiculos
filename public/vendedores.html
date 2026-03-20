@@ -1,24 +1,32 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Carros</title>
+        <title>Vendedores</title>
         <link rel="stylesheet" href="css/style.css">
+        <script src="js/components/cardVendedor.js" defer></script>
+        <script src="js/vendedores.js" defer></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     </head>
     <body> 
-        <header>
+        <header class="topo-site">
             <a href="index.html">
-                <img src="Img/Logo.png" alt="Logo da Revendedora" width="120">
+                <img src="Img/Logo.png" alt="Logo da Revendedora" width="170">
             </a>
 
-            <nav>
-                <a href="index.html">Home</a>
-                <a href="carros.html">Carros</a>
-                <a href="vendedores.html">Vendedores</a>
-                <a href="sobre.html">Sobre nós</a>
-                <a href="contato.html">Contato</a>
+            <nav class="menu-principal">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="carros.html">Carros</a></li>
+                    <li><a href="vendedores.html">Vendedores</a></li>
+                    <li><a href="sobre.html">Sobre nós</a></li>
+                    <li><a href="contato.html">Contato</a></li>
+                </ul>
             </nav>
         </header>
-        <main></main>
+        <main>
+            <h1 class="titulo-secao">Nossos Vendedores</h1>
+            <section id="lista-vendedores" class="lista-vendedores"></section>
+        </main>
 
         <footer>
             <p>© 2026 Revendedora - Todos os direitos reservados</p>
