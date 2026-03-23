@@ -595,6 +595,81 @@ margin-bottom: 30px;
 
 .barra {
     background: #000000;
-    height: 20px; /* melhor que padding nesse caso */
-    margin: 0; /* garante que não tenha espaço */
+    height: 20px;
+    margin: 0; 
+}
+
+.bloco {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    transition: all 0.3s ease;
+    text-align: center; 
+}
+
+.bloco:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+}
+
+.bloco h2 {
+    margin-bottom: 10px;
+    font-size: 22px;
+}
+
+.bloco p {
+    color: #555;
+    line-height: 1.6;
+}
+
+.icone-circulo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 2px solid #eee;
+    background: #fafafa;
+    margin: 0 auto 15px; 
+}
+
+.icone-circulo i {
+    font-size: 24px;
+    color: #a00b0b;
+}
+
+.bloco:hover .icone-circulo {
+    transform: scale(1.2) rotate(5deg);
+    transition: 0.3s;
+}
+
+.sobre-container {
+    display: flex;
+    align-items: center; 
+    gap: 50px; 
+    max-width: 1200px;
+    margin: 40px auto 80px auto;
+    padding: 0 20px;
+}
+
+.sobre-imagem {
+    flex: 1; 
+    display: flex;
+    justify-content: center;
+    margin: 0; 
+}
+
+.sobre-imagem img {
+    width: 100%;
+    max-width: 500px; 
+    border-radius: 12px;
+}
+
+.sobre-cards {
+    flex: 1.5; 
+    display: grid;
+    grid-template-columns: 1fr 1fr; 
+    gap: 25px; 
 }
