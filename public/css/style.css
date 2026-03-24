@@ -673,3 +673,146 @@ margin-bottom: 30px;
     grid-template-columns: 1fr 1fr; 
     gap: 25px; 
 }
+
+.contato-container {
+    display: grid;
+    grid-template-columns: 1fr; 
+    gap: 20px;
+}
+
+.contato-item {
+    background: #fff;
+    padding: 25px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    transition: 0.3s;
+}
+
+.contato-item:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 20px rgba(0,0,0,0.15);
+}
+
+.contato-item header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+
+.contato-item:hover .icone-circulo {
+    transform: scale(1.1);
+    background: #a00b0b;
+}
+
+.contato-item:hover .icone-circulo i {
+    color: white;
+}
+
+.contato-item h2 {
+    color: #a00b0b;
+    font-size: 20px;
+}
+
+.contato-item p,
+.contato-item address {
+    color: #555;
+    font-size: 15px;
+    line-height: 1.5;
+    font-style: normal;
+}
+
+.mapa {
+    max-width: 1100px;
+    margin: 0 auto 60px auto;
+    padding: 0 20px;
+}
+
+.mapa-container {
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.titulo-secao {
+    margin-top: 30px;
+    margin-bottom: 20px;
+}
+
+.formulario-contato {
+    width: 100%;
+}
+
+.contato-layout {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: 40px;
+    max-width: 1200px;
+    margin: 0 auto 50px auto;
+    padding: 20px;
+}
+
+.formulario-contato {
+    order: 1;
+}
+
+.contato-container {
+    order: 2;
+}
+
+form {
+    background: #fff;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.campo {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+}
+
+.campo label {
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.campo input,
+.campo textarea {
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+}
+
+.formulario-contato button {
+    width: 100%;
+    padding: 12px;
+    background: #a00b0b;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    background: #000;
+}
+
+.erro {
+    color: red;
+    font-size: 13px;
+    margin-top: 5px;
+}
+
+@media (max-width: 768px) {
+    .contato-layout {
+        grid-template-columns: 1fr;
+    }
+}

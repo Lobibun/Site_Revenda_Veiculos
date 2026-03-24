@@ -148,3 +148,5 @@ UPDATE Vendedores SET foto = 'img/vendedores/Joao Silva/joao_Silva.png' WHERE id
 
 INSERT INTO Vendedores (nome, email, telefone, foto) VALUES
 ('Maria Oliveira', 'maria.oliveira@email.com', '(11) 98765-4321', 'img/vendedores/Maria Oliveira/maria_oliveira.jpg');
+
+UPDATE Vendedores SET foto = 'img/vendedores/Maria Oliveira/maria_oliveira.png' WHERE id = 2;
