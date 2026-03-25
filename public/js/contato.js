@@ -1,16 +1,15 @@
-document.addEventListener("DOMContentLoaded", function() {
-
+document.addEventListener("DOMContentLoaded", function () {
     const form = document.getElementById("form-contato");
     const emailInput = document.getElementById("email");
     const erroEmail = document.getElementById("erro-email");
 
-    form.addEventListener("submit", function(e) {
+    form.addEventListener("submit", function (e) {
         e.preventDefault();
 
         const email = emailInput.value;
         const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-        if (!regex.test(email)) {
+        if (!regex.test(email))  {
             erroEmail.textContent = "Digite um email válido!";
             emailInput.style.border = "2px solid red";
             return;
@@ -22,5 +21,4 @@ document.addEventListener("DOMContentLoaded", function() {
         alert("Mensagem enviada com sucesso!");
         form.reset();
     });
-
 });

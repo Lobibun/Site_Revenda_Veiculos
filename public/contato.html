@@ -1,15 +1,17 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
     <head>
         <title>Carros</title>
-        <link rel="stylesheet" href="css/style.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+        <link rel="stylesheet" href="css/style.css" />
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
         <script src="js/contato.js" defer></script>
     </head>
-    <body> 
+    <body>
         <header class="topo-site">
             <a href="index.html">
-                <img src="Img/Logo.png" alt="Logo da Revendedora" width="170">
+                <img src="Img/Logo.png" alt="Logo da Revendedora" width="170" />
             </a>
 
             <nav class="menu-principal">
@@ -26,102 +28,101 @@
             <h1 class="titulo-secao">Contato</h1>
 
             <section class="contato-layout">
+                <section class="contato-container">
+                    <article class="contato-item">
+                        <header>
+                            <span class="icone-circulo">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </span>
+                            <h2>Endereço</h2>
+                        </header>
+                        <address>
+                            Rua das Flores, 123<br />
+                            Centro, Florianópolis - SC<br />
+                            CEP: 88000-000
+                        </address>
+                    </article>
 
+                    <article class="contato-item">
+                        <header>
+                            <span class="icone-circulo">
+                                <i class="fas fa-phone"></i>
+                            </span>
+                            <h2>Telefone</h2>
+                        </header>
+                        <p>(48) 99999-8888</p>
+                    </article>
 
-            <section class="contato-container">
+                    <article class="contato-item">
+                        <header>
+                            <span class="icone-circulo">
+                                <i class="fas fa-envelope"></i>
+                            </span>
+                            <h2>Email</h2>
+                        </header>
+                        <p>contato@revendedora.com</p>
+                    </article>
 
-    <article class="contato-item">
-        <header>
-            <span class="icone-circulo">
-                <i class="fas fa-map-marker-alt"></i>
-            </span>
-            <h2>Endereço</h2>
-        </header>
-        <address>
-            Rua das Flores, 123<br>
-            Centro, Florianópolis - SC<br>
-            CEP: 88000-000
-        </address>
-    </article>
+                    <article class="contato-item">
+                        <header>
+                            <span class="icone-circulo">
+                                <i class="fas fa-clock"></i>
+                            </span>
+                            <h2>Horário de Atendimento</h2>
+                        </header>
+                        <p>Segunda a Sexta: 9h às 18h</p>
+                        <p>Sábado: 9h às 14h</p>
+                        <p>Domingo: Fechado</p>
+                    </article>
+                </section>
 
-    <article class="contato-item">
-        <header>
-            <span class="icone-circulo">
-                <i class="fas fa-phone"></i>
-            </span>
-            <h2>Telefone</h2>
-        </header>
-        <p>(48) 99999-8888</p>
-    </article>
+                <section class="formulario-contato">
+                    <h2 class="titulo-secao">Envie uma mensagem</h2>
 
-    <article class="contato-item">
-        <header>
-            <span class="icone-circulo">
-                <i class="fas fa-envelope"></i>
-            </span>
-            <h2>Email</h2>
-        </header>
-        <p>contato@revendedora.com</p>
-    </article>
+                    <form id="form-contato">
+                        <article class="campo">
+                            <label for="nome">Nome</label>
+                            <input type="text" id="nome" required />
+                        </article>
 
-    <article class="contato-item">
-        <header>
-            <span class="icone-circulo">
-                <i class="fas fa-clock"></i>
-            </span>
-            <h2>Horário de Atendimento</h2>
-        </header>
-        <p>Segunda a Sexta: 9h às 18h</p>
-        <p>Sábado: 9h às 14h</p>
-        <p>Domingo: Fechado</p>
-    </article>
-</section>
+                        <article class="campo">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" required />
+                            <span class="erro" id="erro-email"></span>
+                        </article>
 
-<section class="formulario-contato">
-    <h2 class="titulo-secao">Envie uma mensagem</h2>
+                        <article class="campo">
+                            <label for="mensagem">Mensagem</label>
+                            <textarea
+                                id="mensagem"
+                                rows="5"
+                                required
+                            ></textarea>
+                        </article>
 
-    <form id="form-contato">
-        
-        <article class="campo">
-            <label for="nome">Nome</label>
-            <input type="text" id="nome" required>
-        </article>
-
-        <article class="campo">
-            <label for="email">Email</label>
-            <input type="email" id="email" required>
-            <span class="erro" id="erro-email"></span>
-        </article>
-
-        <article class="campo">
-            <label for="mensagem">Mensagem</label>
-            <textarea id="mensagem" rows="5" required></textarea>
-        </article>
-
-        <button type="submit">Enviar</button>
-
-    </form>
-</section>
+                        <button type="submit">Enviar</button>
+                    </form>
+                </section>
             </section>
 
-<section class="mapa">
-    <h2 class="titulo-secao">Nossa Localização</h2>
+            <section class="mapa">
+                <h2 class="titulo-secao">Nossa Localização</h2>
 
-    <article class="mapa-container">
-        <iframe 
-            src="https://www.google.com/maps?q=Florianopolis&output=embed"
-            width="100%" 
-            height="400" 
-            style="border:0;" 
-            allowfullscreen="" 
-            loading="lazy">
-        </iframe>
-    </article>
-</section>
+                <article class="mapa-container">
+                    <iframe
+                        src="https://www.google.com/maps?q=Florianopolis&output=embed"
+                        width="100%"
+                        height="400"
+                        style="border: 0"
+                        allowfullscreen=""
+                        loading="lazy">
+                    </iframe>
+                </article>
+            </section>
         </main>
 
         <footer>
             <p>© 2026 Revendedora - Todos os direitos reservados</p>
-         </footer>
+        </footer>
     </body>
 </html>

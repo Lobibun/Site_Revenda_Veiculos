@@ -1,0 +1,86 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Modificar Estoque</title>
+        <link rel="stylesheet" href="../css/style.css" />
+    </head>
+    <body>
+        <form id="form-carro" enctype="multipart/form-data">
+            <!-- Marca -->
+            <label>Marca</label>
+            <select name="marca_id" id="marca" required></select>
+
+            <!-- Modelo -->
+            <label>Modelo</label>
+            <input type="text" name="modelo" placeholder="Modelo" required />
+
+            <!-- Ano -->
+            <label>Ano</label>
+            <input
+                type="number"
+                name="ano"
+                placeholder="Ano"
+                min="1900"
+                required
+            />
+
+            <!-- Preço -->
+            <label>Preço</label>
+            <input
+                type="number"
+                name="preco"
+                placeholder="Preço"
+                min="0"
+                required
+            />
+
+            <!-- FIPE -->
+            <label>Valor FIPE</label>
+            <input type="number" name="fipe" placeholder="FIPE" min="0" />
+
+            <!-- Quilometragem -->
+            <label>Quilometragem</label>
+            <input
+                type="number"
+                name="quilometragem"
+                placeholder="Quilometragem"
+                min="0"
+                required
+            />
+
+            <!-- Câmbio -->
+            <label>Câmbio</label>
+            <select name="cambio" required>
+                <option value="Manual">Manual</option>
+                <option value="Automático">Automático</option>
+            </select>
+
+            <!-- Combustível -->
+            <label>Combustível</label>
+            <select name="combustivel" id="combustivel" required></select>
+
+            <!-- Opcionais -->
+            <label>
+                <input type="checkbox" id="tem-opcionais" />
+                Possui opcionais
+            </label>
+
+            <fieldset id="lista-opcionais" style="display: none">
+                <legend>Opcionais</legend>
+            </fieldset>
+
+            <label>Fotos do veículo</label>
+            <input
+                type="file"
+                name="fotos"
+                accept="image/*"
+                multiple
+                required
+            />
+
+            <button type="submit">Adicionar</button>
+        </form>
+
+        <script src="/js/adicionar-carro.js"></script>
+    </body>
+</html>
