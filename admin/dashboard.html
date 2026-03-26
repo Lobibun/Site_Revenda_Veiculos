@@ -2,17 +2,41 @@
 <html lang="pt-br">
     <head>
         <title>Painel Administrativo</title>
-        <link rel="stylesheet" href="../css/style.css" />
+        <link rel="stylesheet" href="/css/style-adm.css">
+        <link rel="stylesheet" href="css/style.css">
     </head>
     <body>
-        <h1>Painel Administrativo</h1>
+        <main class="admin-page">
+            <h1 class="titulo-secao">Painel Administrativo</h1>
 
-        <a href="/admin/adicionar">
-            <button>Adicionar Veículo</button>
-        </a>
+            <article class="admin-group">
+                <h2>Veículos</h2>
+                <a href="/admin/adicionar">
+                    <button>Adicionar Veículo</button>
+                </a>
 
-        <a href="/carros.html">
-            <button>Ver Estoque</button>
-        </a>
+                <a href="/admin/modificar-veiculos">
+                    <button>Modificar Veículos</button>
+                </a>
+            </article>
+
+            <article class="admin-group">
+                <h2>Vendedores</h2>
+                <a href="/admin/adicionar-vendedor">
+                    <button>Adicionar Vendedor</button>
+                </a>
+
+                <a href="/admin/modificar-vendedores">
+                    <button>Modificar Vendedores</button>
+                </a>
+            </article>
+
+            <article class="admin-group">
+                <h2>Estoque</h2>
+                <a href="/carros.html">
+                    <button>Ver Estoque</button>
+                </a>
+            </article>
+        </main>
     </body>
 </html>

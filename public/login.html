@@ -1,16 +1,25 @@
 <!doctype html>
 <html lang="pt-br">
     <head>
-        <title>Login Admin</title>
+        <title>Login</title>
+        <link rel="stylesheet" href="css/style.css">
     </head>
     <body>
-        <h2>Login</h2>
-
-        <form id="login-form">
-            <input type="text" name="usuario" placeholder="Usuário" required />
-            <input type="password" name="senha" placeholder="Senha" required />
-            <button type="submit">Entrar</button>
-        </form>
+        <main class="login-page">
+            <form id="login-form" class="login-box">
+                <h2>Login</h2>
+                <article id="erro-box" class="erro-box" style="display: none;"></article>
+                <article class="campo">
+                    <label>Usuário</label>
+                    <input type="text" name="usuario" required>
+                </article>
+                <article class="campo">
+                    <label>Senha</label>
+                    <input type="password" name="senha" required>
+                </article>
+                <button type="submit" id="btn-login">Entrar</button>
+            </form>
+        </main>
 
         <script src="js/login.js"></script>
     </body>
