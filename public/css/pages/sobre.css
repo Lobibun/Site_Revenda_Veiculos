@@ -1,0 +1,29 @@
+/* assets/css/pages/sobre.css */
+.sobre-container {
+    display: flex;
+    align-items: center; 
+    gap: 50px; 
+    max-width: 1200px;
+    margin: 40px auto 80px auto;
+    padding: 0 20px;
+}
+
+.sobre-imagem {
+    flex: 1; 
+    display: flex;
+    justify-content: center;
+    margin: 0; 
+}
+
+.sobre-imagem img {
+    width: 100%;
+    max-width: 500px; 
+    border-radius: 12px;
+}
+
+.sobre-cards {
+    flex: 1.5; 
+    display: grid;
+    grid-template-columns: 1fr 1fr; 
+    gap: 25px; 
+}

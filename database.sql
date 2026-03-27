@@ -160,3 +160,13 @@ MODIFY Combustivel ENUM(
     'Híbrido',
     'Elétrico'
 ) NOT NULL;
+
+CREATE TABLE Usuarios (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    telefone VARCHAR(20),
+    senha_hash VARCHAR(255) NOT NULL,
+    nivel ENUM('admin', 'vendedor') DEFAULT 'vendedor',
+    criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

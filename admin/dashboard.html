@@ -1,42 +1,79 @@
 <!doctype html>
 <html lang="pt-br">
     <head>
-        <title>Painel Administrativo</title>
-        <link rel="stylesheet" href="/css/style-adm.css">
-        <link rel="stylesheet" href="css/style.css">
+        <script src="/js/components/header-adm.js"></script>
+        <title>Painel Administrativo | Dashboard</title>
+        <link rel="stylesheet" href="/css/style.css" />
     </head>
     <body>
+        
+
         <main class="admin-page">
-            <h1 class="titulo-secao">Painel Administrativo</h1>
+            <cabecalho-admin></cabecalho-admin>
+            <h1 class="titulo-secao">Visão Geral</h1>
+            
+            <section class="dashboard-stats">
+                <article class="stat-card">
+                    <h3>Veículos em Estoque</h3>
+                    <p class="stat-number">42</p>
+                </article>
 
-            <article class="admin-group">
-                <h2>Veículos</h2>
-                <a href="/admin/adicionar">
-                    <button>Adicionar Veículo</button>
-                </a>
+                <article class="stat-card">
+                    <h3>Vendedores Ativos</h3>
+                    <p class="stat-number">5</p>
+                </article>
 
-                <a href="/admin/modificar-veiculos">
-                    <button>Modificar Veículos</button>
-                </a>
-            </article>
+                <article class="stat-card">
+                    <h3>Mensagens Recebidas</h3>
+                    <p class="stat-number">12</p>
+                </article>
+            </section>
 
-            <article class="admin-group">
-                <h2>Vendedores</h2>
-                <a href="/admin/adicionar-vendedor">
-                    <button>Adicionar Vendedor</button>
-                </a>
+            <section class="admin-grid">
+                <article class="admin-group">
+                    <h2>🚗 Gerenciar Veículos</h2>
+                    <p>Adicione, edite ou remova carros do estoque.</p>
+                    <nav class="acoes">
+                        <a href="/admin/adicionar"
+                            ><button>Adicionar Veículo</button></a
+                        >
+                        <a href="/admin/modificar-veiculos"
+                            ><button class="btn-secundario">
+                                Modificar Veículos
+                            </button></a
+                        >
+                    </nav>
+                </article>
 
-                <a href="/admin/modificar-vendedores">
-                    <button>Modificar Vendedores</button>
-                </a>
-            </article>
+                <article class="admin-group">
+                    <h2>👥 Gerenciar Vendedores</h2>
+                    <p>Controle a equipe de vendas e seus acessos.</p>
+                    <nav class="acoes">
+                        <a href="/admin/adicionar-vendedor"
+                            ><button>Adicionar Vendedor</button></a
+                        >
+                        <a href="/admin/modificar-vendedores"
+                            ><button class="btn-secundario">
+                                Modificar Vendedores
+                            </button></a
+                        >
+                    </nav>
+                </article>
 
-            <article class="admin-group">
-                <h2>Estoque</h2>
-                <a href="/carros.html">
-                    <button>Ver Estoque</button>
-                </a>
-            </article>
+                <article class="admin-group">
+                    <h2>📦 Estoque Público</h2>
+                    <p>Veja como o estoque está aparecendo para os clientes.</p>
+                    <nav class="acoes">
+                        <a href="/carros.html" target="_blank"
+                            ><button>Ver Estoque Online</button></a
+                        >
+                    </nav>
+                </article>
+            </section>
         </main>
+
+        <rodape-admin></rodape-admin>
+
+        
     </body>
 </html>

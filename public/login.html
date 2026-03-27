@@ -3,20 +3,24 @@
     <head>
         <title>Login</title>
         <link rel="stylesheet" href="css/style.css">
+        <script src="js/components/header.js"></script>
     </head>
     <body>
         <main class="login-page">
             <form id="login-form" class="login-box">
                 <h2>Login</h2>
                 <article id="erro-box" class="erro-box" style="display: none;"></article>
+                
                 <article class="campo">
-                    <label>Usuário</label>
-                    <input type="text" name="usuario" required>
+                    <label>E-mail</label>
+                    <input type="email" name="email" required>
                 </article>
+                
                 <article class="campo">
                     <label>Senha</label>
                     <input type="password" name="senha" required>
                 </article>
+                
                 <button type="submit" id="btn-login">Entrar</button>
             </form>
         </main>
