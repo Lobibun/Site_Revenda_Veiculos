@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Gerenciar Veículos - Painel Admin</title>
+
+        <link rel="stylesheet" href="/css/components/header-footer.css">
+        <link rel="stylesheet" href="/css/pages/gerenciar-carros.css" />
+        <link rel="stylesheet" href="/css/base/global.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+        <script src="/js/components/header-adm.js" defer></script>
+    </head>
+    <body class="admin-body">
+        <cabecalho-admin></cabecalho-admin>
+
+        <main class="admin-page">
+            <h1 class="titulo-secao">Gerenciar Veículos</h1>
+            <header class="topo-usuarios">
+                <a href="/admin/adicionar" class="btn-vermelho btn-novo">
+                    <i class="fas fa-plus"></i> Novo Veículo
+                </a>
+            </header>
+
+            <section class="painel-lista-veiculos">
+                <section class="scroll-container">
+                    <header class="cabecalho-lista">
+                        <span>Foto</span>
+                        <span>Veículo</span>
+                        <span>Ano</span>
+                        <span>Preço</span>
+                        <span>Status</span>
+                        <span class="coluna-acoes">Ações</span>
+                    </header>
+
+                    <ul id="lista-carros" class="lista-veiculos">
+                        <li class="msg-estado">Carregando veículos...</li>
+                    </ul>
+                </section>
+            </section>
+        </main>
+
+        <rodape-admin></rodape-admin>
+
+        <section id="modal-editar-carro" class="modal-overlay" style="display: none;">
+            <section class="modal-box modal-box-largo">
+                <header class="modal-header">
+                    <h2>Editar Veículo</h2>
+                    <button type="button" id="btn-fechar-modal-carro" class="btn-fechar-x">&times;</button>
+                </header>
+
+                <form id="form-editar-carro" class="form-admin">
+                    <input type="hidden" id="edit-id-carro" name="id" />
+
+                    <section class="form-grid">
+                        <article class="campo-form">
+                            <label for="edit-marca_id">Marca</label>
+                            <select id="edit-marca_id" name="marca_id"></select>
+                        </article>
+
+                        <article class="campo-form">
+                            <label for="edit-modelo">Modelo</label>
+                            <input type="text" id="edit-modelo" name="modelo" />
+                        </article>
+
+                        <article class="campo-form">
+                            <label for="edit-ano">Ano</label>
+                            <input type="number" id="edit-ano" name="ano" />
+                        </article>
+
+                        <article class="campo-form">
+                            <label for="edit-quilometragem">Quilometragem</label>
+                            <input type="number" id="edit-quilometragem" name="quilometragem" />
+                        </article>
+
+                        <article class="campo-form">
+                            <label for="edit-fipe">Tabela FIPE (R$)</label>
+                            <input type="number" id="edit-fipe" name="fipe" />
+                        </article>
+
+                        <article class="campo-form">
+                            <label for="edit-cambio">Câmbio</label>
+                            <select id="edit-cambio" name="cambio">
+                                <option value="Manual">Manual</option>
+                                <option value="Automático">Automático</option>
+                            </select>
+                        </article>
+
+                        <article class="campo-form">
+                            <label for="edit-combustivel">Combustível</label>
+                            <select id="edit-combustivel" name="combustivel">
+                                <option value="Flex">Flex</option>
+                                <option value="Gasolina">Gasolina</option>
+                                <option value="Álcool">Etanol / Álcool</option>
+                                <option value="Diesel">Diesel</option>
+                                <option value="Híbrido">Híbrido</option>
+                                <option value="Elétrico">Elétrico</option>
+                            </select>
+                        </article>
+
+                        <article class="campo-form">
+                            <label for="edit-preco">Preço Venda (R$)</label>
+                            <input type="number" id="edit-preco" name="preco" />
+                        </article>
+
+                        <article class="campo-form">
+                            <label for="edit-leilao">Passagem por Leilão</label>
+                            <select id="edit-leilao" name="leilao">
+                                <option value="Não">Não</option>
+                                <option value="Sim">Sim</option>
+                            </select>
+                        </article>
+                    </section>
+
+                    <article class="campo-form checkbox-caixa">
+                        <label for="edit-tem-opcionais" class="checkbox-label">
+                            <input type="checkbox" id="edit-tem-opcionais" />
+                            <span>Este veículo possui opcionais</span>
+                        </label>
+                    </article>
+
+                    <fieldset id="edit-lista-opcionais" class="opcionais-container" style="display: none">
+                        <legend style="padding: 0 10px">Modificar Opcionais</legend>
+                        <div id="edit-grid-opcionais" class="grid-opcionais"></div>
+                    </fieldset>
+
+                    <section class="checkbox-caixa">
+                        <label for="input-destaque" class="checkbox-label">
+                            <input type="checkbox" id="input-destaque" name="destaque" />
+                            🌟 Destacar este veículo na página inicial
+                        </label>
+                    </section>
+
+                    <section class="secao-fotos-atuais">
+                        <h3 class="titulo-secao-fotos">Fotos Atuais</h3>
+                        <section id="galeria-edicao" class="galeria-edicao-container"></section>
+                    </section>
+
+                    <section class="secao-novas-fotos">
+                        <label class="label-novas-fotos">Adicionar Novas Fotos</label>
+                        <label for="edit-fotos" class="upload-box">
+                            <i class="fa-solid fa-cloud-arrow-up icone-upload"></i>
+                            <span>Clique aqui para adicionar novas fotos</span>
+                            <input type="file" id="edit-fotos" name="fotos" multiple accept="image/*" style="display: none;" />
+                        </label>
+                        <section id="edit-preview-fotos" class="preview-fotos-container"></section>
+                    </section>
+
+                    <section class="form-acoes-rodape">
+                        <button type="submit" id="btn-salvar-edicao" class="btn-vermelho btn-grande">
+                            Salvar Alterações
+                        </button>
+                    </section>
+                </form>
+            </section>
+        </section>
+
+        <section id="lightbox-foto" class="lightbox-overlay" style="display: none">
+            <button type="button" class="btn-fechar-lightbox">&times;</button>
+            <img id="lightbox-img" src="" alt="Foto Ampliada" />
+        </section>
+
+        <script src="/js/components/utils.js"></script>
+        <script src="/js/gerenciar-carros.js"></script>
+    </body>
+</html>

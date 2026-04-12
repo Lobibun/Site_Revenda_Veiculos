@@ -1,0 +1,105 @@
+/* =========================================
+   PÁGINA: CAIXA DE ENTRADA (MENSAGENS)
+   ========================================= */
+
+.topo-pagina {
+    margin-bottom: 30px;
+    border-bottom: 2px solid #333;
+    padding-bottom: 15px;
+}
+
+.subtitulo-secao {
+    color: #aaa;
+    font-size: 0.95rem;
+    margin-top: 5px;
+    text-align: center;
+}
+
+/* =========================================
+   TABELA DE MENSAGENS SEMÂNTICA
+   ========================================= */
+.painel-tabela {
+    background-color: #1a1a1a;
+    border-radius: 8px;
+    border: 1px solid #333;
+    overflow-x: auto;
+}
+
+.tabela-admin {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    color: #fff;
+}
+
+.tabela-admin thead tr {
+    background-color: #222;
+    border-bottom: 2px solid #333;
+}
+
+.tabela-admin th {
+    padding: 15px;
+    font-weight: bold;
+    color: #ccc;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+}
+
+.tabela-admin td {
+    padding: 15px;
+    border-bottom: 1px solid #333;
+    vertical-align: middle;
+}
+
+/* Efeito Hover nas linhas */
+.tabela-admin tbody tr:hover {
+    background-color: #2a2a2a;
+    transition: 0.3s;
+}
+
+/* Estilo para Mensagens NÃO LIDAS */
+.linha-nao-lida {
+    background-color: #261a1a; /* Fundo levemente avermelhado */
+    border-left: 4px solid #a00b0b;
+}
+.linha-nao-lida td {
+    font-weight: bold;
+    color: #fff;
+}
+
+/* Estilo para Mensagens LIDAS */
+.linha-lida {
+    opacity: 0.7; /* Fica um pouco mais transparente para dar ideia de 'já visto' */
+    border-left: 4px solid transparent;
+}
+.linha-lida td {
+    font-weight: normal;
+    color: #bbb;
+}
+
+/* Mensagem de Carregamento/Vazia */
+.mensagem-tabela {
+    text-align: center;
+    padding: 30px !important;
+    color: #777;
+    font-style: italic;
+}
+
+/* Botão de Ler */
+.btn-ler {
+    background-color: #a00b0b;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    transition: background-color 0.3s;
+}
+
+.btn-ler:hover {
+    background-color: #d61a1a;
+}

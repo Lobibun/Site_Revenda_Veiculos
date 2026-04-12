@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Gerenciar Vendedores - Painel Admin</title>
+
+        <link rel="stylesheet" href="/css/base/global.css" />
+        <link rel="stylesheet" href="/css/components/header-footer.css" />
+        <link rel="stylesheet" href="/css/pages/gerenciar-vendedores.css" />
+        
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+        <script src="/js/components/utils.js"></script>
+        <script src="/js/components/header-adm.js" defer></script>
+    </head>
+    <body class="admin-body">
+        <cabecalho-admin></cabecalho-admin>
+
+        <main class="admin-page">
+            
+            <header class="topo-usuarios">
+                <h1 class="titulo-secao">Vendedores Cadastrados</h1>
+                <a href="/admin/adicionar-vendedor" class="btn-vermelho btn-novo">
+                    <i class="fas fa-plus"></i> Novo Vendedor
+                </a>
+            </header>
+
+            <section class="painel-tabela">
+                <table class="tabela-dados">
+                    <thead>
+                        <tr>
+                            <th>Foto</th>
+                            <th>Nome</th>
+                            <th>E-mail</th>
+                            <th>Telefone</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabela-vendedores-body">
+                        <tr><td colspan="5" style="text-align: center; color: #888;">Carregando...</td></tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section id="modal-editar-vendedor" class="modal-overlay oculto">
+                <article class="modal-box modal-compacto">
+                    
+                    <header class="modal-header">
+                        <h2>Editar Vendedor</h2>
+                        <button type="button" id="btn-fechar-modal-vendedor" class="btn-fechar-x">&times;</button>
+                    </header>
+
+                    <form id="form-editar-vendedor" class="form-admin" enctype="multipart/form-data">
+                        <input type="hidden" id="edit-id-vendedor" name="id" />
+
+                        <section class="form-grid">
+                            <article class="campo-form">
+                                <label for="edit-nome">Nome Completo *</label>
+                                <input type="text" id="edit-nome" name="nome" required />
+                            </article>
+
+                            <article class="campo-form">
+                                <label for="edit-email">E-mail *</label>
+                                <input type="email" id="edit-email" name="email" required />
+                            </article>
+
+                            <article class="campo-form">
+                                <label for="edit-telefone">Telefone (WhatsApp) *</label>
+                                <input type="text" id="edit-telefone" name="telefone" required />
+                            </article>
+
+                            <article class="campo-form">
+                                <label>Nova Foto de Perfil</label>
+                                <label for="edit-foto" class="upload-box upload-compacto">
+                                    <span>📸 Trocar foto</span>
+                                    <input type="file" id="edit-foto" name="foto" accept="image/*" class="oculto" />
+                                </label>
+                            </article>
+                        </section>
+
+                        <section class="campo-form">
+                            <label style="text-align: center;">Foto Atual / Preview:</label>
+                            <figure id="edit-preview-foto-vendedor" class="preview-foto-circular"></figure>
+                        </section>
+
+                        <section class="form-acoes-rodape">
+                            <button type="submit" id="btn-salvar-vendedor" class="btn-vermelho btn-grande">Salvar Alterações</button>
+                        </section>
+                    </form>
+                </article>
+            </section>
+        </main>
+
+        <rodape-admin></rodape-admin>
+
+        <section id="lightbox-foto" class="lightbox-overlay oculto">
+            <article class="lightbox-content">
+                <button type="button" class="btn-fechar-absoluto btn-fechar-lightbox">X</button>
+                <img id="lightbox-img" src="" alt="Zoom" class="lightbox-img-zoom">
+            </article>
+        </section>
+        
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="/js/admin-vendedores.js"></script>
+    </body>
+</html>

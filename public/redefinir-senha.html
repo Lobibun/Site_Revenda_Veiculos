@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nova Senha | Sistema</title>
+    <link rel="stylesheet" href="/css/pages/login.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+    <main class="login-page">
+        <form id="form-nova-senha" class="login-box">
+            <header>
+                <h2>Criar Nova Senha</h2>
+                <p class="subtitulo" style="text-align: center; margin-bottom: 20px;">Digite a sua nova senha abaixo.</p>
+            </header>
+            
+            <article class="campo">
+                <label for="nova-senha">Nova Senha (mínimo 6 caracteres)</label>
+                <input type="password" id="nova-senha" required minlength="6" placeholder="******">
+            </article>
+            
+            <button type="submit" id="btn-nova-senha">Salvar Senha</button>
+        </form>
+    </main>
+
+    <script src="/js/nova-senha.js"></script>
+</body>
+</html>

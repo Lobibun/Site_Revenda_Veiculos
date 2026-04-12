@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <title>Caixa de Entrada - Painel Admin</title>
+        <meta name="description" content="Gerenciamento de mensagens e contatos recebidos pelo site.">
+        <meta name="author" content="Alan Farias Lopes">
+        <meta name="robots" content="noindex, nofollow"> <meta name="theme-color" content="#1a1a1a"> <link rel="stylesheet" href="/css/base/global.css">
+        <link rel="stylesheet" href="/css/components/header-footer.css">
+        <link rel="stylesheet" href="/css/pages/mensagens.css">
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+        <script src="/js/components/header-adm.js" defer></script>
+        <script src="/js/admin-mensagens.js" defer></script>
+    </head>
+    <body class="admin-body">
+        <cabecalho-admin></cabecalho-admin>
+
+        <main class="admin-page">
+            <header class="topo-pagina">
+                <h1 class="titulo-secao"><i class="fas fa-inbox"></i> Caixa de Entrada</h1>
+                <p class="subtitulo-secao">Gerencie e leia as mensagens enviadas pelos seus clientes.</p>
+            </header>
+
+            <section class="painel-tabela">
+                <table class="tabela-admin">
+                    <thead>
+                        <tr>
+                            <th>Status</th>
+                            <th>Cliente</th>
+                            <th>Contato</th>
+                            <th>Data</th>
+                            <th>Ação</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabela-mensagens">
+                        <tr>
+                            <td colspan="5" class="mensagem-tabela">
+                                <i class="fas fa-spinner fa-spin"></i> Carregando mensagens...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+        </main>
+
+        <rodape-admin></rodape-admin>
+    </body>
+</html>

@@ -1,86 +1,143 @@
 <!doctype html>
-<html>
+<html lang="pt-br">
     <head>
-        <title>Modificar Estoque</title>
-        <link rel="stylesheet" href="../css/style.css" />
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Adicionar Veículo - Painel Admin</title>
+        
+        <link rel="stylesheet" href="/css/components/header-footer.css" />
+        <link rel="stylesheet" href="/css/pages/adicionar-carro.css" />
+        <link rel="stylesheet" href="/css/base/global.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        
+        <script src="/js/components/header-adm.js" defer></script>
     </head>
-    <body>
-        <form id="form-carro" enctype="multipart/form-data">
-            <!-- Marca -->
-            <label>Marca</label>
-            <select name="marca_id" id="marca" required></select>
+    <body class="admin-body">
+        <cabecalho-admin></cabecalho-admin>
 
-            <!-- Modelo -->
-            <label>Modelo</label>
-            <input type="text" name="modelo" placeholder="Modelo" required />
+        <main class="admin-page">
+            <header class="adm-veic-topo">
+                <h1 class="titulo-secao">Adicionar Novo Veículo</h1>
+                <a href="/admin/gerenciar-carros" class="btn-vermelho btn-voltar">
+                    <i class="fas fa-list"></i> Gerenciar Veículos
+                </a>
+            </header>
 
-            <!-- Ano -->
-            <label>Ano</label>
-            <input
-                type="number"
-                name="ano"
-                placeholder="Ano"
-                min="1900"
-                required
-            />
+            <section class="form-admin-container">
+                <form id="form-veiculo" class="form-admin" enctype="multipart/form-data">
+                    
+                    <section class="adm-veic-linha adm-veic-grid-2">
+                        <article class="campo-form">
+                            <label for="marca">Marca</label>
+                            <select name="marca_id" id="marca" required>
+                                <option value="">Carregando...</option>
+                            </select>
+                        </article>
 
-            <!-- Preço -->
-            <label>Preço</label>
-            <input
-                type="number"
-                name="preco"
-                placeholder="Preço"
-                min="0"
-                required
-            />
+                        <article class="campo-form">
+                            <label for="modelo">Modelo</label>
+                            <input type="text" id="modelo" name="modelo" placeholder="Ex: Civic EXL" required />
+                        </article>
+                    </section>
 
-            <!-- FIPE -->
-            <label>Valor FIPE</label>
-            <input type="number" name="fipe" placeholder="FIPE" min="0" />
+                    <section class="adm-veic-linha adm-veic-grid-3">
+                        <article class="campo-form">
+                            <label for="ano">Ano</label>
+                            <input type="number" id="ano" name="ano" placeholder="Ex: 2021" min="1900" required />
+                        </article>
 
-            <!-- Quilometragem -->
-            <label>Quilometragem</label>
-            <input
-                type="number"
-                name="quilometragem"
-                placeholder="Quilometragem"
-                min="0"
-                required
-            />
+                        <article class="campo-form">
+                            <label for="preco">Preço (R$)</label>
+                            <input type="number" id="preco" name="preco" placeholder="Ex: 120000" min="0" required />
+                        </article>
 
-            <!-- Câmbio -->
-            <label>Câmbio</label>
-            <select name="cambio" required>
-                <option value="Manual">Manual</option>
-                <option value="Automático">Automático</option>
-            </select>
+                        <article class="campo-form">
+                            <label for="fipe">Valor FIPE (R$)</label>
+                            <input type="number" id="fipe" name="fipe" placeholder="Ex: 118000" min="0" />
+                        </article>
+                    </section>
 
-            <!-- Combustível -->
-            <label>Combustível</label>
-            <select name="combustivel" id="combustivel" required></select>
+                    <section class="adm-veic-linha adm-veic-grid-3">
+                        <article class="campo-form">
+                            <label for="quilometragem">Quilometragem</label>
+                            <input type="number" id="quilometragem" name="quilometragem" placeholder="Ex: 45000" min="0" required />
+                        </article>
 
-            <!-- Opcionais -->
-            <label>
-                <input type="checkbox" id="tem-opcionais" />
-                Possui opcionais
-            </label>
+                        <article class="campo-form">
+                            <label for="cambio">Câmbio</label>
+                            <select id="cambio" name="cambio" required>
+                                <option value="Manual">Manual</option>
+                                <option value="Automático">Automático</option>
+                            </select>
+                        </article>
 
-            <fieldset id="lista-opcionais" style="display: none">
-                <legend>Opcionais</legend>
-            </fieldset>
+                        <article class="campo-form">
+                            <label for="combustivel">Combustível</label>
+                            <select name="combustivel" id="combustivel" required>
+                                <option value="">Carregando...</option>
+                            </select>
+                        </article>
+                    </section>
 
-            <label>Fotos do veículo</label>
-            <input
-                type="file"
-                name="fotos"
-                accept="image/*"
-                multiple
-                required
-            />
+                    <section class="adm-veic-linha adm-veic-grid-2 adm-veic-espaco">
+                        <article class="campo-form checkbox-caixa">
+                            <label for="tem-opcionais" class="checkbox-label">
+                                <input type="checkbox" id="tem-opcionais" />
+                                <span>Este veículo possui opcionais</span>
+                            </label>
+                        </article>
 
-            <button type="submit">Adicionar</button>
-        </form>
+                        <article class="campo-form checkbox-caixa">
+                            <label for="tem-leilao" class="checkbox-label">
+                                <input type="checkbox" name="leilao" id="tem-leilao" value="Sim" />
+                                <span>Passagem por Leilão / Sinistro</span>
+                            </label>
+                        </article>
+                    </section>
 
+                    <fieldset id="lista-opcionais" class="opcionais-container" style="display: none;">
+                        <legend>Selecione os Opcionais</legend>
+                        <div id="grid-opcionais" class="grid-opcionais">
+                            </div>
+                    </fieldset>
+
+                    <section class="checkbox-caixa">
+                        <label for="input-destaque" class="checkbox-label">
+                            <input type="checkbox" id="input-destaque" name="destaque" />
+                            🌟 Destacar este veículo na página inicial
+                        </label>
+                    </section>
+
+                    <section class="campo-form adm-veic-espaco">
+                        <label>Fotos do veículo (Até 5 fotos)</label>
+
+                        <label for="upload-fotos" class="upload-box">
+                            <i class="fa-solid fa-cloud-arrow-up icone-upload"></i>
+                            <span>Clique aqui ou arraste para adicionar fotos</span>
+                            <input type="file" id="upload-fotos" accept="image/*" multiple style="display: none;" />
+                        </label>
+
+                        <article id="preview-fotos" class="preview-container"></article>
+                        <p id="contador-fotos" class="contador-fotos">0/5 fotos adicionadas.</p>
+                    </section>
+
+                    <section class="form-acoes-rodape">
+                        <button type="submit" class="btn-vermelho btn-grande">Cadastrar Veículo</button>
+                    </section>
+
+                </form>
+            </section>
+        </main>
+
+        <rodape-admin></rodape-admin>
+
+        <section id="lightbox-foto" class="lightbox-overlay" style="display: none;">
+            <button type="button" class="btn-fechar-lightbox">&times;</button>
+            <img id="lightbox-img" src="" alt="Foto Ampliada" />
+        </section>
+
+        <script src="/js/components/utils.js"></script>
         <script src="/js/adicionar-carro.js"></script>
     </body>
 </html>

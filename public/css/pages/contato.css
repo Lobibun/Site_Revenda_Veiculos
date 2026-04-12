@@ -1,130 +1,159 @@
+/* =========================================
+   PÁGINA DE CONTATO
+   ========================================= */
+
+/* Layout Principal: Divide as informações e o formulário em duas colunas */
 .contato-layout {
     display: grid;
-    grid-template-columns: 1.3fr 1fr;
+    grid-template-columns: 1fr 1fr;
     gap: 40px;
     max-width: 1200px;
-    margin: 0 auto 50px auto;
-    padding: 20px;
+    margin: 0 auto 40px auto;
+    padding: 0 20px;
 }
 
-.formulario-contato {
-    order: 1;
-    width: 100%;
-}
-
+/* --- Lado Esquerdo: Informações de Contato --- */
 .contato-container {
-    order: 2;
-    display: grid;
-    grid-template-columns: 1fr; 
+    display: flex;
+    flex-direction: column;
     gap: 20px;
 }
 
 .contato-item {
-    background: #fff;
+    background-color: var(--cor-fundo-secundario);
+    border: 1px solid var(--cor-borda);
     padding: 25px;
     border-radius: 12px;
-    text-align: center;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-    transition: 0.3s;
+    transition: transform 0.3s ease, border-color 0.3s;
 }
 
 .contato-item:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 12px 20px rgba(0,0,0,0.15);
+    transform: translateX(5px);
+    border-color: var(--cor-primaria);
 }
 
 .contato-item header {
     display: flex;
-    flex-direction: column;
     align-items: center;
-    gap: 10px;
+    gap: 15px;
     margin-bottom: 10px;
 }
 
-.contato-item:hover .icone-circulo {
-    transform: scale(1.1);
-    background: #a00b0b;
-}
-
-.contato-item:hover .icone-circulo i {
-    color: white;
+.icone-circulo {
+    width: 45px;
+    height: 45px;
+    background-color: rgba(204, 0, 0, 0.1); /* Fundo avermelhado sutil */
+    color: var(--cor-primaria);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
 }
 
 .contato-item h2 {
-    color: #a00b0b;
-    font-size: 20px;
+    font-size: 1.3rem;
+    color: var(--cor-texto);
 }
 
-.contato-item p,
-.contato-item address {
-    color: #555;
-    font-size: 15px;
-    line-height: 1.5;
+.contato-item address, .contato-item p {
+    color: var(--cor-texto-mutado);
     font-style: normal;
+    line-height: 1.6;
+    margin-left: 60px;
 }
 
-.mapa {
-    max-width: 1100px;
-    margin: 0 auto 60px auto;
-    padding: 0 20px;
-}
-
-.mapa-container {
+/* --- Lado Direito: Formulário --- */
+.formulario-contato {
+    background-color: var(--cor-fundo-secundario);
+    padding: 30px;
     border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    border: 1px solid var(--cor-borda);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
 }
 
-/* Formulário */
-form {
-    background: #fff;
-    padding: 25px;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+.formulario-contato form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
 }
 
 .campo {
     display: flex;
     flex-direction: column;
-    margin-bottom: 15px;
+    gap: 5px;
 }
 
 .campo label {
-    margin-bottom: 5px;
     font-weight: bold;
+    color: var(--cor-texto);
 }
 
 .campo input,
 .campo textarea {
-    padding: 10px;
-    border-radius: 6px;
-    border: 1px solid #ccc;
-    font-size: 14px;
-}
-
-.formulario-contato button {
     width: 100%;
     padding: 12px;
-    background: #a00b0b;
-    color: white;
-    border: none;
+    border: 1px solid var(--cor-borda);
+    background-color: var(--cor-fundo);
+    color: var(--cor-texto);
     border-radius: 6px;
+    font-family: var(--fonte-principal, sans-serif);
+    font-size: 1rem;
+    transition: border-color 0.3s;
+}
+
+.campo input:focus,
+.campo textarea:focus {
+    outline: none;
+    border-color: var(--cor-primaria);
+}
+
+/* Botão Enviar */
+#form-contato button {
+    background-color: var(--cor-primaria);
+    color: #fff;
+    border: none;
+    padding: 15px;
+    border-radius: 8px;
+    font-size: 1.1rem;
     font-weight: bold;
     cursor: pointer;
-    transition: 0.3s;
+    width: 100%;
+    transition: background-color 0.3s, transform 0.2s;
+    margin-top: 10px;
 }
 
-/* Corrigido o escopo do hover para afetar apenas os botões de contato */
-.formulario-contato button:hover {
-    background: #000;
+#form-contato button:hover {
+    background-color: var(--cor-primaria-hover);
+    transform: translateY(-2px);
 }
 
-.erro {
-    color: red;
-    font-size: 13px;
-    margin-top: 5px;
+#form-contato button:disabled {
+    background-color: #555;
+    cursor: not-allowed;
+    transform: translateY(0);
 }
 
+/* --- Secção do Mapa --- */
+.mapa {
+    max-width: 1200px;
+    margin: 0 auto 60px auto;
+    padding: 0 20px;
+}
+
+.mapa .titulo-secao {
+    margin-bottom: 20px;
+}
+
+.mapa-container {
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--cor-borda);
+    background-color: var(--cor-fundo-secundario);
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Responsividade Mobile */
 @media (max-width: 768px) {
     .contato-layout {
         grid-template-columns: 1fr;

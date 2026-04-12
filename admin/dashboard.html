@@ -1,31 +1,60 @@
 <!doctype html>
 <html lang="pt-br">
     <head>
-        <script src="/js/components/header-adm.js"></script>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Painel Administrativo | Dashboard</title>
-        <link rel="stylesheet" href="/css/style.css" />
+
+        <link rel="stylesheet" href="/css/base/global.css" />
+        <link rel="stylesheet" href="/css/components/header-footer.css" />
+        <link rel="stylesheet" href="/css/pages/admin-dashboard.css" />
+
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+        />
+
+        <script src="/js/components/utils.js"></script>
+        <script src="/js/components/header-adm.js" defer></script>
+        <script src="/js/admin-dashboard.js" defer></script>
     </head>
-    <body>
-        
+    <body class="admin-body">
+        <cabecalho-admin></cabecalho-admin>
 
         <main class="admin-page">
-            <cabecalho-admin></cabecalho-admin>
-            <h1 class="titulo-secao">Visão Geral</h1>
-            
+            <h1 class="titulo-secao">Visão Geral do Sistema</h1>
+
             <section class="dashboard-stats">
                 <article class="stat-card">
                     <h3>Veículos em Estoque</h3>
-                    <p class="stat-number">42</p>
+                    <p class="stat-number" id="stat-estoque">...</p>
+                </article>
+
+                <article class="stat-card">
+                    <h3>Veículos Vendidos</h3>
+                    <p
+                        class="stat-number"
+                        id="stat-vendidos"
+                        style="color: #28a745"
+                    >
+                        ...
+                    </p>
                 </article>
 
                 <article class="stat-card">
                     <h3>Vendedores Ativos</h3>
-                    <p class="stat-number">5</p>
+                    <p class="stat-number" id="stat-vendedores">...</p>
                 </article>
 
                 <article class="stat-card">
-                    <h3>Mensagens Recebidas</h3>
-                    <p class="stat-number">12</p>
+                    <h3>Mensagens Não Lidas</h3>
+                    <p
+                        class="stat-number"
+                        id="stat-mensagens"
+                        style="color: #17a2b8"
+                    >
+                        ...
+                    </p>
                 </article>
             </section>
 
@@ -35,9 +64,11 @@
                     <p>Adicione, edite ou remova carros do estoque.</p>
                     <nav class="acoes">
                         <a href="/admin/adicionar"
-                            ><button>Adicionar Veículo</button></a
+                            ><button class="btn-vermelho">
+                                Adicionar Veículo
+                            </button></a
                         >
-                        <a href="/admin/modificar-veiculos"
+                        <a href="/admin/gerenciar-carros"
                             ><button class="btn-secundario">
                                 Modificar Veículos
                             </button></a
@@ -46,15 +77,87 @@
                 </article>
 
                 <article class="admin-group">
+                    <h2>💰 Histórico de Vendas</h2>
+                    <p>Veja os carros vendidos, datas e observações.</p>
+                    <nav class="acoes">
+                        <a href="/admin/historico-vendas">
+                            <button class="btn-secundario">
+                                Ver Relatório
+                            </button>
+                        </a>
+                    </nav>
+                </article>
+
+                <article class="admin-group" id="card-lixeira">
+                    <h2>🗑️ Lixeira (Veículos Excluídos)</h2>
+                    <p>Recupere veículos apagados por engano.</p>
+                    <nav class="acoes">
+                        <a href="/admin/lixeira">
+                            <button class="btn-secundario">
+                                Acessar Lixeira
+                            </button>
+                        </a>
+                    </nav>
+                </article>
+
+                <article class="admin-group">
+                    <h2>✉️ Caixa de Mensagens</h2>
+                    <p>Visualize os contatos feitos pelo site.</p>
+                    <nav class="acoes">
+                        <a href="/admin/mensagens">
+                            <button class="btn-secundario">
+                                Ver Mensagens
+                            </button>
+                        </a>
+                    </nav>
+                </article>
+
+                <article class="admin-group">
                     <h2>👥 Gerenciar Vendedores</h2>
                     <p>Controle a equipe de vendas e seus acessos.</p>
                     <nav class="acoes">
-                        <a href="/admin/adicionar-vendedor"
-                            ><button>Adicionar Vendedor</button></a
-                        >
-                        <a href="/admin/modificar-vendedores"
-                            ><button class="btn-secundario">
+                        <a href="/admin/adicionar-vendedor">
+                            <button class="btn-vermelho">
+                                Adicionar Vendedor
+                            </button>
+                        </a>
+                        <a href="/admin/modificar-vendedores">
+                            <button class="btn-secundario">
                                 Modificar Vendedores
+                            </button>
+                        </a>
+                    </nav>
+                </article>
+
+                <article class="admin-group" id="card-usuarios">
+                    <h2>🧑‍💻 Gerenciar Usuários</h2>
+                    <p>Controle clientes e outros administradores do sistema.</p>
+                    <nav class="acoes">
+                        <a href="/admin/usuarios">
+                            <button class="btn-secundario">Ver Usuários</button>
+                        </a>
+                    </nav>
+                </article>
+
+                <article class="admin-group" id="card-auditoria">
+                    <h2>📋 Auditoria e Logs</h2>
+                    <p>Acompanhe o histórico de ações no painel.</p>
+                    <nav class="acoes">
+                        <a href="/admin/auditoria"
+                            ><button class="btn-secundario">
+                                Acessar Auditoria
+                            </button></a
+                        >
+                    </nav>
+                </article>
+
+                <article class="admin-group">
+                    <h2>⚙️ Meu Perfil</h2>
+                    <p>Atualize suas informações pessoais e senha.</p>
+                    <nav class="acoes">
+                        <a href="/admin/perfil"
+                            ><button class="btn-secundario">
+                                Editar Perfil
                             </button></a
                         >
                     </nav>
@@ -65,7 +168,9 @@
                     <p>Veja como o estoque está aparecendo para os clientes.</p>
                     <nav class="acoes">
                         <a href="/carros.html" target="_blank"
-                            ><button>Ver Estoque Online</button></a
+                            ><button class="btn-vermelho">
+                                Ver Site Online
+                            </button></a
                         >
                     </nav>
                 </article>
@@ -73,7 +178,5 @@
         </main>
 
         <rodape-admin></rodape-admin>
-
-        
     </body>
 </html>

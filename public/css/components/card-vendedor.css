@@ -1,0 +1,104 @@
+/* =========================================
+   COMPONENT: CARD DO VENDEDOR (ESTILIZAÇÃO)
+   ========================================= */
+
+/* Grid que organiza os cards na tela */
+.lista-vendedores {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 30px;
+    padding: 20px 0;
+}
+
+/* O Card em si */
+.card-vendedor {
+    background-color: var(--cor-fundo-secundario, #1a1a1a);
+    border: 1px solid var(--cor-borda, #333);
+    border-radius: 12px;
+    padding: 30px 20px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s;
+}
+
+.card-vendedor:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+    border-color: #25D366; /* A borda fica verde (cor do zap) ao passar o mouse */
+}
+
+/* Moldura Redonda da Foto */
+.foto-container {
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    margin: 0 auto 20px auto;
+    border: 3px solid var(--cor-borda, #444);
+    padding: 4px;
+    background: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Imagem dentro da moldura */
+.foto-vendedor {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+/* Informações de texto */
+.info-vendedor {
+    width: 100%;
+}
+
+.info-vendedor h2 {
+    color: #fff;
+    font-size: 1.4rem;
+    margin-bottom: 15px;
+}
+
+.info-vendedor p {
+    color: #ccc;
+    font-size: 0.95rem;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.info-vendedor p i {
+    color: var(--cor-primaria, #e50000); /* Ícones do telefone e email com a cor do seu tema */
+}
+
+/* Botão do WhatsApp (Verde e clicável) */
+.btn-whatsapp {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background-color: #25D366; /* Verde Oficial do WhatsApp */
+    color: #fff !important;
+    text-decoration: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 1rem;
+    margin-top: 20px;
+    width: 100%;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.btn-whatsapp:hover {
+    background-color: #1ebe57; /* Verde mais escuro no hover */
+    transform: scale(1.02); /* Dá uma leve crescidinha */
+}
+
+.btn-whatsapp i {
+    font-size: 1.3rem; /* Aumenta o ícone do Zap */
+}

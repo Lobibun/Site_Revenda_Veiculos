@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meu Perfil | Painel Admin</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="/css/pages/perfil.css" />  
+    <link rel="stylesheet" href="/css/components/header-footer.css" />
+    <link rel="stylesheet" href="/css/base/global.css" />
+
+
+    <script src="/js/components/ultils.js" defer></script>
+    <script src="/js/perfil.js" defer></script>
+    <script src="/js/components/header-adm.js" defer></script>
+</head>
+<body>
+
+    <cabecalho-admin></cabecalho-admin>
+
+    <main class="admin-page">
+        <header style="text-align: center; margin-bottom: 30px;">
+            <h1 class="titulo-secao">Configurações do Perfil</h1>
+        </header>
+        
+        <section class="perfil-layout">
+            
+            <aside class="perfil-sidebar">
+                <nav>
+                    <ul id="menu-perfil">
+                        <li class="ativo" data-aba="aba-visao"><i class="fa-solid fa-user"></i> Visão Geral</li>
+                        <li data-aba="aba-editar"><i class="fa-solid fa-pen-to-square"></i> Editar Dados</li>
+                        <li data-aba="aba-seguranca"><i class="fa-solid fa-shield-halved"></i> Segurança</li>
+                    </ul>
+                </nav>
+            </aside>
+
+            <article class="perfil-conteudo">
+                
+                <section id="aba-visao" class="secao-aba ativa">
+                    
+                    <figure class="foto-wrapper">
+                        <input type="file" id="edit-foto" accept="image/*" style="display: none;">
+                        <label for="edit-foto" class="foto-clicavel-cracha" title="Clique para adicionar ou trocar a foto">
+                            <img src="/img/default-avatar.png" alt="Sua Foto" id="perfil-foto">
+                            <span class="overlay-foto"><i class="fa-solid fa-camera"></i> Trocar</span>
+                        </label>
+                    </figure>
+
+                    <section style="text-align: center; margin-bottom: 20px;">
+                        <button id="btn-salvar-foto" class="btn-salvar-perfil" style="display: none; margin: 0 auto; width: auto; padding: 10px 20px;">
+                            Salvar Nova Foto
+                        </button>
+                    </section>
+
+                    <header class="info-usuario">
+                        <h2 id="perfil-nome-exibicao">Carregando...</h2>
+                        <span class="badge-cargo" id="perfil-cargo">---</span>
+                        <address class="perfil-info-extra">
+                            <p><strong>E-mail:</strong> <span id="perfil-email-exibicao">Aguarde...</span></p>
+                        </address>
+                    </header>
+                </section>
+
+                <section id="aba-editar" class="secao-aba">
+                    <header style="margin-bottom: 20px;">
+                        <h3>Editar Informações</h3>
+                    </header>
+                    <form id="form-editar-dados">
+                        <fieldset style="border: none; padding: 0; margin: 0;">
+                            <p class="campo-form">
+                                <label for="edit-nome">Nome Completo</label>
+                                <input type="text" id="edit-nome" required>
+                            </p>
+                            <button type="submit" class="btn-salvar-perfil">Salvar Dados</button>
+                        </fieldset>
+                    </form>
+                </section>
+
+                <section id="aba-seguranca" class="secao-aba">
+                    <header style="margin-bottom: 20px;">
+                        <h3>Segurança da Conta</h3>
+                        <p class="aviso-seguranca">Altere seu e-mail ou senha de acesso de forma independente.</p>
+                    </header>
+                    
+                    <form id="form-editar-email">
+                        <fieldset style="border: none; padding: 0; margin: 0;">
+                            <p class="campo-form">
+                                <label for="email-atual">E-mail Atual</label>
+                                <input type="email" id="email-atual" disabled>
+                            </p>
+                            <p class="campo-form">
+                                <label for="edit-email">Novo E-mail</label>
+                                <input type="email" id="edit-email" placeholder="Digite o novo e-mail" required>
+                            </p>
+                            <button type="submit" class="btn-salvar-perfil">Atualizar E-mail</button>
+                        </fieldset>
+                    </form>
+
+                    <hr class="divisor-linha">
+
+                    <form id="form-editar-senha">
+                        <fieldset style="border: none; padding: 0; margin: 0;">
+                            <p class="campo-form">
+                                <label for="senha-atual">Senha Atual</label>
+                                <input type="password" id="senha-atual" placeholder="Digite sua senha atual" required>
+                            </p>
+                            <p class="campo-form">
+                                <label for="edit-senha">Nova Senha</label>
+                                <input type="password" id="edit-senha" placeholder="Digite a nova senha" required>
+                            </p>
+                            <button type="submit" class="btn-salvar-perfil">Atualizar Senha</button>
+                        </fieldset>
+                    </form>
+                </section>
+
+            </article>
+        </section>
+    </main>
+
+    <rodape-admin></rodape-admin>
+    
+    <script src="

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lixeira - Painel de Administração</title>
+    
+    <link rel="stylesheet" href="/css/base/global.css">
+    <link rel="stylesheet" href="/css/components/header-footer.css">
+    <link rel="stylesheet" href="/css/pages/admin-dashboard.css">
+    <link rel="stylesheet" href="/css/pages/lixeira.css">
+</head>
+<body class="admin-body">
+    <cabecalho-admin></cabecalho-admin>
+
+    <main class="admin-page">
+        <header class="topo-lixeira">
+            <h1 class="titulo-secao">Lixeira do Sistema</h1>
+            <p class="aviso-lixeira">⚠️ Os itens abaixo serão excluídos permanentemente do servidor após o prazo configurado.</p>
+        </header>
+
+        <section class="config-limpeza">
+            <article class="config-info">
+                <h3>⚙️ Limpeza Automática</h3>
+                <label for="select-dias-limpeza">Esvaziar lixeira automaticamente após:</label>
+            </article>
+            <article class="config-acao">
+                <select id="select-dias-limpeza" class="input-dias">
+                    <option value="7">7 dias</option>
+                    <option value="15">15 dias</option>
+                    <option value="30">30 dias</option>
+                    <option value="60">60 dias</option>
+                    <option value="90">90 dias</option>
+                </select>
+                <button onclick="salvarConfigLimpeza()" class="btn-secundario">Salvar Tempo</button>
+            </article>
+        </section>
+
+        <section class="painel-tabela">
+            <table class="tabela-admin">
+                <thead>
+                    <tr>
+                        <th>Tipo</th>
+                        <th>Nome / Referência</th>
+                        <th>Data de Exclusão</th>
+                        <th class="coluna-acoes">Ações</th>
+                    </tr>
+                </thead>
+                <tbody id="tabela-lixeira">
+                    <tr><td colspan="4" class="mensagem-tabela">Carregando itens da lixeira...</td></tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <rodape-admin></rodape-admin>
+    
+    <script src="/js/components/utils.js"></script>
+    <script src="/js/components/header-adm.js"></script>
+    <script src="/js/lixeira.js"></script>
+</body>
+</html>

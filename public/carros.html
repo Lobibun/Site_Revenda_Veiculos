@@ -1,15 +1,25 @@
 <!doctype html>
 <html lang="pt-br">
     <head>
-        <title>Carros</title>
-        <script src="js/components/cardCarro.js"></script>
-        <script src="js/carros.js"></script>
-        <script src="js/components/header.js"></script>
-        <link
-            rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
-        />
-        <link rel="stylesheet" href="css/style.css" />
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <meta name="author" content="Alan Farias Lopes">
+        <meta name="description" content="Confira nosso estoque completo de veículos. Encontre o carro ideal buscando por marca, ano e faixa de preço.">
+        <meta name="robots" content="index, follow">
+        <meta name="theme-color" content="#e3001b">
+        
+        <title>Nosso Estoque - Revendedora</title>
+        
+        <link rel="stylesheet" href="css/base/global.css" />
+        <link rel="stylesheet" href="css/components/header-footer.css" />
+        <link rel="stylesheet" href="css/components/card-carro.css" />
+        <link rel="stylesheet" href="css/pages/carros.css" /> 
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+        <script src="js/components/cardCarro.js" defer></script>
+        <script src="js/carros.js" defer></script>
+        <script src="js/components/header.js" defer></script>
     </head>
     <body class="pagina-carros">
         
@@ -17,7 +27,58 @@
 
         <main>
             <h1 class="titulo-secao">Nosso Estoque</h1>
-            <div id="lista-carros"></div>
+            
+            <section id="filtro-carros">
+                <form id="form-filtro">
+                    <fieldset>
+                        <h2>Buscar Veículos</h2>
+
+                        <label>
+                            Nome / Modelo:
+                            <input type="text" id="nome" name="nome" placeholder="Ex: Corolla, Palio">
+                        </label>
+                        
+                        <label>
+                            Marca:
+                            <select id="marca" name="marca">
+                                <option value="">Todas as Marcas</option>
+                                <option value="fiat">Fiat</option>
+                                <option value="volkswagen">Volkswagen</option>
+                                <option value="chevrolet">Chevrolet</option>
+                                <option value="ford">Ford</option>
+                                <option value="toyota">Toyota</option>
+                                <option value="honda">Honda</option>
+                                <option value="hyundai">Hyundai</option>
+                            </select>
+                        </label>
+
+                        <label>
+                            Ano Mínimo:
+                            <input type="number" id="anoMin" name="anoMin" placeholder="Ex: 2015" min="1950" max="2026">
+                        </label>
+
+                        <label>
+                            Ano Máximo:
+                            <input type="number" id="anoMax" name="anoMax" placeholder="Ex: 2026" min="1950" max="2026">
+                        </label>
+
+                        <label>
+                            Preço Mínimo:
+                            <input type="number" id="precoMin" name="precoMin" placeholder="R$ 0" min="0" step="1000">
+                        </label>
+
+                        <label>
+                            Preço Máximo:
+                            <input type="number" id="precoMax" name="precoMax" placeholder="R$ 150.000" min="0" step="1000">
+                        </label>
+
+                        <button type="submit">Filtrar</button>
+                        <button type="reset" id="btn-limpar">Limpar</button>
+                    </fieldset>
+                </form>
+            </section>
+
+            <section id="lista-carros"></section>
 
             <nav class="paginacao">
                 <ul id="paginacao"></ul>

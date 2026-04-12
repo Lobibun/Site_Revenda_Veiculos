@@ -1,0 +1,170 @@
+/* =========================================
+   PÁGINA DE CARROS (ESTOQUE)
+   ========================================= */
+
+/* Espaçamento no topo para o título não ficar grudado no header */
+.pagina-carros main {
+    padding-top: 120px; 
+    min-height: calc(100vh - 200px); 
+}
+
+/* =========================================
+   FILTRO DE CARROS
+   ========================================= */
+#filtro-carros {
+    max-width: 1200px;
+    margin: 0 auto 40px auto;
+    padding: 0 20px;
+}
+
+#form-filtro fieldset {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    padding: 25px;
+    border: 1px solid var(--cor-borda, #ddd);
+    border-radius: 8px;
+    background-color: var(--cor-fundo-secundario, #f9f9f9);
+    align-items: flex-end;
+}
+
+#form-filtro h2 {
+    font-weight: bold;
+    font-size: 32px;
+    padding: 0 10px;
+    color: var(--cor-primaria, #e3001b);
+    width: 100%; /* Garante que o título ocupe a linha toda sozinho */
+    margin-bottom: 10px; /* Dá um espacinho entre o título e as caixas */
+}
+
+#form-filtro label {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-weight: bold;
+    font-size: 0.9rem;
+    flex: 1;
+    min-width: 140px;
+    color: var(--cor-texto, #333);
+}
+
+#form-filtro input,
+#form-filtro select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+    outline: none;
+}
+
+#form-filtro input:focus,
+#form-filtro select:focus {
+    border-color: var(--cor-primaria, #e3001b);
+}
+
+#form-filtro button {
+    padding: 10px 20px;
+    background-color: var(--cor-primaria, #e3001b);
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    height: 42px; /* Alinha com a altura dos inputs */
+    flex: 0 1 auto;
+}
+
+#form-filtro button:hover {
+    background-color: var(--cor-primaria-hover, #b30015);
+}
+
+#form-filtro button[type="reset"] {
+    background-color: #6c757d;
+}
+
+#form-filtro button[type="reset"]:hover {
+    background-color: #5a6268;
+}
+
+/* Responsividade do filtro */
+@media (max-width: 768px) {
+    #form-filtro label,
+    #form-filtro button {
+        flex: 1 1 100%;
+    }
+}
+
+/* =========================================
+   LISTA DE CARROS
+   ========================================= */
+#lista-carros {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto 50px auto;
+    padding: 0 20px;
+}
+
+/* Mensagem de nenhum carro encontrado */
+.mensagem-vazia {
+    grid-column: 1 / -1;
+    text-align: center;
+    font-size: 1.2rem;
+    color: #666;
+    padding: 40px 0;
+}
+
+/* =========================================
+   PAGINAÇÃO
+   ========================================= */
+.paginacao {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 60px;
+}
+
+#paginacao {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    list-style: none; /* Prevenção caso algo afete a UL */
+    padding: 0;
+}
+
+/* Estilo padrão dos botões de página */
+#paginacao button {
+    background-color: var(--cor-fundo-secundario, #fff);
+    color: var(--cor-texto, #333);
+    border: 1px solid var(--cor-borda, #ccc);
+    padding: 10px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+/* Efeito ao passar o mouse */
+#paginacao button:hover {
+    background-color: var(--cor-primaria-hover, #b30015);
+    border-color: var(--cor-primaria-hover, #b30015);
+    color: #fff;
+}
+
+/* Estilo da página ATUAL (destacada em vermelho) */
+#paginacao .pagina-atual {
+    background-color: var(--cor-primaria, #e3001b);
+    border-color: var(--cor-primaria, #e3001b);
+    color: #fff;
+    cursor: default; /* Remove a "mãozinha" pois já está na página */
+}
+
+/* Estilo dos pontinhos "..." */
+#paginacao span {
+    color: var(--cor-texto-mutado, #888);
+    font-weight: bold;
+    padding: 0 5px;
+}

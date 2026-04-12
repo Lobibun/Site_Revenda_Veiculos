@@ -170,3 +170,55 @@ CREATE TABLE Usuarios (
     nivel ENUM('admin', 'vendedor') DEFAULT 'vendedor',
     criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+ALTER TABLE Usuarios
+ADD foto VARCHAR(255);
+
+ALTER TABLE Usuarios
+Modify nivel ENUM('admin', 'vendedor', 'gerente') DEFAULT 'vendedor';
+
+CREATE TABLE Auditoria (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    usuario_id INT,             
+    nome_usuario VARCHAR(100),  
+    acao VARCHAR(20),          
+    entidade VARCHAR(50),       
+    entidade_id INT,            
+    detalhes JSON,            
+    data_hora TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+ALTER TABLE Usuarios 
+ADD COLUMN reset_token VARCHAR(255),
+ADD COLUMN reset_expires DATETIME;
+
+ALTER TABLE Carros ADD COLUMN status VARCHAR(20) DEFAULT 'ativo';
+ALTER TABLE Vendedores ADD COLUMN status VARCHAR(20) DEFAULT 'ativo';
+ALTER TABLE Usuarios ADD COLUMN status VARCHAR(20) DEFAULT 'ativo';
+
+ALTER TABLE Carros ADD COLUMN deletado_em DATETIME NULL;
+ALTER TABLE Vendedores ADD COLUMN deletado_em DATETIME NULL;
+ALTER TABLE Usuarios ADD COLUMN deletado_em DATETIME NULL;
+CREATE TABLE IF NOT EXISTS Configuracoes (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    chave VARCHAR(50) UNIQUE,
+    valor VARCHAR(255)
+);
+
+-- Inserir o padrão de 30 dias se não existir
+INSERT IGNORE INTO Configuracoes (chave, valor) VALUES ('dias_limpeza_lixeira', '30');
+
+ALTER TABLE Carros ADD COLUMN vendido_em DATETIME NULL;
+
+ALTER TABLE Carros MODIFY status VARCHAR(20) DEFAULT 'Disponível';
+
+CREATE TABLE Mensagens (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL,
+    mensagem TEXT NOT NULL,
+    lida BOOLEAN DEFAULT FALSE,
+    data_envio TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+ALTER TABLE Mensagens ADD COLUMN lida_por VARCHAR(100) DEFAULT NULL;

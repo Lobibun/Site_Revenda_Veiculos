@@ -1,33 +1,37 @@
 <!doctype html>
-<html>
-    <head lang="pt-br">
-        <title>Detalhes do Veículo</title>
-        <link rel="stylesheet" href="css/style.css" />
-        <link
-            rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
-        <script src="js/detalhe-veiculo.js" defer></script>
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Detalhes do Veículo - Revendedora</title>
+        
+        <link rel="stylesheet" href="css/base/global.css" />
+        <link rel="stylesheet" href="css/components/header-footer.css" />
+        <link rel="stylesheet" href="css/components/card-carro.css" />
+        <link rel="stylesheet" href="css/pages/detalhe-veiculo.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+        <script src="js/components/header.js" defer></script>
         <script src="js/components/cardCarro.js" defer></script>
-        <script src="js/components/header.js"></script>
+        <script src="js/detalhe-veiculo.js" defer></script>
     </head>
     <body class="pagina-detalhe-veiculo">
         <cabecalho-site></cabecalho-site>
 
         <main>
             <section id="detalhe-veiculo"></section>
-            <section id="modal-imagem" class="modal-imagem">
-                <span class="fechar">&times;</span>
-                <img id="img-ampliada" />
 
-                <article
-                    id="miniaturas-modal"
-                    class="miniaturas-modal"
-                ></article>
-            </section>
+            <dialog id="modal-imagem" class="modal-imagem">
+                <button class="fechar" aria-label="Fechar galeria">&times;</button>
+                <figure>
+                    <img id="img-ampliada" alt="Imagem ampliada do veículo" />
+                </figure>
+                <nav id="miniaturas-modal" class="miniaturas-modal" aria-label="Navegação da galeria"></nav>
+            </dialog>
 
             <section class="relacionados">
-                <h2>Carros Relacionados</h2>
-                <ul id="carros-relacionados"></ul>
+                <h2 class="titulo-secao">Veículos Relacionados</h2>
+                <section id="carros-relacionados"></section>
             </section>
         </main>
 
@@ -36,4 +40,3 @@
         </footer>
     </body>
 </html>
->

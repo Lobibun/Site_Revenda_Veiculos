@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="pt-BR">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Histórico de Vendas - Painel Admin</title>
+
+        <link rel="stylesheet" href="/css/base/global.css" />
+        <link rel="stylesheet" href="/css/components/header-footer.css" />
+        <link rel="stylesheet" href="/css/pages/admin-dashboard.css" />
+        <link rel="stylesheet" href="/css/pages/historico-vendas.css" />
+        
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+        
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    </head>
+    <body class="admin-body">
+        <cabecalho-admin></cabecalho-admin>
+
+        <main class="admin-page">
+            <header class="topo-pagina">
+                <h1 class="titulo-secao">📊 Histórico de Vendas e Arquivo</h1>
+                <p class="aviso-arquivamento">
+                    Veículos vendidos são mantidos aqui permanentemente. Fotos
+                    são limpas do servidor após 90 dias.
+                </p>
+            </header>
+
+            <section class="painel-configuracao">
+                <article class="config-texto">
+                    <h3>
+                        <i class="fas fa-cog"></i> Configuração de Exibição
+                    </h3>
+                    <p>
+                        Defina por quantos dias um veículo vendido deve
+                        continuar aparecendo no <b>Estoque do Site</b> e no seu
+                        <b>Painel Principal</b> antes de ser arquivado
+                        permanentemente aqui no histórico.
+                    </p>
+                </article>
+
+                <article class="config-acao">
+                    <input
+                        type="number"
+                        id="input-dias-exibicao"
+                        min="0"
+                        max="365"           
+                        title="Quantidade de dias"/>
+                    <span>dias</span>
+                    <button
+                        onclick="salvarConfiguracaoDias()"
+                        class="btn-secundario">
+                        Salvar
+                    </button>
+                </article>
+            </section>
+
+            <section class="painel-tabela">
+                <table class="tabela-admin">
+                    <thead>
+                        <tr>
+                            <th>Veículo</th>
+                            <th>Ano</th>
+                            <th>Valor da Venda</th>
+                            <th>Data da Venda</th>
+                            <th style="text-align: center;">Observação</th>
+                            <th>Status do Arquivo</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabela-vendas">
+                        <tr>
+                            <td colspan="6" class="mensagem-tabela">
+                                Carregando histórico...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+        </main>
+
+        <rodape-admin></rodape-admin>
+
+        <script src="/js/components/utils.js"></script>
+        <script src="/js/components/header-adm.js"></script>
+        <script src="/js/historico-vendas.js"></script>
+    </body>
+</html>

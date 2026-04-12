@@ -1,63 +1,92 @@
+/* =========================================
+   PÁGINA DE LOGIN E RECUPERAÇÃO
+   ========================================= */
+
+/* Reset básico para garantir que o tamanho das caixas seja calculado corretamente */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body, html {
+    font-family: sans-serif;
+    height: 100%;
+}
+
 .login-page {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    min-height: 100vh;
     background: url("/img/Capa.png") center/cover no-repeat;
     position: relative;
 }
 
+/* Película escura sobre a imagem de fundo */
 .login-page::before {
     content: "";
     position: absolute;
     inset: 0;
-    background: rgba(0,0,0,0.6);
+    background: rgba(0, 0, 0, 0.7); /* Deixei um pouco mais escuro para dar contraste com a caixa branca */
+    z-index: 0;
 }
 
+/* CAIXA PRINCIPAL (Login e Modal) */
 .login-box {
     position: relative;
     z-index: 1;
     width: 100%;
-    max-width: 500px;
+    max-width: 450px;
     background: #ffffff;
     padding: 40px;
     border-radius: 14px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 25px;
+    margin: 20px;
 }
 
-.login-box h2 {
+.login-box h2, .login-box h3 {
     text-align: center;
-    font-size: 26px;
+    font-size: 28px;
     color: #a00b0b;
+    margin-bottom: 5px;
+}
+
+/* ESTRUTURA DOS CAMPOS (Label + Input) */
+.campo {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.campo label {
+    font-weight: bold;
+    color: #444;
+    font-size: 15px;
 }
 
 .login-box input {
-    padding: 14px;
+    width: 100%;
+    padding: 16px;
     font-size: 16px;
-}
-
-#btn-login {
-    padding: 14px;
-    font-size: 18px;
-    font-weight: bold;
-    background: linear-gradient(135deg, #a00b0b, #d61a1a);
-    color: white;
-    border: none;
+    border: 1px solid #ccc;
     border-radius: 8px;
-    cursor: pointer;
-    transition: 0.3s;
+    outline: none;
+    transition: all 0.3s ease;
+    background-color: #f9f9f9;
 }
 
-#btn-login:hover {
-    transform: scale(1.03);
-    background: linear-gradient(135deg, #000, #333);
+.login-box input:focus {
+    border-color: #a00b0b;
+    box-shadow: 0 0 0 3px rgba(160, 11, 11, 0.15);
+    background-color: #fff;
 }
 
+/* MENSAGEM DE ERRO */
 .erro-box {
-    display: none;
     background: #ffe5e5;
     color: #a00b0b;
     padding: 12px;
@@ -65,4 +94,127 @@
     border-left: 5px solid #a00b0b;
     font-weight: bold;
     text-align: center;
+    font-size: 0.95rem;
+}
+
+/* LINK DE ESQUECEU A SENHA */
+.container-esqueceu {
+    text-align: right;
+    margin-top: -10px;
+}
+
+#link-esqueceu {
+    color: #666;
+    font-size: 14px;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+#link-esqueceu:hover {
+    color: #a00b0b;
+    text-decoration: underline;
+}
+
+/* =========================================
+   BOTÕES PRINCIPAIS
+   ========================================= */
+#btn-login, 
+#btn-enviar-recuperar,
+#btn-nova-senha {
+    padding: 16px;
+    font-size: 18px;
+    font-weight: bold;
+    background: linear-gradient(135deg, #a00b0b, #d61a1a);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+    margin-top: 10px;
+    width: 100%;
+    box-shadow: 0 4px 15px rgba(160, 11, 11, 0.3);
+}
+
+#btn-login:hover, 
+#btn-enviar-recuperar:hover,
+#btn-nova-senha:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(160, 11, 11, 0.5);
+}
+
+#btn-login:disabled, 
+#btn-enviar-recuperar:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* =========================================
+   MODAL DE RECUPERAÇÃO
+   ========================================= */
+.modal-overlay {
+    display: none; /* Começa escondido */
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(5px);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-box {
+    max-width: 420px;
+    width: 100%;
+}
+
+.subtitulo {
+    font-size: 14px;
+    color: #666;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.botoes-modal {
+    display: flex;
+    gap: 15px;
+    margin-top: 15px;
+}
+
+/* O botão de enviar o link dentro do modal ocupa mais espaço (flex: 2) */
+#btn-enviar-recuperar {
+    flex: 2;
+    margin-top: 0;
+}
+
+/* Botão de Cancelar */
+#btn-cancelar-recuperar {
+    background: #f1f1f1;
+    color: #333;
+    border: 1px solid #ddd;
+    padding: 16px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    flex: 1;
+    transition: background 0.3s ease;
+}
+
+#btn-cancelar-recuperar:hover {
+    background: #e4e4e4;
+}
+
+/* =========================================
+   CORREÇÃO SWEETALERT2 (Evita que a tela quebre)
+   ========================================= */
+html.swal2-shown,
+body.swal2-shown {
+    height: 100vh !important;
+    overflow: hidden !important;
+}
+
+.swal2-height-auto {
+    height: 100vh !important;
 }

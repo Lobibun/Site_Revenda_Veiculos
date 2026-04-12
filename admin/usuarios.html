@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Gerenciar Usuários - Painel Admin</title>
+
+        <link rel="stylesheet" href="/css/base/global.css" />
+        <link rel="stylesheet" href="/css/components/header-footer.css" />
+        <link rel="stylesheet" href="/css/pages/usuarios.css" />
+
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        />
+
+        <script src="/js/components/utils.js"></script>
+        <script src="/js/components/header-adm.js" defer></script>
+    </head>
+    <body class="admin-body">
+        <cabecalho-admin></cabecalho-admin>
+
+        <main class="admin-page">
+            <header class="topo-usuarios">
+                <h1 class="titulo-secao">Gerenciar Usuários</h1>
+                <button class="btn-vermelho btn-novo" id="btn-abrir-modal">
+                    <i class="fas fa-plus"></i> Novo Usuário
+                </button>
+            </header>
+
+            <section class="painel-tabela">
+                <table class="tabela-dados">
+                    <thead>
+                        <tr>
+                            <th>Foto</th>
+                            <th>Nome</th>
+                            <th>E-mail</th>
+                            <th>Nível de Acesso</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="lista-usuarios">
+                        <tr>
+                            <td colspan="5" class="msg-tabela">
+                                Carregando usuários...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+        </main>
+
+        <rodape-admin></rodape-admin>
+
+        <section id="modal-novo-usuario" class="modal-overlay oculto">
+            <article class="modal-box modal-compacto">
+                <header class="modal-header">
+                    <h2>Cadastrar Novo Usuário</h2>
+                    <button
+                        type="button"
+                        id="btn-fechar-modal"
+                        class="btn-fechar-x"
+                    >
+                        &times;
+                    </button>
+                </header>
+
+                <form id="form-novo-usuario" class="form-admin">
+                    <section class="form-grid">
+                        <article class="campo-form">
+                            <label for="novo-nome">Nome Completo *</label>
+                            <input
+                                type="text"
+                                id="novo-nome"
+                                required
+                                placeholder="Ex: João Silva"
+                            />
+                        </article>
+
+                        <article class="campo-form">
+                            <label for="novo-email">E-mail *</label>
+                            <input
+                                type="email"
+                                id="novo-email"
+                                required
+                                placeholder="joao@revendedora.com"
+                            />
+                        </article>
+
+                        <article class="campo-form">
+                            <label for="nova-senha">Senha Inicial *</label>
+                            <input
+                                type="password"
+                                id="nova-senha"
+                                required
+                                placeholder="Digite uma senha"
+                            />
+                        </article>
+
+                        <article class="campo-form">
+                            <label for="novo-nivel">Nível de Acesso *</label>
+                            <select id="novo-nivel" required>
+                                <option value="vendedor">Vendedor</option>
+                                <option value="gerente">Gerente</option>
+                                <option value="admin">Administrador</option>
+                            </select>
+                        </article>
+                    </section>
+
+                    <section class="campo-form area-foto-usuario">
+                        <label>Foto de Perfil (Opcional)</label>
+                        <label
+                            for="nova-foto"
+                            class="upload-box upload-compacto"
+                            id="label-upload-foto"
+                        >
+                            <span>📸 Adicionar foto</span>
+                            <input
+                                type="file"
+                                id="nova-foto"
+                                accept="image/*"
+                                class="oculto"
+                            />
+                        </label>
+
+                        <figure
+                            id="preview-container"
+                            class="preview-foto-circular oculto"
+                        >
+                            <img
+                                id="nova-preview-foto"
+                                src="/img/default-avatar.png"
+                                alt="Preview da Foto"
+                            />
+                        </figure>
+                    </section>
+
+                    <section class="form-acoes-rodape">
+                        <button type="submit" class="btn-vermelho btn-grande">
+                            Salvar Usuário
+                        </button>
+                    </section>
+                </form>
+            </article>
+        </section>
+
+        <section
+            id="lightbox-foto"
+            class="modal-overlay lightbox-overlay oculto"
+        >
+            <article class="lightbox-content">
+                <button
+                    type="button"
+                    class="btn-fechar-absoluto btn-fechar-lightbox"
+                >
+                    X
+                </button>
+                <img id="lightbox-img" src="" alt="Zoom" />
+            </article>
+        </section>
+
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="/js/admin-usuarios.js"></script>
+    </body>
+</html>

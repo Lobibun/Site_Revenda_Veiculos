@@ -5,8 +5,10 @@
         <script src="js/components/cardVendedor.js" defer></script>
         <script src="js/vendedores.js" defer></script>
         <script src="js/components/header.js"></script>
-        <link rel="stylesheet" href="css/style.css" />
-
+         <link rel="stylesheet" href="css/base/global.css" />
+        <link rel="stylesheet" href="css/components/header-footer.css" />
+        <link rel="stylesheet" href="css/components/card-vendedor.css" />
+        <link rel="stylesheet" href="css/pages/vendedores.css" />
         <link
             rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
@@ -15,9 +17,35 @@
     <body>
         <cabecalho-site></cabecalho-site>
         <main>
-            <h1 class="titulo-secao">Nossos Vendedores</h1>
-            <section id="lista-vendedores" class="lista-vendedores"></section>
-        </main>
+    <h1 class="titulo-secao">Nossos Vendedores</h1>
+    
+    <section id="filtro-vendedores">
+        <form id="form-filtro-vendedores">
+            <fieldset>
+                <h2>Filtrar Vendedores</h2>
+                
+                <label>
+                    Nome:
+                    <input type="text" name="nome" placeholder="Ex: João">
+                </label>
+
+                <label>
+                    E-mail:
+                    <input type="text" name="email" placeholder="Ex: @gmail.com">
+                </label>
+
+                <label>
+                    Telefone:
+                    <input type="text" name="telefone" placeholder="Ex: (11)">
+                </label>
+
+                <button type="reset" id="btn-limpar">Limpar Filtros</button>
+            </fieldset>
+        </form>
+        </section>
+
+        <section id="lista-vendedores" class="lista-vendedores"></section>
+    </main>
 
         <footer>
             <p>© 2026 Revendedora - Todos os direitos reservados</p>

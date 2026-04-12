@@ -1,0 +1,247 @@
+/* =========================================
+   CABEÇALHOS E RODAPÉS
+   ========================================= */
+
+/* =========================================
+   1. CABEÇALHO PÚBLICO (Site Normal)
+   ========================================= */
+.topo-site {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #000000;
+    
+    /* REDUZIDO: Padding vertical menor para afinar o cabeçalho */
+    padding: 10px 50px; 
+    border-bottom: 2px solid var(--cor-primaria);
+}
+
+/* Garante que a logo do site normal limite a altura do cabeçalho */
+.topo-site img, 
+.logo-site img {
+    height: 110px; /* Altura exata do emblema */
+    width: auto;
+    object-fit: contain;
+}
+
+.menu-principal ul {
+    display: flex;
+    gap: 30px;
+    align-items: center;
+}
+
+.menu-principal a {
+    color: var(--cor-texto);
+    font-size: 1.1rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    transition: color 0.3s ease;
+}
+
+.menu-principal a:hover {
+    color: var(--cor-primaria); /* Fica vermelho ao passar o mouse */
+}
+
+/* Responsividade básica para o header público */
+@media (max-width: 768px) {
+    .topo-site {
+        flex-direction: column;
+        gap: 15px;
+        padding: 15px 20px;
+    }
+}
+
+/* =========================================
+   2. CABEÇALHO ADMIN (Painel de Controle)
+   ========================================= */
+.topo-admin {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #000;
+    
+    /* AUMENTADO: Padding maior para dar mais "corpo" à barra */
+    padding: 20px 40px; 
+    border-bottom: 2px solid var(--cor-primaria);
+}
+
+.logo-admin {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.logo-admin img {
+    height:100px; 
+    width: auto;
+}
+
+.logo-admin span {
+    color: var(--cor-texto-mutado);
+    text-transform: uppercase;
+    font-weight: bold;
+    
+    /* Aumentado o texto para não sumir ao lado do ícone maior */
+    font-size: 1.1rem; 
+    letter-spacing: 1px;
+    border-left: 2px solid var(--cor-borda);
+    padding-left: 20px;
+}
+
+.menu-admin ul {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.menu-admin a {
+    color: var(--cor-texto);
+    font-weight: 500;
+    font-size: 1.05rem; /* Links um pouquinho maiores */
+    transition: color 0.3s;
+}
+
+.menu-admin a:hover {
+    color: var(--cor-primaria);
+}
+
+.btn-ver-site {
+    border: 1px solid var(--cor-borda);
+    padding: 8px 15px;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.btn-ver-site:hover {
+    background-color: #222;
+}
+
+.btn-logout {
+    color: var(--cor-primaria) !important;
+    font-weight: bold;
+    padding: 8px 15px;
+    border: 1px solid var(--cor-primaria);
+    border-radius: 4px;
+    transition: 0.3s;
+}
+
+.btn-logout:hover {
+    background-color: var(--cor-primaria);
+    color: #fff !important;
+}
+
+/* =========================================
+   SUB-MENUS (DROPDOWNS) DO PAINEL ADMIN
+   ========================================= */
+
+/* Transforma o item principal da lista num bloco relativo */
+.menu-admin ul li.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+/* Estilo da caixinha que fica escondida */
+.menu-admin ul li.dropdown .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: var(--cor-fundo-secundario, #1a1a1a); /* Fundo escuro */
+    min-width: 200px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.5);
+    z-index: 999;
+    border-radius: 5px;
+    top: 100%;
+    left: 0;
+    padding: 0;
+    overflow: hidden; /* Mantém bordas arredondadas nos filhos */
+}
+
+/* Ocupar todo o espaço dentro do dropdown */
+.menu-admin ul li.dropdown .dropdown-content li {
+    display: block;
+    width: 100%;
+}
+
+/* Links dentro do dropdown */
+.menu-admin ul li.dropdown .dropdown-content li a {
+    padding: 12px 16px;
+    display: block;
+    text-align: left;
+    border-bottom: 1px solid #333;
+    transition: background 0.3s;
+}
+
+/* Tira a borda do último item */
+.menu-admin ul li.dropdown .dropdown-content li:last-child a {
+    border-bottom: none;
+}
+
+/* Muda a cor do link ao passar o mouse dentro da sub-lista */
+.menu-admin ul li.dropdown .dropdown-content li a:hover {
+    background-color: #2a2a2a;
+    color: var(--cor-primaria, #a00b0b);
+}
+
+/* Faz o submenu aparecer quando o mouse passar por cima do menu principal */
+.menu-admin ul li.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* =========================================
+   3. RODAPÉS (Footer)
+   ========================================= */
+footer, .rodape-admin {
+    background-color: #000;
+    text-align: center;
+    padding: 20px;
+    border-top: 1px solid var(--cor-borda);
+    color: var(--cor-texto-mutado);
+    font-size: 0.9rem;
+    margin-top: 40px;
+}
+
+/* =========================================
+   4. EFEITO DE SCROLL - CABEÇALHO PÚBLICO
+   ========================================= */
+
+#header-publico {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 9999; 
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease;
+}
+
+body:not(.admin-body) {
+    padding-top: 135px; 
+}
+
+@media (max-width: 768px) {
+    body:not(.admin-body) {
+        padding-top: 180px; 
+    }
+}
+
+/* =========================================
+   5. EFEITO DE SCROLL - CABEÇALHO ADMIN (NOVO)
+   ========================================= */
+
+#header-admin {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 10000; /* Garante que fica em cima das tabelas e modais do admin */
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease;
+}
+
+/* Empurra o conteúdo das páginas do Admin para baixo */
+.admin-body {
+    padding-top: 150px !important; 
+}
+
+@media (max-width: 768px) {
+    .admin-body {
+        padding-top: 220px !important; 
+    }
+}

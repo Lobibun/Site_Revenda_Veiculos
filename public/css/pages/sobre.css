@@ -1,29 +1,105 @@
-/* assets/css/pages/sobre.css */
+/* =========================================
+   PÁGINA SOBRE NÓS
+   ========================================= */
+
 .sobre-container {
-    display: flex;
-    align-items: center; 
-    gap: 50px; 
     max-width: 1200px;
-    margin: 40px auto 80px auto;
+    margin: 0 auto 60px auto;
     padding: 0 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
+/* Área da Logo / Imagem Principal */
 .sobre-imagem {
-    flex: 1; 
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto 50px auto;
     display: flex;
     justify-content: center;
-    margin: 0; 
 }
 
 .sobre-imagem img {
     width: 100%;
-    max-width: 500px; 
-    border-radius: 12px;
+    height: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.5));
 }
 
+/* Grid dos Cards de Informação */
 .sobre-cards {
-    flex: 1.5; 
     display: grid;
-    grid-template-columns: 1fr 1fr; 
-    gap: 25px; 
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 30px;
+    width: 100%;
+}
+
+/* Estilo Individual de Cada Card */
+.bloco {
+    background-color: var(--cor-fundo-secundario, #1a1a1a);
+    border: 1px solid var(--cor-borda, #333);
+    padding: 40px 30px;
+    border-radius: 12px;
+    text-align: center;
+    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.bloco:hover {
+    transform: translateY(-8px);
+    border-color: var(--cor-primaria, #e50000);
+    box-shadow: 0 10px 25px rgba(229, 0, 0, 0.15);
+}
+
+/* Ícone no topo do Card */
+.bloco .icone-circulo {
+    width: 70px;
+    height: 70px;
+    background-color: #222;
+    border: 2px solid var(--cor-primaria, #e50000);
+    color: var(--cor-primaria, #e50000);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+/* Efeito no ícone quando passa o rato no card */
+.bloco:hover .icone-circulo {
+    background-color: var(--cor-primaria, #e50000);
+    color: #fff;
+}
+
+/* Textos do Card */
+.bloco h2 {
+    color: #fff;
+    font-size: 1.4rem;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.bloco p {
+    color: #ccc;
+    font-size: 1rem;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* Responsividade para telemóveis */
+@media (max-width: 768px) {
+    .sobre-imagem {
+        max-width: 250px;
+        margin-bottom: 30px;
+    }
+
+    .bloco {
+        padding: 30px 20px;
+    }
 }

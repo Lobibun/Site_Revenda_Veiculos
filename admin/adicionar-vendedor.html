@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Adicionar Vendedor - Painel Admin</title>
+
+        <link rel="stylesheet" href="/css/base/global.css" />
+        <link rel="stylesheet" href="/css/components/header-footer.css" />
+        <link rel="stylesheet" href="/css/pages/adicionar-vendedor.css" />
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+        <script src="/js/components/utils.js"></script>
+        <script src="/js/components/header-adm.js" defer></script>
+    </head>
+    <body class="admin-body">
+        <cabecalho-admin></cabecalho-admin>
+
+        <main class="admin-page">
+            
+            <header class="adm-topo-padrao">
+                <h1 class="titulo-secao">Adicionar Novo Vendedor</h1>
+                <a href="/admin/modificar-vendedores" class="btn-vermelho btn-voltar">
+                    <i class="fas fa-list"></i> Gerenciar Vendedores
+                </a>
+            </header>
+
+            <section class="form-admin-container">
+                <form id="form-vendedor" class="form-admin" enctype="multipart/form-data">
+                    
+                    <section class="adm-veic-linha adm-veic-grid-2">
+                        <article class="campo-form">
+                            <label for="nome">Nome Completo *</label>
+                            <input type="text" id="nome" name="nome" required placeholder="Ex: João da Silva" />
+                        </article>
+
+                        <article class="campo-form">
+                            <label for="email">E-mail *</label>
+                            <input type="email" id="email" name="email" required placeholder="joao@revendedora.com" />
+                        </article>
+                    </section>
+
+                    <section class="adm-veic-linha adm-veic-grid-2">
+                        <article class="campo-form">
+                            <label for="telefone">Telefone (WhatsApp) *</label>
+                            <input type="text" id="telefone" name="telefone" required placeholder="(00) 00000-0000" />
+                        </article>
+
+                        <article class="campo-form">
+                            <label>Foto de Perfil</label>
+                            
+                            <label for="foto" class="upload-box upload-compacto">
+                                <i class="fa-solid fa-cloud-arrow-up icone-upload"></i>
+                                <span>Clique para adicionar foto</span>
+                                <input type="file" id="foto" name="foto" accept="image/*" class="oculto" />
+                            </label>
+
+                            <section id="add-preview-container" class="preview-container oculto">
+                                <figure class="preview-item">
+                                    <img id="add-preview-img" src="" alt="Preview da Foto" onclick="window.abrirLightbox(this.src)" title="Clique para ampliar" class="img-ampliavel" />
+                                    <button type="button" id="btn-remover-foto" class="btn-remover-foto" title="Remover Foto">&times;</button>
+                                </figure>
+                            </section>
+                        </article>
+                    </section>
+
+                    <section class="form-acoes-rodape">
+                        <button type="submit" class="btn-vermelho btn-grande">
+                            Cadastrar Vendedor
+                        </button>
+                    </section>
+                    
+                </form>
+            </section>
+        </main>
+
+        <rodape-admin></rodape-admin>
+
+        <section id="lightbox-foto" class="modal-overlay oculto">
+            <button type="button" class="btn-fechar-lightbox">&times;</button>
+            <img id="lightbox-img" src="" alt="Foto Ampliada" />
+        </section>
+
+        <script src="/js/admin-vendedores.js"></script>
+    </body>
+</html>

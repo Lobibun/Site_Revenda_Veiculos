@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Log de Auditoria | Painel Admin</title>
+
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        />
+
+        <link rel="stylesheet" href="/css/base/global.css" />
+        <link rel="stylesheet" href="/css/components/header-footer.css" />
+        <link rel="stylesheet" href="/css/pages/auditoria.css" />
+
+        <script src="/js/components/header-adm.js" defer></script>
+    </head>
+    <body>
+        <cabecalho-admin></cabecalho-admin>
+
+        <main class="admin-page container">
+            <header class="cabecalho-auditoria">
+                <h1 class="titulo-secao">Auditoria do Sistema</h1>
+                <menu class="menu-acoes-topo">
+                    <button
+                        type="button"
+                        class="btn-novo"
+                        onclick="carregarAuditoria()"
+                    >
+                        <i class="fa-solid fa-rotate-right"></i> Atualizar Logs
+                    </button>
+                </menu>
+            </header>
+
+            <section class="conteudo-auditoria">
+                <section class="painel-filtros">
+                    <header class="cabecalho-filtros">Filtros</header>
+
+                    <form
+                        id="form-filtros"
+                        class="grid-filtros"
+                        onsubmit="event.preventDefault()"
+                    >
+                        <label>
+                            <span>Usuário Responsável:</span>
+                            <input
+                                type="text"
+                                id="filtroUsuario"
+                                placeholder="Ex: João"
+                                onkeyup="filtrarTabela()"
+                            />
+                        </label>
+
+                        <label>
+                            <span>Ação:</span>
+                            <select id="filtroAcao" onchange="filtrarTabela()">
+                                <option value="">Todas as Ações</option>
+                                <option value="CRIOU">Criou</option>
+                                <option value="ATUALIZOU">Atualizou</option>
+                                <option value="DELETOU">Deletou</option>
+                            </select>
+                        </label>
+
+                        <label>
+                            <span>Módulo:</span>
+                            <select
+                                id="filtroEntidade"
+                                onchange="filtrarTabela()"
+                            >
+                                <option value="">Todos os Módulos</option>
+                                <option value="Carros">Carros</option>
+                                <option value="Usuarios">Usuários</option>
+                                <option value="Vendedores">Vendedores</option>
+                            </select>
+                        </label>
+
+                        <label>
+                            <span>Data Inicial:</span>
+                            <input
+                                type="date"
+                                id="filtroDataInicio"
+                                onchange="filtrarTabela()"
+                            />
+                        </label>
+
+                        <label>
+                            <span>Data Final:</span>
+                            <input
+                                type="date"
+                                id="filtroDataFim"
+                                onchange="filtrarTabela()"
+                            />
+                        </label>
+
+                        <section class="d-flex-bottom">
+                            <button
+                                type="button"
+                                class="btn-secundario"
+                                onclick="limparFiltros()"
+                            >
+                                Limpar Filtros
+                            </button>
+                        </section>
+                    </form>
+                </section>
+
+                <section class="painel-tabela">
+                    <table class="tabela-dados">
+                        <thead>
+                            <tr>
+                                <th>Data / Hora</th>
+                                <th>Responsável</th>
+                                <th>Ação</th>
+                                <th>Módulo</th>
+                                <th>ID Afetado</th>
+                                <th class="text-center">Detalhes</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabelaAuditoria">
+                            <tr>
+                                <td colspan="6" class="text-center">
+                                    Carregando logs...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </section>
+            </section>
+        </main>
+
+        <rodape-admin></rodape-admin>
+
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="/js/auditoria.js"></script>
+    </body>
+</html>

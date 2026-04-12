@@ -1,0 +1,134 @@
+/* =========================================
+   PÁGINA: LIXEIRA (ADMIN)
+   ========================================= */
+
+.topo-lixeira {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.aviso-lixeira {
+    color: #ff9800;
+    font-size: 0.95rem;
+    font-weight: 500;
+    margin-top: -10px;
+}
+
+/* =========================================
+   PAINEL DE CONFIGURAÇÃO
+   ========================================= */
+.config-limpeza {
+    background-color: var(--cor-fundo-secundario, #1a1a1a);
+    border: 1px solid var(--cor-borda, #333);
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.config-info h3 {
+    color: #fff;
+    margin-bottom: 5px;
+    font-size: 1.1rem;
+}
+
+.config-info label {
+    color: var(--cor-texto-mutado, #ccc);
+    font-size: 0.9rem;
+}
+
+.config-acao {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.input-dias {
+    background-color: var(--cor-fundo, #121212);
+    color: #fff;
+    border: 1px solid var(--cor-borda, #444);
+    padding: 10px;
+    border-radius: 6px;
+    font-size: 1rem;
+    outline: none;
+}
+
+.input-dias:focus {
+    border-color: var(--cor-primaria, #a00b0b);
+}
+
+/* =========================================
+   TABELA DA LIXEIRA
+   ========================================= */
+.tabela-admin {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    color: #fff;
+}
+
+.tabela-admin thead tr {
+    border-bottom: 2px solid #333;
+    background-color: #222;
+}
+
+.tabela-admin th {
+    padding: 15px;
+    font-weight: bold;
+    color: #ccc;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+}
+
+.tabela-admin td {
+    padding: 15px;
+    border-bottom: 1px solid #333;
+    vertical-align: middle;
+}
+
+.tabela-admin tbody tr:hover {
+    background-color: #2a2a2a;
+}
+
+.mensagem-tabela {
+    text-align: center;
+    padding: 30px !important;
+    color: #777;
+    font-style: italic;
+}
+
+.badge-tipo {
+    font-weight: bold;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+.badge-carro { color: #4facfe; }
+.badge-vendedor { color: #a00b0b; }
+.badge-usuario { color: #f6d365; }
+
+.coluna-acoes { text-align: center; }
+.acoes-flex {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.btn-restaurar {
+    background-color: #28a745;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s;
+}
+.btn-restaurar:hover { background-color: #218838; }

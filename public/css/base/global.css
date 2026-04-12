@@ -1,22 +1,30 @@
+/* =========================================
+   VARIÁVEIS GLOBAIS E RESET
+   ========================================= */
+:root {
+    --cor-fundo: #0a0a0a;
+    --cor-fundo-secundario: #1a1a1a;
+    --cor-primaria: #cc0000;
+    /* Vermelho Revenda */
+    --cor-primaria-hover: #a00b0b;
+    --cor-texto: #f4f4f4;
+    --cor-texto-mutado: #999999;
+    --cor-borda: #333333;
+
+    --fonte-principal: 'Inter', 'Segoe UI', sans-serif;
+}
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-html, body {
-    height: 100%;
-    margin: 0;
-}
-
 body {
-    display: flex;
-    flex-direction: column;
-    background: #f2f2f2;
-}
-
-main {
-    flex: 1;
+    font-family: var(--fonte-principal);
+    background-color: var(--cor-fundo);
+    color: var(--cor-texto);
+    line-height: 1.6;
 }
 
 a {
@@ -24,19 +32,120 @@ a {
     color: inherit;
 }
 
-main .titulo-secao {
-    font-size: 32px;
-    color: #222;
-    border-bottom: 3px solid #ce1b1b;
-    padding-bottom: 5px;
-    
-    /* O segredo da centralização */
-    display: block; 
-    width: fit-content; 
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 25px;
-    margin-bottom: 30px;
-    
+ul {
+    list-style: none;
+}
+
+/* =========================================
+   BOTÕES GLOBAIS REAPROVEITÁVEIS
+   ========================================= */
+.btn-vermelho,
+.botao-banner {
+    background-color: var(--cor-primaria);
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    display: inline-block;
+}
+
+.btn-vermelho:hover,
+.botao-banner:hover {
+    background-color: var(--cor-primaria-hover);
+}
+
+.btn-secundario {
+    background-color: #555;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-secundario:hover {
+    background-color: #333;
+}
+
+/* =========================================
+   TIPOGRAFIA E TÍTULOS GLOBAIS
+   ========================================= */
+.titulo-secao {
     text-align: center;
+    font-size: 2.2rem;
+    margin-bottom: 40px;
+    position: relative;
+    color: var(--cor-texto);
+    /* Garante que a cor siga o padrão global */
+}
+
+.titulo-secao::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 4px;
+    background-color: var(--cor-primaria);
+    margin: 10px auto 0;
+}
+
+.swal2-container {
+    z-index: 999999 !important;
+}
+
+/* =========================================
+   MODAIS GLOBAIS (Aviso de Sair, etc)
+   ========================================= */
+.oculto {
+    display: none !important;
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(5px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 99999;
+    padding: 20px;
+}
+
+.modal-box {
+    background-color: var(--cor-fundo-secundario, #1a1a1a);
+    width: 100%;
+    max-width: 500px;
+    border-radius: 12px;
+    border: 1px solid var(--cor-borda, #444);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+    max-height: 90vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+/* Scrollbar estilizada para os modais */
+.modal-box::-webkit-scrollbar {
+    width: 8px;
+}
+
+.modal-box::-webkit-scrollbar-track {
+    background: var(--cor-fundo-secundario, #1a1a1a);
+    border-radius: 12px;
+}
+
+.modal-box::-webkit-scrollbar-thumb {
+    background: #444;
+    border-radius: 12px;
+}
+
+.modal-box::-webkit-scrollbar-thumb:hover {
+    background: var(--cor-primaria, #a00b0b);
 }

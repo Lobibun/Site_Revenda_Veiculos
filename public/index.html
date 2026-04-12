@@ -1,40 +1,57 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
     <head>
-        <script src="js/components/cardCarro.js"></script>
-        <script src="js/destaque.js"></script>
-        <script src="js/components/header.js"></script>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-        <title>Revendedora</title>
-        <link rel="stylesheet" href="css/style.css">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <title>Revendedora | As Melhores Ofertas de Veículos</title>
+        <meta name="description" content="Encontre os melhores carros com as melhores ofertas do mercado. Veículos revisados, com garantia e procedência na nossa revendedora.">
+        <meta name="author" content="Alan Farias Lopes">
+        <meta name="robots" content="index, follow">
+        <meta name="theme-color" content="#1a1a1a">
 
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+        
+        <link rel="stylesheet" href="css/base/global.css">
+        <link rel="stylesheet" href="css/components/header-footer.css">
+        <link rel="stylesheet" href="css/components/card-carro.css">
+        <link rel="stylesheet" href="css/components/modais.css">
+        <link rel="stylesheet" href="css/pages/home.css">
+
+        <script src="js/components/header.js" defer></script>
+        <script src="js/components/cardCarro.js" defer></script>
+        <script src="js/destaque.js" defer></script>
     </head>
     <body>
         <cabecalho-site></cabecalho-site>
 
         <main>
-        <section class="banner">
-           <article class="texto-banner">
-        <h3>Bem-vindo à nossa revenda de carros!</h3>
-        <h2>São as melhores ofertas para você!!</h2>
-        <a href="carros.html" class="botao-banner">Nosso Estoque</a>
-            </article>
-        </section>
+            <section class="banner">
+                <article class="texto-banner">
+                    <h3>Bem-vindo à nossa revenda de carros!</h3>
+                    <h2>São as melhores ofertas para você!!</h2>
+                    
+                    <nav aria-label="Ações principais do banner" class="botoes-banner">
+                        <a href="carros.html" class="botao-banner">Nosso Estoque</a>
+                        <a href="vendedores.html" class="botao-banner botao-secundario">Nossos Vendedores</a>
+                    </nav>
+                </article>
+            </section>
 
             <section class="carros-destaque">
-                <h1 class="titulo-secao">Carros em Destaque</h1>
+                    <h1 class="titulo-secao">Carros em Destaque</h1>
+
+                
                 <ul id="carros-destaque"></ul>
-                <nav class="link-estoque">
-                    <a href="carros.html" class="botao-banner">Ver Estoque</a>
+                
+                <nav aria-label="Link para estoque completo" class="link-estoque">
+                    <a href="carros.html" class="botao-banner">Ver Estoque Completo</a>
                 </nav>
             </section>
-            
         </main>
 
         <footer>
             <p>© 2026 Revendedora - Todos os direitos reservados</p>
-         </footer>
-
+        </footer>
     </body>
-
 </html>

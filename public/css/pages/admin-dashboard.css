@@ -1,0 +1,94 @@
+/* =========================================
+   PÁGINA: DASHBOARD ADMIN (Visão Geral)
+   ========================================= */
+
+/* 1. CARDS DE ESTATÍSTICAS (Topo) */
+.dashboard-stats {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 40px;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.stat-card {
+    background-color: var(--cor-fundo-secundario);
+    padding: 20px;
+    border-radius: 8px;
+    flex: 1;
+    min-width: 200px;
+    text-align: center;
+    border: 1px solid var(--cor-borda);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--cor-primaria-hover);
+}
+
+.stat-card h3 {
+    font-size: 1.1rem;
+    color: var(--cor-texto-mutado);
+    margin-bottom: 10px;
+}
+
+.stat-number {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: var(--cor-texto);
+}
+
+/* =========================================
+   2. GRID DE AÇÕES (Botões Grandes)
+   ========================================= */
+.admin-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.admin-group {
+    background-color: var(--cor-fundo-secundario);
+    padding: 25px;
+    border-radius: 8px;
+    border: 1px solid var(--cor-borda);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    transition: 0.3s;
+}
+
+.admin-group:hover {
+    border-color: var(--cor-primaria-hover);
+    transform: translateY(-5px);
+}
+
+.admin-group h2 {
+    font-size: 1.4rem;
+    color: var(--cor-texto);
+    margin-bottom: 10px;
+}
+
+.admin-group p {
+    color: var(--cor-texto-mutado);
+    margin-bottom: 20px;
+    font-size: 0.95rem;
+}
+
+/* Ocupando 100% dos botões dentro dos cards */
+.acoes {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.acoes a {
+    text-decoration: none;
+    display: block;
+}
+
+.acoes button {
+    width: 100%;
+    padding: 12px;
+    font-size: 1.05rem;
+}

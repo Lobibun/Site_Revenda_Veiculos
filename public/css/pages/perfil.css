@@ -1,0 +1,338 @@
+/* =========================================
+   PÁGINA: MEU PERFIL (ADMIN) - USANDO VARIÁVEIS GLOBAIS
+   ========================================= */
+
+/* Nota: O body não precisa mais ter cor definida aqui, 
+   pois o global.css já faz isso para todas as páginas! */
+
+/* 1. CABEÇALHO CENTRALIZADO */
+.titulo-secao {
+    margin: 0;
+    color: var(--cor-texto);
+    padding: 0;
+    text-align: center;
+    font-size: 2rem;
+}
+
+.titulo-secao::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 4px;
+    background-color: var(--cor-primaria);
+    margin: 10px auto 0;
+}
+
+/* =========================================
+   2. LAYOUT PRINCIPAL (Sidebar + Conteúdo)
+   ========================================= */
+.perfil-layout {
+    display: flex;
+    gap: 30px;
+    align-items: flex-start;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+.perfil-sidebar {
+    width: 250px;
+    background-color: var(--cor-fundo-secundario);
+    border: 1px solid var(--cor-borda);
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+#menu-perfil {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+#menu-perfil li {
+    padding: 16px 20px;
+    color: var(--cor-texto-mutado);
+    font-weight: 500;
+    cursor: pointer;
+    border-bottom: 1px solid var(--cor-fundo);
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#menu-perfil li:last-child {
+    border-bottom: none;
+}
+
+#menu-perfil li:hover {
+    background-color: var(--cor-fundo);
+    color: var(--cor-texto);
+}
+
+#menu-perfil li.ativo {
+    background-color: var(--cor-primaria-hover);
+    color: var(--cor-texto);
+    font-weight: bold;
+    border-left: 4px solid var(--cor-primaria);
+}
+
+.perfil-conteudo {
+    flex: 1;
+    background-color: var(--cor-fundo-secundario);
+    border: 1px solid var(--cor-borda);
+    border-radius: 8px;
+    padding: 30px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    min-height: 450px;
+}
+
+/* =========================================
+   3. ABAS (Tabs)
+   ========================================= */
+.secao-aba {
+    display: none;
+    animation: fadeIn 0.4s ease-in-out;
+}
+
+.secao-aba.ativa {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.secao-aba header h3 {
+    color: var(--cor-texto);
+    font-size: 1.4rem;
+    margin-bottom: 5px;
+    border-bottom: 1px solid var(--cor-borda);
+    padding-bottom: 10px;
+}
+
+/* =========================================
+   4. ABA VISÃO GERAL (Foto e Efeito de Zoom)
+   ========================================= */
+.foto-wrapper {
+    margin: 0; 
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.foto-clicavel-cracha {
+    position: relative;
+    display: block;
+    margin: 0 auto;
+    cursor: pointer;
+    border-radius: 50%;
+    width: 150px;
+    height: 150px;
+    border: 4px solid var(--cor-borda);
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+#perfil-foto {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+.foto-clicavel-cracha:hover {
+    transform: scale(1.1);
+    border-color: var(--cor-primaria-hover);
+    box-shadow: 0 8px 20px rgba(204, 0, 0, 0.4); /* Usando um tom baseado na primária */
+    z-index: 10;
+}
+
+.foto-clicavel-cracha:hover #perfil-foto {
+    transform: scale(1.15);
+}
+
+.overlay-foto {
+    position: absolute;
+    bottom: -40px;
+    left: 0;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.75);
+    color: var(--cor-texto);
+    text-align: center;
+    padding: 10px 0;
+    font-size: 0.9rem;
+    font-weight: bold;
+    transition: bottom 0.3s ease;
+}
+
+.foto-clicavel-cracha:hover .overlay-foto {
+    bottom: 0;
+}
+
+/* Info do Usuário */
+.info-usuario {
+    text-align: center;
+}
+
+#perfil-nome-exibicao {
+    color: var(--cor-texto);
+    font-size: 1.6rem;
+    margin: 10px 0 5px;
+}
+
+.badge-cargo {
+    display: inline-block;
+    padding: 6px 15px;
+    background-color: rgba(204, 0, 0, 0.15);
+    color: var(--cor-primaria);
+    border: 1px solid var(--cor-primaria-hover);
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 15px;
+}
+
+.perfil-info-extra {
+    color: var(--cor-texto-mutado);
+    font-style: normal;
+    font-size: 1rem;
+    background-color: var(--cor-fundo);
+    padding: 15px;
+    border-radius: 6px;
+    display: inline-block;
+    border: 1px solid var(--cor-borda);
+}
+
+.perfil-info-extra strong {
+    color: var(--cor-texto);
+}
+
+/* =========================================
+   5. FORMULÁRIOS E INPUTS
+   ========================================= */
+.campo-form {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.campo-form label {
+    color: var(--cor-texto-mutado);
+    font-size: 0.95rem;
+    font-weight: bold;
+}
+
+.campo-form input {
+    width: 100%;
+    padding: 12px 15px;
+    background-color: var(--cor-fundo);
+    border: 1px solid var(--cor-borda);
+    color: var(--cor-texto);
+    border-radius: 4px;
+    font-size: 1rem;
+    transition: 0.3s;
+}
+
+.campo-form input:focus {
+    border-color: var(--cor-primaria-hover);
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(204, 0, 0, 0.2);
+}
+
+.campo-form input:disabled {
+    background-color: #2a2a2a;
+    color: #777;
+    cursor: not-allowed;
+    border-style: dashed;
+}
+
+/* =========================================
+   6. BOTÕES E COMPONENTES EXTRAS
+   ========================================= */
+.btn-salvar-perfil {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    background-color: var(--cor-primaria-hover);
+    color: var(--cor-texto);
+    font-weight: bold;
+    font-size: 1rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.1s;
+    text-align: center;
+}
+
+.btn-salvar-perfil:hover {
+    background-color: var(--cor-primaria);
+}
+
+.btn-salvar-perfil:active {
+    transform: scale(0.98);
+}
+
+.btn-salvar-perfil:disabled {
+    background-color: #555;
+    color: #999;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.aviso-seguranca {
+    color: var(--cor-texto-mutado);
+    font-size: 0.9rem;
+    margin-top: -10px;
+    margin-bottom: 25px;
+}
+
+.divisor-linha {
+    border: none;
+    border-top: 1px dashed var(--cor-borda);
+    margin: 30px 0;
+}
+
+/* =========================================
+   7. RESPONSIVIDADE
+   ========================================= */
+@media (max-width: 768px) {
+    .perfil-layout {
+        flex-direction: column;
+    }
+    
+    .perfil-sidebar {
+        width: 100%;
+    }
+
+    #menu-perfil {
+        display: flex;
+        overflow-x: auto;
+    }
+
+    #menu-perfil li {
+        flex: 1;
+        white-space: nowrap;
+        justify-content: center;
+        border-bottom: 2px solid transparent;
+        border-left: none !important;
+        padding: 12px;
+        font-size: 0.9rem;
+    }
+
+    #menu-perfil li.ativo {
+        border-bottom: 2px solid var(--cor-primaria);
+    }
+
+    .perfil-conteudo {
+        padding: 20px;
+    }
+}
