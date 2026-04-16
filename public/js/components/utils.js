@@ -1,14 +1,21 @@
 // ==========================================
-// 1. FECHAR QUALQUER MODAL CLICANDO FORA
+// 1. FECHAR QUALQUER MODAL CLICANDO FORA (COM PROTEÇÃO DE SELEÇÃO)
 // ==========================================
 window.configurarFechamentoModalClickFora = function(modalId, funcaoParaLimpar) {
     const modal = document.getElementById(modalId);
     if (!modal) return;
     
-    // Usamos onclick para não acumular os cliques na memória
-    modal.onclick = function(e) {
-        if (e.target === modal) {
-            modal.classList.add("oculto"); 
+    let mousedownTarget = null;
+
+    // Registra onde o clique COMEÇOU (quando aperta o botão do mouse)
+    modal.onmousedown = function(e) {
+        mousedownTarget = e.target;
+    };
+
+    // Só fecha se o clique COMEÇOU e TERMINOU no fundo escuro (modal)
+    // Isso evita que arrastar o mouse para selecionar texto feche a tela sem querer
+    modal.onmouseup = function(e) {
+        if (mousedownTarget === modal && e.target === modal) {
             modal.style.display = "none";  
             document.body.classList.remove("modal-aberto");
             

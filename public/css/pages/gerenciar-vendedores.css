@@ -16,7 +16,8 @@
 .topo-usuarios .titulo-secao { border: none; margin: 0; padding: 0; text-align: center; color: #fff; }
 .btn-novo {
     display: inline-flex; align-items: center; gap: 8px;
-    padding: 10px 20px; text-decoration: none; font-weight: bold;
+    padding: 12px 20px; /* Levemente maior para mobile */
+    text-decoration: none; font-weight: bold;
     background-color: #a00b0b; color: #fff; border-radius: 4px; transition: 0.3s;
 }
 .btn-novo:hover { background-color: #d61a1a; }
@@ -25,6 +26,7 @@
 .painel-tabela {
     background-color: #1a1a1a; border-radius: 8px; border: 1px solid #333;
     overflow-x: auto; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    -webkit-overflow-scrolling: touch; /* Scroll suave no mobile */
 }
 .tabela-dados { width: 100%; border-collapse: collapse; text-align: left; min-width: 600px; }
 .tabela-dados th {
@@ -39,7 +41,7 @@
 }
 .foto-avatar:hover { border-color: #a00b0b; transform: scale(1.1); }
 .btn-acao {
-    background: none; border: none; cursor: pointer; padding: 8px; border-radius: 6px;
+    background: none; border: none; cursor: pointer; padding: 10px; border-radius: 6px;
     transition: 0.3s; display: inline-flex; align-items: center; justify-content: center;
 }
 .btn-acao svg { width: 18px; height: 18px; fill: currentColor; }
@@ -63,12 +65,14 @@
     display: flex; justify-content: center; align-items: center; 
     z-index: 99999; 
     padding: 20px;
+    box-sizing: border-box; /* Previne scroll acidental */
 }
 
 .modal-box {
     background-color: #1a1a1a; width: 100%; max-width: 600px;
+    max-height: 90vh; overflow-y: auto; /* Adicionado scroll interno para o modal */
     border-radius: 12px; border: 1px solid #444;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.5); overflow: hidden;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.5); 
     position: relative;
     z-index: 100000;
 }
@@ -76,10 +80,12 @@
 .modal-header {
     background-color: #111; padding: 20px 30px; display: flex;
     justify-content: space-between; align-items: center; border-bottom: 2px solid #a00b0b;
+    position: sticky; top: 0; z-index: 2; /* Mantém header fixo ao rolar modal */
 }
 .modal-header h2 { color: #fff; margin: 0; font-size: 1.5rem; }
 .btn-fechar-x {
-    background: none; border: none; color: #ccc; font-size: 30px; cursor: pointer; transition: 0.3s; line-height: 1;
+    background: none; border: none; color: #ccc; font-size: 30px; cursor: pointer; 
+    transition: 0.3s; line-height: 1; padding: 5px;
 }
 .btn-fechar-x:hover { color: #a00b0b; }
 #form-editar-vendedor { padding: 30px; }
@@ -105,9 +111,9 @@
 }
 .preview-foto-circular img:hover { opacity: 0.8; }
 .form-acoes-rodape { margin-top: 30px; display: flex; justify-content: flex-end; gap: 10px; }
-.btn-secundario { background-color: #444; color: #fff; padding: 12px 20px; border-radius: 4px; border: none; cursor: pointer; transition: 0.3s; }
+.btn-secundario { background-color: #444; color: #fff; padding: 12px 20px; border-radius: 4px; border: none; cursor: pointer; transition: 0.3s; font-weight: bold; }
 .btn-secundario:hover { background-color: #555; }
-.btn-vermelho { background-color: #a00b0b; color: #fff; padding: 12px 20px; border-radius: 4px; border: none; cursor: pointer; transition: 0.3s; }
+.btn-vermelho { background-color: #a00b0b; color: #fff; padding: 12px 20px; border-radius: 4px; border: none; cursor: pointer; transition: 0.3s; font-weight: bold; }
 .btn-vermelho:hover { background-color: #d61a1a; }
 
 /* =========================================
@@ -138,8 +144,8 @@
     color: #fff;
     border: 2px solid #fff;
     border-radius: 50%; 
-    width: 40px;
-    height: 40px;
+    width: 44px; /* Maior para mobile */
+    height: 44px;
     font-size: 20px;
     font-weight: bold;
     cursor: pointer;
@@ -156,9 +162,20 @@
     transform: scale(1.1); 
 }
 
-/* Responsividade */
+/* =========================================
+   5. RESPONSIVIDADE
+   ========================================= */
 @media (max-width: 768px) {
-    .topo-usuarios { flex-direction: column; gap: 15px; align-items: flex-start; }
+    .topo-usuarios { flex-direction: column; gap: 15px; align-items: stretch; text-align: center; }
+    .btn-novo { justify-content: center; }
+    #form-editar-vendedor { padding: 20px; }
     .form-grid { grid-template-columns: 1fr; }
-    .btn-fechar-absoluto { top: 5px; right: 5px; } 
+    .form-acoes-rodape { flex-direction: column; }
+    .btn-secundario, .btn-vermelho { width: 100%; }
+    
+    .btn-fechar-absoluto { 
+        top: 10px; 
+        right: 10px; 
+        border: none; 
+    } 
 }

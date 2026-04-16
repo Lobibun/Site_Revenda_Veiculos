@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require("express");
 const mysql = require("mysql2/promise");
 const session = require("express-session");
@@ -7,8 +8,25 @@ const path = require("path");
 const bcrypt = require("bcryptjs");
 const nodemailer = require("nodemailer");
 const crypto = require("crypto");
+const helmet = require('helmet');
+const rateLimit = require('express-rate-limit');
 
 const app = express();
+app.use(
+    helmet({
+        contentSecurityPolicy: {
+            directives: {
+                ...helmet.contentSecurityPolicy.getDefaultDirectives(),
+                // Permite scripts do seu próprio site E do jsdelivr (SweetAlert)
+                "script-src": ["'self'", "'unsafe-inline'", "https://cdn.jsdelivr.net"],
+                "script-src-attr": ["'unsafe-inline'"],
+                // Permite imagens normais do site e do banco de dados
+                "img-src": ["'self'", "data:", "blob:", "https:"],
+                "frame-src": ["'self'", "https://www.google.com", "https://maps.google.com"],
+            },
+        },
+    })
+);
 app.use(express.json());
 
 // Função para padronizar nomes (Ex: "paulo da silva" vira "Paulo Da Silva")
@@ -25,8 +43,8 @@ function padronizarTexto(texto) {
 const transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
-        user: "email@gmail.com",
-        pass: "senha do email",
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
     },
 });
 
@@ -45,6 +63,33 @@ app.use(
     }),
 );
 
+// ==========================================
+// PROTEÇÃO DE ROTAS (RATE LIMITING)
+// ==========================================
+const limitadorLogin = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutos
+    max: 5, // Bloqueia após 5 tentativas erradas
+    standardHeaders: true,
+    message: { erro: "Muitas tentativas de login. Tente novamente em 15 minutos." } 
+});
+
+// Aplica a proteção ANTES da rota real de login
+app.use('/login', limitadorLogin);
+
+// ==========================================
+// NOVO: ANTI-SPAM DO FORMULÁRIO DE CONTATO
+// ==========================================
+const limitadorContato = rateLimit({
+    windowMs: 60 * 60 * 1000, // Tempo de bloqueio: 1 hora
+    max: 3, // Máximo de 3 mensagens por IP dentro desta 1 hora
+    standardHeaders: true,
+    // Note que usamos "erro:" para o seu contato.js conseguir ler a mensagem no catch!
+    message: { erro: "Você já enviou mensagens suficientes. Por favor, aguarde uma hora antes de tentar novamente." }
+});
+
+// Aplica a proteção ANTES da rota real de login
+app.use('/login', limitadorLogin);
+
 // PROTEÇÃO DA PÁGINA DE LOGIN
 app.get("/login.html", (req, res, next) => {
     if (req.session.usuario) {
@@ -56,17 +101,26 @@ app.get("/login.html", (req, res, next) => {
 // ARQUIVOS ESTÁTICOS
 app.use(express.static("public"));
 
-// MIDDLEWARE DE VERIFICAÇÃO DE LOGIN
+
+// MIDDLEWARE DE VERIFICAÇÃO DE LOGIN  
 function verificarLogin(req, res, next) {
     if (!req.session.usuario) {
-        return res.redirect("/login.html");
+        // Se for API, erro 401 em JSON
+        if (req.originalUrl.includes('/api/')) {
+            return res.status(401).json({ erro: "Sessão expirada.", sessaoExpirada: true });
+        }
+        // Se for página, volta para o login com o aviso de inatividade
+        return res.redirect("/login.html?erro=expirado");
     }
+
+    // Se o utilizador está logado, mas tenta aceder a algo que não deve (Exemplo futuro)
+    // res.redirect('/erro.html?tipo=401'); 
+
     res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
     res.setHeader("Pragma", "no-cache");
     res.setHeader("Expires", "0");
     next();
 }
-
 // ==========================================
 // CONFIGURAÇÃO DE UPLOAD INTELIGENTE E UNIFICADA
 // ==========================================
@@ -128,7 +182,18 @@ const storageInteligente = multer.diskStorage({
 });
 
 // A partir de agora, o sistema inteiro usa apenas este 'upload'!
-const upload = multer({ storage: storageInteligente });
+const upload = multer({ 
+    storage: storageInteligente, // Repare que ele puxa a sua variável inteligente aqui!
+    limits: { fileSize: 5 * 1024 * 1024 }, // Trava de segurança: Máximo de 5MB por foto
+    fileFilter: (req, file, cb) => {
+        // Trava de segurança: Deixa passar apenas se for imagem (bloqueia .exe, .php, .pdf, etc)
+        if (file.mimetype.startsWith('image/')) {
+            cb(null, true);
+        } else {
+            cb(new Error('Apenas arquivos de imagem são permitidos.'));
+        }
+    }
+});
 
 // ==========================================
 // CONEXÃO COM O BANCO DE DADOS
@@ -137,10 +202,10 @@ let db;
 async function conectarBanco() {
     try {
         db = await mysql.createConnection({
-            host: "localhost",
-            user: "root",
-            password: "alan1234",
-            database: "revendedora",
+            host: process.env.DB_HOST,
+            user: process.env.DB_USER,
+            password: process.env.DB_PASS,
+            database: process.env.DB_NAME,
         });
         console.log("✅ Conectado ao MySQL");
 
@@ -235,7 +300,7 @@ app.get("/admin/mensagens", verificarLogin, (req, res) => {
 // ==========================================
 // ROTA PARA RECEBER MENSAGENS DE CONTATO
 // ==========================================
-app.post("/api/contato", async (req, res) => {
+app.post("/api/contato", limitadorContato, async (req, res) => {
     const { nome, email, mensagem } = req.body;
 
     // Validação de segurança no backend
@@ -259,8 +324,8 @@ app.post("/api/contato", async (req, res) => {
 
         // 2. ENVIA O E-MAIL
         const mailOptions = {
-            from: "teste04849@gmail.com",
-            to: "teste04849@gmail.com",
+            from: `Site da Revendedora <${process.env.EMAIL_USER}>`,
+            to: process.env.EMAIL_USER,
             replyTo: email,
             subject: `Novo Contato pelo Site: ${nome}`,
             text: `Você recebeu uma nova mensagem de contato.\n\nNome: ${nome}\nE-mail: ${email}\n\nMensagem:\n${mensagem}`,
@@ -374,7 +439,7 @@ app.post(
             const corpoEmail = `Olá, ${cliente.nome}.\n\n${texto_resposta}\n\nAtenciosamente,\n${nomeUsuario} - Equipe da Revendedora.`;
 
             const mailOptions = {
-                from: "teste04849@gmail.com",
+                from: process.env.EMAIL_USER,
                 to: cliente.email,
                 subject: "Resposta à sua mensagem de contato - Revendedora",
                 text: corpoEmail,
@@ -432,7 +497,8 @@ app.get("/admin/api/mensagens/nao-lidas", verificarLogin, async (req, res) => {
         );
         res.json({ total: resultado[0].total });
     } catch (erro) {
-        res.status(500).json({ erro: "Erro interno" });
+        console.error("Erro ao contar mensagens não lidas:", erro);
+        res.json({ total: 0 });
     }
 });
 
@@ -666,6 +732,8 @@ app.get("/admin/api/vendedores", verificarLogin, async (req, res) => {
         res.status(500).json({ erro: "Erro ao buscar a lista de vendedores." });
     }
 });
+
+
 
 // ==========================================
 // ROTA PARA ESTATÍSTICAS DO DASHBOARD
@@ -952,7 +1020,7 @@ app.post(
 
             const linkAtivacao = `http://localhost:3000/admin/api/ativar-conta/${tokenAtivacao}`;
             const mailOptions = {
-                from: "teste04849@gmail.com",
+                from: process.env.EMAIL_USER,
                 to: email,
                 subject: "Bem-vindo! Ative sua conta no sistema.",
                 html: `<p>Olá, ${nome}!</p><p>Clique no link para ativar sua conta: <a href="${linkAtivacao}">${linkAtivacao}</a></p>`,
@@ -1006,7 +1074,7 @@ app.post("/api/esqueceu-senha", async (req, res) => {
 
         // Envia o e-mail usando o transporter que você já configurou
         await transporter.sendMail({
-            from: '"Sistema de Revenda" <teste04849@gmail.com>',
+            from: `"Sistema de Revenda" <${process.env.EMAIL_USER}>`,
             to: email,
             subject: "Recuperação de Senha",
             html: `
@@ -1202,13 +1270,13 @@ app.post(
             const linkNovo = `http://localhost:3000/admin/api/confirmar-email/${tokenNovo}`;
 
             await transporter.sendMail({
-                from: "teste04849@gmail.com",
+                from: `<${process.env.EMAIL_USER}>`,
                 to: usuarioLogado.email,
                 subject: "Confirme a troca do seu e-mail",
                 html: `<p>Para autorizar a troca de e-mail, clique: <a href="${linkAntigo}">${linkAntigo}</a></p>`,
             });
             await transporter.sendMail({
-                from: "teste04849@gmail.com",
+                from: `<${process.env.EMAIL_USER}>`,
                 to: novoEmail,
                 subject: "Confirme seu Novo E-mail",
                 html: `<p>Para confirmar este novo e-mail, clique: <a href="${linkNovo}">${linkNovo}</a></p>`,
@@ -1309,7 +1377,7 @@ app.post(
 
             const linkConfirmacao = `http://localhost:3000/admin/api/confirmar-senha/${token}`;
             await transporter.sendMail({
-                from: "teste04849@gmail.com",
+                from: `<${process.env.EMAIL_USER}>`,
                 to: usuarios[0].email,
                 subject: "Confirmação - Troca de Senha",
                 html: `<p>Para confirmar a nova senha, clique: <a href="${linkConfirmacao}">${linkConfirmacao}</a></p>`,
@@ -1505,190 +1573,138 @@ app.post(
 );
 
 // ==========================================
-// EDITAR CARRO
+// ROTA: Editar veiculo (Com gerenciamento inteligente de pastas)
 // ==========================================
-app.put(
-    "/admin/carros/:id",
-    verificarLogin,
-    upload.array("fotos", 5),
-    async (req, res) => {
-        const id = req.params.id;
+app.put("/admin/carros/:id", upload.array("fotos", 5), async (req, res) => {
+    const id = req.params.id;
+    
+    const { 
+        marca_id, modelo, ano, preco, quilometragem, fipe, 
+        cambio, combustivel, leilao, destaque 
+    } = req.body;
 
-        // Removemos o 'status' daqui, pois ele não vem mais do formulário
-        let {
-            marca_id,
-            modelo,
-            ano,
-            quilometragem,
-            preco,
-            fipe,
-            cambio,
-            combustivel,
-            leilao,
-        } = req.body;
+    try {
+        // Busca o carro atual para saber o modelo e os preços antes da edição
+        const [carroAtual] = await db.query("SELECT modelo, preco, preco_antigo, imagem_principal FROM Carros WHERE id = ?", [id]);
+        if (carroAtual.length === 0) {
+            return res.status(404).json({ mensagem: "Carro não encontrado." });
+        }
 
-        if (!combustivel) combustivel = "Flex";
+        // --- LÓGICA DE GERENCIAMENTO DE PASTAS ---
+        // Função para formatar o nome da pasta (Ex: "1-honda-civic")
+        const formatarNomePasta = (carroId, nomeModelo) => {
+            const limpo = nomeModelo.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-zA-Z0-9]/g, "-").toLowerCase();
+            return `${carroId}-${limpo}`;
+        };
 
-        const opcionais = req.body.opcionais;
-        const novoPreco = parseFloat(preco);
-        let leilaoValor =
-            leilao === "on" ||
-            leilao === "Sim" ||
-            leilao === "1" ||
-            leilao === 1 ||
-            leilao === true
-                ? 1
-                : 0;
-        let temOpcionais =
-            opcionais &&
-            (Array.isArray(opcionais) ? opcionais.length > 0 : true)
-                ? 1
-                : 0;
+        const modeloAntigo = carroAtual[0].modelo;
+        const pastaAntigaNome = formatarNomePasta(id, modeloAntigo);
+        const pastaNovaNome = formatarNomePasta(id, modelo);
 
-        try {
-            const [carroAtual] = await db.query(
-                "SELECT preco, preco_antigo, imagem_principal FROM Carros WHERE id = ?",
-                [id],
-            );
-            if (carroAtual.length === 0)
-                return res
-                    .status(404)
-                    .json({ erro: "Veículo não encontrado." });
+        const diretorioBase = path.join(__dirname, "public", "uploads", "carros"); // Sugiro agrupar tudo dentro de /uploads/carros/
+        const pastaAntigaPath = path.join(diretorioBase, pastaAntigaNome);
+        const pastaNovaPath = path.join(diretorioBase, pastaNovaNome);
 
-            const precoAtualNoBanco = parseFloat(carroAtual[0].preco);
-            let precoAntigoParaSalvar = carroAtual[0].preco_antigo;
+        // Se a pasta principal /uploads/carros não existir, ela é criada
+        if (!fs.existsSync(diretorioBase)) fs.mkdirSync(diretorioBase, { recursive: true });
 
-            if (novoPreco < precoAtualNoBanco)
-                precoAntigoParaSalvar = precoAtualNoBanco;
-            else if (novoPreco > precoAtualNoBanco)
-                precoAntigoParaSalvar = null;
+        // Se o nome do modelo mudou, renomeia a pasta e atualiza o banco de dados
+        if (modeloAntigo !== modelo && fs.existsSync(pastaAntigaPath)) {
+            fs.renameSync(pastaAntigaPath, pastaNovaPath);
+            
+            // Atualiza os caminhos das fotos antigas no Banco de Dados
+            const caminhoAntigoDB = `/uploads/carros/${pastaAntigaNome}/`;
+            const caminhoNovoDB = `/uploads/carros/${pastaNovaNome}/`;
+            
+            await db.query(`UPDATE FotosCarro SET caminho = REPLACE(caminho, ?, ?) WHERE carro_id = ?`, [caminhoAntigoDB, caminhoNovoDB, id]);
+            await db.query(`UPDATE Carros SET imagem_principal = REPLACE(imagem_principal, ?, ?) WHERE id = ?`, [caminhoAntigoDB, caminhoNovoDB, id]);
+        } else if (!fs.existsSync(pastaNovaPath)) {
+            // Se o modelo é o mesmo, mas a pasta não existe ainda, cria.
+            fs.mkdirSync(pastaNovaPath, { recursive: true });
+        }
+        // -----------------------------------------
 
-            // 1. ATUALIZA DADOS BÁSICOS
-            await db.query(
-                `UPDATE Carros SET 
-             marca_id = ?, modelo = ?, ano = ?, preco = ?, fipe = ?, 
-             quilometragem = ?, cambio = ?, leilao = ?, combustivel = ?, destaque = ? 
-             WHERE id = ?`,
-                [
-                    marca_id,
-                    modelo,
-                    ano,
-                    preco,
-                    fipe,
-                    quilometragem,
-                    cambio,
-                    leilao,
-                    combustivel,
-                    destaque,
-                    req.params.id,
-                ],
-            );
+        // Lógica do preço antigo
+        let precoAntigoParaSalvar = carroAtual[0].preco_antigo;
+        const precoNovo = Number(preco);
+        const precoNoBanco = Number(carroAtual[0].preco);
 
-            // 2. ATUALIZA OPCIONAIS
-            await db.execute("DELETE FROM CarroOpcionais WHERE carro_id = ?", [
-                id,
-            ]);
-            if (opcionais) {
-                const lista = Array.isArray(opcionais)
-                    ? opcionais
-                    : [opcionais];
-                for (const opcionalId of lista) {
-                    await db.execute(
-                        `INSERT INTO CarroOpcionais (carro_id, opcional_id) VALUES (?, ?)`,
-                        [id, opcionalId],
-                    );
-                }
-            }
+        if (precoNovo < precoNoBanco) {
+            precoAntigoParaSalvar = precoNoBanco;
+        } else if (precoNovo > precoNoBanco) {
+            precoAntigoParaSalvar = null;
+        }
 
-            // 3. ADICIONA NOVAS FOTOS (Sem alterações aqui)
-            if (req.files && req.files.length > 0) {
-                const pastaTemporaria = path.basename(req.pastaUploadAtual);
+        // Tratar Checkboxes e Opcionais
+        const vLeilao = (leilao === "Sim" || leilao === "1" || leilao === 1) ? 1 : 0;
+        const vDestaque = (destaque === "1" || destaque === 1 || destaque === "true") ? 1 : 0;
+        let opcionaisArray = req.body.opcionais ? (Array.isArray(req.body.opcionais) ? req.body.opcionais : [req.body.opcionais]) : [];
+        const temOpcionais = opcionaisArray.length > 0 ? 1 : 0;
 
-                let pastaOriginal = null;
-                if (carroAtual[0].imagem_principal) {
-                    const partesUrl = carroAtual[0].imagem_principal.split("/");
-                    pastaOriginal = partesUrl[partesUrl.length - 2];
-                }
+        // Atualizar Carro no Banco
+        const sqlUpdate = `
+            UPDATE Carros 
+            SET marca_id = ?, modelo = ?, ano = ?, preco = ?, preco_antigo = ?, fipe = ?, quilometragem = ?, 
+                cambio = ?, Combustivel = ?, leilao = ?, Opcionais = ?, destaque = ?
+            WHERE id = ?
+        `;
+        const valoresUpdate = [marca_id, modelo, ano, preco, precoAntigoParaSalvar, fipe, quilometragem, cambio, combustivel, vLeilao, temOpcionais, vDestaque, id];
+        await db.query(sqlUpdate, valoresUpdate);
 
-                for (let i = 0; i < req.files.length; i++) {
-                    const file = req.files[i];
-                    let caminhoBD = `/img/carros/${pastaTemporaria}/${file.filename}`;
-                    let caminhoFisicoAtual = path.join(
-                        __dirname,
-                        "public",
-                        "img",
-                        "carros",
-                        pastaTemporaria,
-                        file.filename,
-                    );
-
-                    if (pastaOriginal && pastaOriginal !== pastaTemporaria) {
-                        const caminhoFisicoNovo = path.join(
-                            __dirname,
-                            "public",
-                            "img",
-                            "carros",
-                            pastaOriginal,
-                            file.filename,
-                        );
-                        const fs = require("fs"); // Garantindo que o fs está disponível
-                        fs.renameSync(caminhoFisicoAtual, caminhoFisicoNovo);
-                        caminhoBD = `/img/carros/${pastaOriginal}/${file.filename}`;
-                    }
-
-                    await db.execute(
-                        `INSERT INTO FotosCarro (carro_id, caminho) VALUES (?, ?)`,
-                        [id, caminhoBD],
-                    );
-
-                    if (!carroAtual[0].imagem_principal) {
-                        await db.execute(
-                            "UPDATE Carros SET imagem_principal = ? WHERE id = ?",
-                            [caminhoBD, id],
-                        );
-                        carroAtual[0].imagem_principal = caminhoBD;
-                    }
-                }
-
-                if (pastaOriginal && pastaOriginal !== pastaTemporaria) {
-                    const dirTemporario = path.join(
-                        __dirname,
-                        "public",
-                        "img",
-                        "carros",
-                        pastaTemporaria,
-                    );
-                    const fs = require("fs");
-                    if (
-                        fs.existsSync(dirTemporario) &&
-                        fs.readdirSync(dirTemporario).length === 0
-                    ) {
-                        fs.rmdirSync(dirTemporario);
-                    }
-                }
-            }
-
-            // 4. REGISTRA AUDITORIA
-            await registrarAuditoria(
-                req.session.usuario.id,
-                req.session.usuario.nome,
-                "ATUALIZOU",
-                "Carros",
-                id,
-                { modelo: modelo, preco_novo: novoPreco },
-            );
-
-            res.json({ mensagem: "Veículo atualizado com sucesso!" });
-        } catch (erro) {
-            console.error("Erro ao atualizar veículo:", erro);
-            if (!res.headersSent) {
-                res.status(500).json({
-                    erro: "Erro ao atualizar o veículo no servidor.",
-                });
+        // Atualizar Opcionais
+        await db.query("DELETE FROM CarroOpcionais WHERE carro_id = ?", [id]);
+        if (temOpcionais === 1) {
+            for (let opcId of opcionaisArray) {
+                await db.query("INSERT INTO CarroOpcionais (carro_id, opcional_id) VALUES (?, ?)", [id, opcId]);
             }
         }
-    },
-);
+
+        // --- LÓGICA DE SALVAR FOTOS NOVAS NA PASTA CERTA ---
+        if (req.files && req.files.length > 0) {
+            for (let file of req.files) {
+                // Caminho atual onde o multer jogou a foto (a pasta numerada aleatória)
+                const caminhoTemporario = file.path; 
+                const nomeArquivo = file.filename;
+                
+                // Caminho final para onde ela deve ir (a pasta específica do carro)
+                const destinoFinal = path.join(pastaNovaPath, nomeArquivo);
+
+                // Move a foto do caminho temporário para o destino final
+                fs.renameSync(caminhoTemporario, destinoFinal);
+
+                // Tenta apagar a pasta numerada que o multer criou (se ela ficar vazia)
+                const pastaMulter = path.dirname(caminhoTemporario);
+                if (pastaMulter !== diretorioBase) {
+                    try { fs.rmdirSync(pastaMulter); } catch(e) { /* Ignora se houver outros arquivos nela */ }
+                }
+
+                // Salva no banco de dados
+                const caminhoFotoDB = `/uploads/carros/${pastaNovaNome}/${nomeArquivo}`;
+                await db.query("INSERT INTO FotosCarro (carro_id, caminho) VALUES (?, ?)", [id, caminhoFotoDB]);
+                
+                // Se o carro não tinha foto principal, define agora
+                const [carroVerificarCapa] = await db.query("SELECT imagem_principal FROM Carros WHERE id = ?", [id]);
+                if (!carroVerificarCapa[0].imagem_principal) {
+                    await db.query("UPDATE Carros SET imagem_principal = ? WHERE id = ?", [caminhoFotoDB, id]);
+                }
+            }
+        }
+
+        // Salvar Auditoria
+        if (req.session && req.session.usuario) {
+            await db.query(
+                "INSERT INTO Auditoria (usuario_id, nome_usuario, acao, entidade, entidade_id, detalhes) VALUES (?, ?, ?, ?, ?, ?)",
+                [req.session.usuario.id, req.session.usuario.nome, 'EDITAR', 'Carro', id, JSON.stringify({ modelo })]
+            );
+        }
+
+        res.json({ mensagem: "Veículo atualizado com sucesso!" });
+
+    } catch (erro) {
+        console.error("Erro ao atualizar veículo:", erro);
+        res.status(500).json({ mensagem: "Erro ao atualizar veículo no servidor." });
+    }
+});
 
 //Rota venda do carro
 app.put("/admin/carros/:id/vender", verificarLogin, async (req, res) => {
@@ -2754,6 +2770,179 @@ async function executarRotinaDeLimpeza() {
 
 // O robô vai rodar sozinho a cada 24 horas!
 setInterval(executarRotinaDeLimpeza, 24 * 60 * 60 * 1000);
+
+    // ==========================================
+    // ROTAS PARA GERENCIAR MARCAS E OPCIONAIS (COM AUDITORIA)
+    // ==========================================
+
+    // --- ADICIONAR MARCA ---
+    app.post("/admin/api/marcas", verificarLogin, async (req, res) => {
+        let { nome } = req.body;
+        if (!nome || !nome.trim()) return res.status(400).json({ mensagem: "O nome da marca é obrigatório." });
+
+        nome = padronizarTexto(nome.trim());
+
+        try {
+            const [existente] = await db.query("SELECT id FROM Marcas WHERE LOWER(nome) = LOWER(?)", [nome]);
+            if (existente.length > 0) return res.status(400).json({ mensagem: "Esta marca já está cadastrada.", id: existente[0].id });
+
+            const [resultado] = await db.query("INSERT INTO Marcas (nome) VALUES (?)", [nome]);
+            
+            await db.query(
+                "INSERT INTO Auditoria (usuario_id, nome_usuario, acao, entidade, entidade_id, detalhes) VALUES (?, ?, ?, ?, ?, ?)", 
+                [req.session.usuario.id, req.session.usuario.nome, 'INSERIR', 'Marca', resultado.insertId, JSON.stringify({ nome: nome })]
+            );
+
+            res.status(201).json({ mensagem: "Marca adicionada com sucesso!", id: resultado.insertId, nome: nome });
+        } catch (erro) {
+            console.error(erro);
+            res.status(500).json({ mensagem: "Erro ao adicionar a marca." });
+        }
+    });
+
+    // --- EDITAR MARCA ---
+    app.put("/admin/api/marcas/:id", verificarLogin, async (req, res) => {
+        const id = parseInt(req.params.id);
+        let { nome } = req.body;
+        if (!nome || !nome.trim()) return res.status(400).json({ mensagem: "O nome não pode ser vazio." });
+        if (id <= 35) return res.status(403).json({ mensagem: "As marcas de fábrica são protegidas e não podem ser editadas." });
+        
+        nome = padronizarTexto(nome.trim());
+
+        try {
+            const [existente] = await db.query("SELECT id FROM Marcas WHERE LOWER(nome) = LOWER(?) AND id != ?", [nome, id]);
+            if (existente.length > 0) return res.status(400).json({ mensagem: "Já existe outra marca com este nome." });
+
+            await db.query("UPDATE Marcas SET nome = ? WHERE id = ?", [nome, id]);
+            
+            await db.query("INSERT INTO Auditoria (usuario_id, nome_usuario, acao, entidade, entidade_id, detalhes) VALUES (?, ?, ?, ?, ?, ?)", 
+                [req.session.usuario.id, req.session.usuario.nome, 'EDITAR', 'Marca', id, JSON.stringify({ novo_nome: nome })]);
+
+            res.json({ mensagem: "Marca atualizada com sucesso!" });
+        } catch (erro) {
+            res.status(500).json({ mensagem: "Erro ao atualizar a marca." });
+        }
+    });
+
+    // --- DELETAR MARCA ---
+    app.delete("/admin/api/marcas/:id", verificarLogin, async (req, res) => {
+        const id = parseInt(req.params.id);
+        
+        // Proteção das marcas nativas
+        if (id <= 35) return res.status(403).json({ mensagem: "As marcas de fábrica não podem ser excluídas." });
+
+        try {
+            const [marca] = await db.query("SELECT nome FROM Marcas WHERE id = ?", [id]);
+            if (marca.length === 0) return res.status(404).json({ mensagem: "Marca não encontrada." });
+
+            // Proteção contra quebra de banco de dados
+            const [uso] = await db.query("SELECT id FROM Carros WHERE marca_id = ?", [id]);
+            if (uso.length > 0) return res.status(400).json({ mensagem: "Não é possível excluir. Existem veículos cadastrados com esta marca." });
+
+            await db.query("DELETE FROM Marcas WHERE id = ?", [id]);
+            
+            await db.query(
+                "INSERT INTO Auditoria (usuario_id, nome_usuario, acao, entidade, entidade_id, detalhes) VALUES (?, ?, ?, ?, ?, ?)", 
+                [req.session.usuario.id, req.session.usuario.nome, 'EXCLUIR', 'Marca', id, JSON.stringify({ nome: marca[0].nome })]
+            );
+
+            res.json({ mensagem: "Marca excluída com sucesso!" });
+        } catch (erro) {
+            console.error(erro);
+            res.status(500).json({ mensagem: "Erro ao excluir a marca." });
+        }
+    });
+
+    // --- ADICIONAR OPCIONAL ---
+    app.post("/admin/api/opcionais", verificarLogin, async (req, res) => {
+        let { nome } = req.body;
+        if (!nome || !nome.trim()) return res.status(400).json({ mensagem: "O nome é obrigatório." });
+
+        nome = padronizarTexto(nome.trim());
+
+        try {
+            const [existente] = await db.query("SELECT id FROM Opcionais WHERE LOWER(nome) = LOWER(?)", [nome]);
+            if (existente.length > 0) return res.status(400).json({ mensagem: "Este opcional já existe.", id: existente[0].id });
+
+            const [resultado] = await db.query("INSERT INTO Opcionais (nome) VALUES (?)", [nome]);
+            
+            await db.query(
+                "INSERT INTO Auditoria (usuario_id, nome_usuario, acao, entidade, entidade_id, detalhes) VALUES (?, ?, ?, ?, ?, ?)", 
+                [req.session.usuario.id, req.session.usuario.nome, 'INSERIR', 'Opcional', resultado.insertId, JSON.stringify({ nome: nome })]
+            );
+
+            res.status(201).json({ mensagem: "Opcional adicionado com sucesso!", id: resultado.insertId, nome: nome });
+        } catch (erro) {
+            res.status(500).json({ mensagem: "Erro ao adicionar opcional." });
+        }
+    });
+
+    // --- EDITAR OPCIONAL ---
+    app.put("/admin/api/opcionais/:id", verificarLogin, async (req, res) => {
+        const id = parseInt(req.params.id);
+        let { nome } = req.body;
+        if (!nome || !nome.trim()) return res.status(400).json({ mensagem: "O nome não pode ser vazio." });
+        if (id <= 39) return res.status(403).json({ mensagem: "Os opcionais de fábrica são protegidos e não podem ser editados." });
+        nome = padronizarTexto(nome.trim());
+
+        try {
+            const [existente] = await db.query("SELECT id FROM Opcionais WHERE LOWER(nome) = LOWER(?) AND id != ?", [nome, id]);
+            if (existente.length > 0) return res.status(400).json({ mensagem: "Já existe outro opcional com este nome." });
+
+            await db.query("UPDATE Opcionais SET nome = ? WHERE id = ?", [nome, id]);
+            
+            await db.query("INSERT INTO Auditoria (usuario_id, nome_usuario, acao, entidade, entidade_id, detalhes) VALUES (?, ?, ?, ?, ?, ?)", 
+                [req.session.usuario.id, req.session.usuario.nome, 'EDITAR', 'Opcional', id, JSON.stringify({ novo_nome: nome })]);
+
+            res.json({ mensagem: "Opcional atualizado com sucesso!" });
+        } catch (erro) {
+            res.status(500).json({ mensagem: "Erro ao atualizar opcional." });
+        }
+    });
+
+    // --- DELETAR OPCIONAL ---
+    app.delete("/admin/api/opcionais/:id", verificarLogin, async (req, res) => {
+        const id = parseInt(req.params.id);
+        
+        // Proteção dos opcionais nativos
+        if (id <= 39) return res.status(403).json({ mensagem: "Os opcionais de fábrica não podem ser excluídos." });
+
+        try {
+            const [opcional] = await db.query("SELECT nome FROM Opcionais WHERE id = ?", [id]);
+            if (opcional.length === 0) return res.status(404).json({ mensagem: "Opcional não encontrado." });
+
+            await db.query("DELETE FROM Opcionais WHERE id = ?", [id]);
+            
+            await db.query(
+                "INSERT INTO Auditoria (usuario_id, nome_usuario, acao, entidade, entidade_id, detalhes) VALUES (?, ?, ?, ?, ?, ?)", 
+                [req.session.usuario.id, req.session.usuario.nome, 'EXCLUIR', 'Opcional', id, JSON.stringify({ nome: opcional[0].nome })]
+            );
+
+            res.json({ mensagem: "Opcional excluído com sucesso!" });
+        } catch (erro) {
+            res.status(500).json({ mensagem: "Erro ao excluir opcional." });
+        }
+    });
+
+    // ROTA PARA CAPTURAR 404 
+app.use((req, res) => {
+    res.status(404).sendFile(path.join(__dirname, 'public', 'erro.html'));
+});
+
+// TRATAMENTO DE ERROS GERAIS DO SERVIDOR (500)
+app.use((err, req, res, next) => {
+    // Mostra o erro no terminal (ex: "Apenas imagens são permitidas")
+    console.error("❌ [ERRO NO SERVIDOR]:", err.message);
+    
+    // Se a requisição veio do seu JavaScript (fetch), devolvemos um JSON!
+    // Assim, o seu SweetAlert2 vai conseguir mostrar o alerta na tela, em vez de quebrar a página
+    if (req.xhr || req.headers.accept.includes('application/json') || req.originalUrl.includes('/admin/')) {
+        return res.status(500).json({ mensagem: err.message || "Ocorreu um erro interno nos nossos motores." });
+    }
+    
+    // Se for uma navegação normal do usuário, redireciona usando CAMINHO RELATIVO (isso resolve o erro de SSL)
+    res.redirect('/erro.html?tipo=500');
+});
 
 // INICIAR SERVIDOR
 app.listen(3000, () => {

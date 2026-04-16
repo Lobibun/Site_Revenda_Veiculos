@@ -65,7 +65,7 @@
     cursor: pointer;
     border-radius: 4px;
     transition: 0.3s;
-    height: 42px; /* Alinha com os inputs */
+    height: 44px; /* Ajustado para 44px (área ideal de toque no mobile) */
 }
 
 .btn-secundario:hover {
@@ -120,7 +120,7 @@
     border-radius: 4px;
     font-size: 0.95rem;
     transition: 0.3s;
-    height: 42px;
+    height: 44px; /* Ajustado para 44px (área ideal de toque no mobile) */
 }
 
 .grid-filtros input:focus,
@@ -139,6 +139,7 @@
     border: 1px solid #333;
     overflow-x: auto;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    -webkit-overflow-scrolling: touch; /* Rolagem suave no iOS */
 }
 
 .tabela-dados {
@@ -175,7 +176,6 @@
 /* =========================================
    4. BADGES DE AÇÃO (Cores para os Logs)
    ========================================= */
-/* Estilo base genérico para badges */
 span[class^="badge-"] {
     padding: 5px 10px;
     border-radius: 20px;
@@ -185,10 +185,9 @@ span[class^="badge-"] {
     display: inline-block;
 }
 
-/* Badges específicas chamadas pelo seu JS */
 .badge-CRIOU {
     background-color: rgba(40, 167, 69, 0.2);
-    color: #4da3ff; /* Ajustado para um verde claro/azul legível no dark */
+    color: #4da3ff;
     border: 1px solid #28a745;
 }
 
@@ -205,7 +204,7 @@ span[class^="badge-"] {
 }
 
 /* =========================================
-   5. SWEETALERT DETALHES (Formatando o popup do JS)
+   5. SWEETALERT DETALHES
    ========================================= */
 .swal-detalhes {
     background-color: #f8f9fa;
@@ -220,9 +219,8 @@ span[class^="badge-"] {
 }
 
 /* =========================================
-   6. EFEITO DE ZOOM NA IMAGEM (Como nos outros arquivos)
+   6. EFEITO DE ZOOM NA IMAGEM
    ========================================= */
-/* Caso adicione a foto do usuário na tabela no futuro */
 .foto-avatar {
     width: 45px;
     height: 45px;
@@ -240,7 +238,6 @@ span[class^="badge-"] {
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.8);
 }
 
-/* Lightbox overlay (Zoom dentro do clique) */
 .lightbox-overlay {
     z-index: 1000000 !important;
 }

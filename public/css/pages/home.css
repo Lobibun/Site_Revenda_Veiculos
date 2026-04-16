@@ -126,3 +126,31 @@
     text-align: center;
     margin-top: 20px;
 }
+
+/* =========================================
+   📱 RESPONSIVIDADE: BANNER E CARROS 
+   ========================================= */
+@media (max-width: 768px) {
+    .texto-banner {
+        padding: 20px 15px;
+        width: 90%;
+    }
+    .texto-banner h2 {
+        font-size: 2rem;
+        margin-bottom: 20px;
+    }
+    .texto-banner h3 {
+        font-size: 1rem;
+    }
+    .botao-banner, .botao-secundario {
+        width: 100%;
+        text-align: center;
+    }
+    .titulo-secao {
+        font-size: 1.8rem;
+    }
+    #carros-destaque {
+        grid-template-columns: 1fr;
+        padding: 0 10px;
+    }
+}

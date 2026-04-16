@@ -42,15 +42,6 @@
     color: var(--cor-primaria); /* Fica vermelho ao passar o mouse */
 }
 
-/* Responsividade básica para o header público */
-@media (max-width: 768px) {
-    .topo-site {
-        flex-direction: column;
-        gap: 15px;
-        padding: 15px 20px;
-    }
-}
-
 /* =========================================
    2. CABEÇALHO ADMIN (Painel de Controle)
    ========================================= */
@@ -216,12 +207,6 @@ body:not(.admin-body) {
     padding-top: 135px; 
 }
 
-@media (max-width: 768px) {
-    body:not(.admin-body) {
-        padding-top: 180px; 
-    }
-}
-
 /* =========================================
    5. EFEITO DE SCROLL - CABEÇALHO ADMIN (NOVO)
    ========================================= */
@@ -240,8 +225,160 @@ body:not(.admin-body) {
     padding-top: 150px !important; 
 }
 
+/* =========================================
+   RODAPÉ COMPLETO (Site Normal)
+   ========================================= */
+.rodape-site {
+    background-color: #000000;
+    border-top: 2px solid var(--cor-primaria); /* Linha no topo igual ao cabeçalho */
+    color: var(--cor-texto-mutado, #b3b3b3);
+    padding-top: 50px;
+    margin-top: 60px;
+    font-family: inherit;
+}
+
+.rodape-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 40px;
+    padding: 0 50px 40px 50px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.rodape-coluna {
+    flex: 1;
+    min-width: 250px;
+}
+
+.rodape-logo {
+    margin-bottom: 20px;
+}
+
+.rodape-coluna h3 {
+    color: #ffffff;
+    font-size: 1.2rem;
+    margin-bottom: 25px;
+    text-transform: uppercase;
+    position: relative;
+}
+
+/* Tracinho com a cor primária embaixo dos títulos */
+.rodape-coluna h3::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -8px;
+    width: 40px;
+    height: 3px;
+    background-color: var(--cor-primaria, #a00b0b);
+}
+
+.rodape-coluna p {
+    line-height: 1.6;
+}
+
+.rodape-coluna ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.rodape-coluna ul li {
+    margin-bottom: 12px;
+}
+
+.rodape-coluna ul li a {
+    color: var(--cor-texto-mutado, #b3b3b3);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.rodape-coluna ul li a:hover {
+    color: var(--cor-primaria, #a00b0b);
+}
+
+.rodape-contato li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.rodape-contato li i {
+    color: var(--cor-primaria, #a00b0b);
+    font-size: 1.2rem;
+    width: 20px; /* Alinha os ícones */
+    text-align: center;
+}
+
+.rodape-bottom {
+    text-align: center;
+    padding: 20px;
+    background-color: #050505;
+    border-top: 1px solid #1a1a1a;
+    font-size: 0.9rem;
+}
+
+/* =========================================
+   📱 RESPONSIVIDADE: CABEÇALHOS E RODAPÉS
+   ========================================= */
 @media (max-width: 768px) {
+    /* Ajustes Cabeçalho Público */
+    .topo-site {
+        flex-direction: column;
+        gap: 15px;
+        padding: 15px 20px;
+    }
+    .topo-site img, .logo-site img {
+        height: 80px; 
+    }
+    .menu-principal ul {
+        flex-wrap: wrap; 
+        justify-content: center;
+        gap: 15px;
+    }
+    body:not(.admin-body) {
+        padding-top: 200px; 
+    }
+
+    /* Ajustes Cabeçalho Admin */
+    .topo-admin {
+        flex-direction: column;
+        padding: 15px 20px;
+        gap: 15px;
+        text-align: center;
+    }
+    .logo-admin {
+        flex-direction: column;
+        gap: 10px;
+    }
+    .logo-admin span {
+        border-left: none; 
+        border-top: 1px solid var(--cor-borda); 
+        padding-left: 0;
+        padding-top: 10px;
+    }
+    .menu-admin ul {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
     .admin-body {
-        padding-top: 220px !important; 
+        padding-top: 230px !important;
+    }
+
+    /* Ajustes Rodapé Completo */
+    .rodape-container {
+        flex-direction: column;
+        padding: 0 20px 30px 20px;
+        gap: 40px;
+        text-align: center; 
+    }
+    .rodape-coluna h3::after {
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    .rodape-contato li {
+        justify-content: center; 
     }
 }

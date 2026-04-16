@@ -2,6 +2,12 @@
    PÁGINA SOBRE NÓS
    ========================================= */
 
+/* Espaçamento extra no topo para manter o padrão do site */
+.pagina-sobre main {
+    padding-top: 120px; 
+    min-height: calc(100vh - 200px); 
+}
+
 .sobre-container {
     max-width: 1200px;
     margin: 0 auto 60px auto;
@@ -37,8 +43,8 @@
 
 /* Estilo Individual de Cada Card */
 .bloco {
-    background-color: var(--cor-fundo-secundario, #1a1a1a);
-    border: 1px solid var(--cor-borda, #333);
+    background-color: var(--cor-fundo-secundario);
+    border: 1px solid var(--cor-borda);
     padding: 40px 30px;
     border-radius: 12px;
     text-align: center;
@@ -50,35 +56,36 @@
 
 .bloco:hover {
     transform: translateY(-8px);
-    border-color: var(--cor-primaria, #e50000);
-    box-shadow: 0 10px 25px rgba(229, 0, 0, 0.15);
+    border-color: var(--cor-primaria);
+    box-shadow: 0 10px 25px rgba(204, 0, 0, 0.15); /* Sombra usa o RGB do vermelho global */
 }
 
 /* Ícone no topo do Card */
 .bloco .icone-circulo {
     width: 70px;
     height: 70px;
-    background-color: #222;
-    border: 2px solid var(--cor-primaria, #e50000);
-    color: var(--cor-primaria, #e50000);
+    background-color: var(--cor-fundo); /* Fundo ainda mais escuro para destacar o ícone */
+    border: 2px solid var(--cor-primaria);
+    color: var(--cor-primaria);
     border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: 1.8rem;
     margin-bottom: 20px;
-    transition: background-color 0.3s, color 0.3s;
+    transition: background-color 0.3s, color 0.3s, transform 0.3s;
 }
 
 /* Efeito no ícone quando passa o rato no card */
 .bloco:hover .icone-circulo {
-    background-color: var(--cor-primaria, #e50000);
+    background-color: var(--cor-primaria);
     color: #fff;
+    transform: scale(1.1); /* Dá uma leve crescidinha no ícone para dar mais vida */
 }
 
 /* Textos do Card */
 .bloco h2 {
-    color: #fff;
+    color: var(--cor-texto, #fff);
     font-size: 1.4rem;
     margin-bottom: 15px;
     text-transform: uppercase;
@@ -86,20 +93,31 @@
 }
 
 .bloco p {
-    color: #ccc;
+    color: var(--cor-texto-mutado, #ccc);
     font-size: 1rem;
     line-height: 1.6;
     margin: 0;
 }
 
-/* Responsividade para telemóveis */
+/* =========================================
+   📱 RESPONSIVIDADE: PÁGINA SOBRE NÓS
+   ========================================= */
 @media (max-width: 768px) {
     .sobre-imagem {
         max-width: 250px;
         margin-bottom: 30px;
     }
 
+    .sobre-cards {
+        grid-template-columns: 1fr; /* Força 1 card por linha no telemóvel */
+        gap: 20px;
+    }
+
     .bloco {
         padding: 30px 20px;
+    }
+    
+    .bloco h2 {
+        font-size: 1.2rem; /* Reduz um pouquinho o título para não quebrar linha à toa */
     }
 }

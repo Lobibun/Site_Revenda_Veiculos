@@ -4,13 +4,11 @@
 :root {
     --cor-fundo: #0a0a0a;
     --cor-fundo-secundario: #1a1a1a;
-    --cor-primaria: #cc0000;
-    /* Vermelho Revenda */
+    --cor-primaria: #cc0000; /* Vermelho Revenda */
     --cor-primaria-hover: #a00b0b;
     --cor-texto: #f4f4f4;
     --cor-texto-mutado: #999999;
     --cor-borda: #333333;
-
     --fonte-principal: 'Inter', 'Segoe UI', sans-serif;
 }
 
@@ -81,7 +79,6 @@ ul {
     margin-bottom: 40px;
     position: relative;
     color: var(--cor-texto);
-    /* Garante que a cor siga o padrão global */
 }
 
 .titulo-secao::after {
@@ -98,7 +95,7 @@ ul {
 }
 
 /* =========================================
-   MODAIS GLOBAIS (Aviso de Sair, etc)
+   MODAIS GLOBAIS (Unificados)
    ========================================= */
 .oculto {
     display: none !important;
@@ -110,8 +107,8 @@ ul {
     left: 0;
     width: 100vw;
     height: 100vh;
-    background-color: rgba(0, 0, 0, 0.85);
-    backdrop-filter: blur(5px);
+    background-color: rgba(0, 0, 0, 0.85); /* Fundo bem escuro */
+    backdrop-filter: blur(5px); /* Efeito embaçado no fundo */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -123,12 +120,17 @@ ul {
     background-color: var(--cor-fundo-secundario, #1a1a1a);
     width: 100%;
     max-width: 500px;
+    padding: 30px; /* Respiro interno unificado */
     border-radius: 12px;
     border: 1px solid var(--cor-borda, #444);
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
     max-height: 90vh;
     overflow-y: auto;
     overflow-x: hidden;
+}
+
+.modal-box p {
+    color: var(--cor-texto) !important;
 }
 
 /* Scrollbar estilizada para os modais */
@@ -148,4 +150,30 @@ ul {
 
 .modal-box::-webkit-scrollbar-thumb:hover {
     background: var(--cor-primaria, #a00b0b);
+}
+
+/* =========================================
+   📱 RESPONSIVIDADE: GLOBAIS E MODAIS
+   ========================================= */
+@media (max-width: 768px) {
+    /* Ajusta o título para não vazar a tela */
+    .titulo-secao {
+        font-size: 1.8rem;
+        margin-bottom: 30px;
+    }
+    
+    /* Modais ocupam mais espaço na tela do celular e tem menos padding */
+    .modal-box {
+        max-width: 95%; /* Ocupa quase toda a largura da tela pequena */
+        padding: 20px 15px; /* Reduz o espaço interno para caber mais conteúdo */
+        max-height: 85vh; /* Evita que o modal encoste nas bordas do celular */
+    }
+
+    /* Botões globais ocupam 100% da tela em celulares se estiverem dentro de formulários/modais */
+    .modal-box .btn-vermelho, 
+    .modal-box .btn-secundario {
+        width: 100%;
+        margin-bottom: 10px;
+        text-align: center;
+    }
 }

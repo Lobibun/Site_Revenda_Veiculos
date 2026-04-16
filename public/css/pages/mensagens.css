@@ -23,6 +23,7 @@
     border-radius: 8px;
     border: 1px solid #333;
     overflow-x: auto;
+    -webkit-overflow-scrolling: touch; /* Rolagem suave no celular */
 }
 
 .tabela-admin {
@@ -30,6 +31,7 @@
     border-collapse: collapse;
     text-align: left;
     color: #fff;
+    min-width: 600px; /* Garante que a tabela não esprema demais */
 }
 
 .tabela-admin thead tr {
@@ -43,6 +45,7 @@
     color: #ccc;
     text-transform: uppercase;
     font-size: 0.85rem;
+    white-space: nowrap; /* Evita que o texto quebre em várias linhas no mobile */
 }
 
 .tabela-admin td {
@@ -90,14 +93,16 @@
     background-color: #a00b0b;
     color: white;
     border: none;
-    padding: 8px 15px;
+    padding: 10px 15px;
     border-radius: 4px;
     cursor: pointer;
     font-size: 0.9rem;
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 5px;
     transition: background-color 0.3s;
+    min-height: 44px; /* Otimizado para toque no celular */
 }
 
 .btn-ler:hover {

@@ -1,14 +1,29 @@
 /* =========================================
+   PÁGINA: ADICIONAR VEÍCULO (ADMIN)
+   ========================================= */
+
+/* Espaçamento extra no topo para alinhar com o cabeçalho do site */
+.pagina-admin main {
+    padding-top: 120px; 
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-bottom: 60px;
+    padding-left: 20px;
+    padding-right: 20px;
+    min-height: calc(100vh - 200px);
+}
+
+/* =========================================
    1. CABEÇALHO DA PÁGINA (Título Centralizado)
    ========================================= */
 .adm-veic-topo {
     display: flex;
-    flex-direction: column; /* Coloca os itens um embaixo do outro */
+    flex-direction: column; 
     justify-content: center; 
     align-items: center;
-    gap: 15px; /* Espaço entre o título e o botão */
+    gap: 15px; 
     margin-bottom: 30px;
-    border-bottom: 2px solid #333;
+    border-bottom: 2px solid var(--cor-borda, #333);
     padding-bottom: 20px;
     min-height: 50px;
 }
@@ -18,35 +33,36 @@
     margin-bottom: 0;
     padding-bottom: 0;
     text-align: center;
+    color: var(--cor-texto, #fff);
 }
 
-/* O botão agora fica estático abaixo do título */
 .adm-veic-topo .btn-voltar {
     display: inline-flex;
     align-items: center;
     gap: 8px;
     text-decoration: none;
     font-size: 0.9rem;
+    color: #ffffff;
+    transition: var(--transicao, 0.3s);
+}
+
+.adm-veic-topo .btn-voltar:hover {
+    color: var(--cor-primaria, #a00b0b);
 }
 
 /* =========================================
    2. CONTAINER DO FORMULÁRIO E GRIDS
    ========================================= */
 .form-admin-container {
-    background-color: #1a1a1a;
+    background-color: var(--cor-fundo-secundario, #1a1a1a);
     padding: 30px;
-    border-radius: 8px;
-    border: 1px solid #333;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    border-radius: var(--borda-raio, 8px);
+    border: 1px solid var(--cor-borda, #333);
+    box-shadow: var(--sombra-card, 0 5px 15px rgba(0,0,0,0.3));
 }
 
-.adm-veic-linha {
-    margin-bottom: 20px;
-}
-
-.adm-veic-espaco {
-    margin-top: 30px;
-}
+.adm-veic-linha { margin-bottom: 20px; }
+.adm-veic-espaco { margin-top: 30px; }
 
 .adm-veic-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
 .adm-veic-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
@@ -62,7 +78,7 @@
 
 .campo-form label {
     font-weight: bold;
-    color: #ccc;
+    color: var(--cor-texto-mutado, #ccc);
     font-size: 0.95rem;
 }
 
@@ -71,36 +87,36 @@
 .campo-form select {
     width: 100%;
     padding: 14px;
-    background-color: #222;
-    border: 1px solid #444;
-    color: #fff;
+    background-color: rgba(255, 255, 255, 0.05); /* Fundo sutil */
+    border: 1px solid var(--cor-borda, #444);
+    color: var(--cor-texto, #fff);
     border-radius: 6px;
     font-size: 1rem;
-    transition: 0.3s;
+    transition: var(--transicao, 0.3s);
 }
 
 .campo-form input:focus,
 .campo-form select:focus {
-    border-color: #a00b0b;
+    border-color: var(--cor-primaria, #a00b0b);
     outline: none;
     box-shadow: 0 0 5px rgba(160, 11, 11, 0.4);
-    background-color: #1a1a1a;
+    background-color: var(--cor-fundo-secundario, #1a1a1a);
 }
 
 /* =========================================
    4. CHECKBOXES E OPCIONAIS
    ========================================= */
 .checkbox-caixa {
-    background-color: #222;
-    border: 1px solid #444;
+    background-color: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--cor-borda, #444);
     border-radius: 6px;
     padding: 15px;
     display: flex;
     align-items: center;
-    transition: 0.3s;
+    transition: var(--transicao, 0.3s);
 }
 
-.checkbox-caixa:hover { border-color: #666; }
+.checkbox-caixa:hover { border-color: var(--cor-texto-mutado, #666); }
 
 .checkbox-label {
     display: flex;
@@ -109,27 +125,28 @@
     cursor: pointer;
     width: 100%;
     margin: 0;
-    color: #fff !important;
+    color: var(--cor-texto, #fff) !important;
 }
 
 .checkbox-label input {
     width: 18px;
     height: 18px;
     cursor: pointer;
-    accent-color: #a00b0b;
+    accent-color: var(--cor-primaria, #a00b0b);
 }
 
 .opcionais-container {
-    border: 1px solid #444;
+    border: 1px solid var(--cor-borda, #444);
     padding: 20px;
     border-radius: 8px;
     margin-bottom: 30px;
-    background-color: #111;
+    background-color: var(--cor-fundo, #111);
 }
 
 .opcionais-container legend {
-    color: #a00b0b;
+    color: var(--cor-primaria, #a00b0b);
     font-size: 1.1rem;
+    font-weight: bold;
 }
 
 .grid-opcionais {
@@ -143,13 +160,13 @@
     display: flex;
     align-items: center;
     gap: 8px;
-    color: #ccc;
+    color: var(--cor-texto-mutado, #ccc);
     font-size: 0.9rem;
     cursor: pointer;
 }
 
 .grid-opcionais input {
-    accent-color: #a00b0b;
+    accent-color: var(--cor-primaria, #a00b0b);
 }
 
 /* =========================================
@@ -161,30 +178,30 @@
     align-items: center;
     justify-content: center;
     padding: 40px 20px;
-    border: 2px dashed #555;
+    border: 2px dashed var(--cor-borda, #555);
     border-radius: 8px;
-    background-color: #222;
+    background-color: rgba(255, 255, 255, 0.02);
     cursor: pointer;
-    transition: 0.3s;
-    color: #aaa;
+    transition: var(--transicao, 0.3s);
+    color: var(--cor-texto-mutado, #aaa);
     text-align: center;
 }
 
 .upload-box:hover {
-    border-color: #a00b0b;
-    background-color: #2a1111;
-    color: #fff;
+    border-color: var(--cor-primaria, #a00b0b);
+    background-color: rgba(160, 11, 11, 0.1);
+    color: var(--cor-texto, #fff);
 }
 
 .icone-upload {
     font-size: 40px;
-    color: #a00b0b;
+    color: var(--cor-primaria, #a00b0b);
     margin-bottom: 15px;
 }
 
 .contador-fotos {
     font-size: 0.85rem;
-    color: #888;
+    color: var(--cor-texto-mutado, #888);
     margin-top: 10px;
     text-align: right;
     font-weight: bold;
@@ -203,7 +220,7 @@
     height: 150px;
     border-radius: 8px;
     overflow: hidden;
-    border: 2px solid #444;
+    border: 2px solid var(--cor-borda, #444);
     background-color: #000;
 }
 
@@ -221,7 +238,7 @@
     position: absolute;
     top: 5px;
     right: 5px;
-    background-color: rgba(220, 53, 69, 0.9);
+    background-color: rgba(220, 53, 69, 0.9); /* Cor de deleção fixada */
     color: #fff;
     border: none;
     border-radius: 50%;
@@ -233,7 +250,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: 0.3s;
+    transition: var(--transicao, 0.3s);
 }
 
 .btn-remover-foto:hover { background-color: #dc3545; transform: scale(1.1); }
@@ -266,22 +283,33 @@
     margin-top: 40px;
     display: flex;
     justify-content: center; 
-    border-top: 1px solid #333;
+    border-top: 1px solid var(--cor-borda, #333);
     padding-top: 20px;
 }
 
 .btn-grande {
     padding: 16px 40px;
     font-size: 1.1rem;
+    background-color: var(--cor-primaria, #a00b0b);
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: var(--transicao, 0.3s);
+}
+
+.btn-grande:hover {
+    background-color: var(--cor-primaria-hover, #d61a1a);
+    transform: translateY(-2px);
 }
 
 /* =========================================
    7. MODAL DE ZOOM DA FOTO (LIGHTBOX)
    ========================================= */
-/* O container que cobre a tela toda */
 .lightbox-overlay {
     position: fixed;
-    z-index: 100000; /* Z-index bem alto para ficar acima do cabeçalho */
+    z-index: 100000;
     left: 0;
     top: 0;
     width: 100%;
@@ -293,17 +321,15 @@
     backdrop-filter: blur(5px);
 }
 
-/* A foto grande no meio */
 #lightbox-img {
     max-width: 90%;
     max-height: 90vh;
     border-radius: 8px;
     box-shadow: 0 5px 25px rgba(0,0,0,0.5);
     animation: zoomIn 0.3s ease;
-    object-fit: contain; /* Garante que a foto não corte */
+    object-fit: contain;
 }
 
-/* Botão fechar (X) no canto superior direito */
 .btn-fechar-lightbox {
     position: absolute;
     top: 20px;
@@ -318,7 +344,7 @@
 }
 
 .btn-fechar-lightbox:hover {
-    color: #a00b0b;
+    color: var(--cor-primaria, #a00b0b);
 }
 
 @keyframes zoomIn {
@@ -327,7 +353,262 @@
 }
 
 /* =========================================
-   8. RESPONSIVIDADE (Mobile)
+   CUSTOM SELECT DE MARCAS (COM BUSCA INTERNA)
+   ========================================= */
+.custom-select-container {
+    position: relative;
+    width: 100%;
+    user-select: none;
+}
+.custom-select-display {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--cor-borda, #444);
+    border-radius: 4px;
+    padding: 10px 15px;
+    color: var(--cor-texto, #fff);
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: var(--transicao, 0.3s);
+}
+.custom-select-display:hover {
+    border-color: var(--cor-primaria, #a00b0b);
+}
+.custom-select-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: var(--cor-fundo-secundario, #1a1a1a);
+    border: 1px solid var(--cor-borda, #444);
+    border-radius: 4px;
+    margin-top: 5px;
+    z-index: 999;
+    box-shadow: var(--sombra-card, 0 5px 15px rgba(0,0,0,0.8));
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.custom-select-dropdown input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid var(--cor-borda, #555);
+    background: var(--cor-fundo, #111);
+    color: var(--cor-texto, #fff);
+}
+.custom-select-dropdown ul {
+    max-height: 200px;
+    overflow-y: auto;
+    margin: 0;
+    padding: 0;
+}
+.custom-select-dropdown ul li {
+    padding: 10px;
+    cursor: pointer;
+    border-bottom: 1px solid var(--cor-borda, #333);
+    color: var(--cor-texto-mutado, #ccc);
+    transition: 0.2s;
+}
+.custom-select-dropdown ul li:hover {
+    background: var(--cor-primaria, #a00b0b);
+    color: #fff;
+}
+
+/* =========================================
+   9. MODAIS DE GERENCIAMENTO (Marcas e Opcionais)
+   ========================================= */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(4px);
+    z-index: 9999;
+    display: none; 
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: var(--cor-fundo-secundario, #1a1a1a);
+    border: 1px solid var(--cor-borda, #444);
+    border-radius: 8px;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    max-height: 90vh;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    border-bottom: 1px solid var(--cor-borda, #333);
+}
+
+.modal-header h3 {
+    margin: 0;
+    color: var(--cor-texto, #fff);
+    font-size: 1.2rem;
+}
+
+.btn-fechar-modal {
+    background: none;
+    border: none;
+    color: var(--cor-texto-mutado, #888);
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.btn-fechar-modal:hover {
+    color: #ff4444;
+}
+
+.modal-body {
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.modal-body input[type="text"] {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--cor-borda, #444);
+    color: var(--cor-texto, #fff);
+    border-radius: 6px;
+    outline: none;
+}
+
+.modal-body input[type="text"]:focus {
+    border-color: var(--cor-primaria, #a00b0b);
+}
+
+.lista-gerenciar {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.modal-footer {
+    padding: 15px 20px;
+    border-top: 1px solid var(--cor-borda, #333);
+    display: flex;
+    justify-content: center;
+}
+
+.btn-adicionar-novo {
+    background-color: var(--cor-primaria, #a00b0b);
+    color: #fff;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    width: 100%;
+    transition: background 0.3s;
+}
+
+.btn-adicionar-novo:hover {
+    background-color: var(--cor-primaria-hover, #d61a1a);
+}
+
+/* =========================================
+   10. BOTÕES DE AÇÃO DOS MODAIS (Força Bruta)
+   ========================================= */
+.lista-gerenciar li {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    padding: 12px 10px !important;
+    border-bottom: 1px solid var(--cor-borda, #333) !important;
+    color: var(--cor-texto-mutado, #eee) !important;
+}
+
+.lista-gerenciar li div, 
+.lista-gerenciar li span:last-child {
+    display: flex !important;
+    gap: 15px !important;
+}
+
+.lista-gerenciar button,
+.lista-gerenciar a,
+.lista-gerenciar i {
+    background: transparent !important;
+    border: none !important;
+    color: var(--cor-texto-mutado, #888) !important; 
+    font-size: 1.2rem !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    text-decoration: none !important;
+}
+
+.lista-gerenciar button:hover,
+.lista-gerenciar a:hover,
+.lista-gerenciar i:hover {
+    transform: scale(1.3) !important;
+    color: #fff !important;
+}
+
+.lista-gerenciar button:active,
+.lista-gerenciar a:active,
+.lista-gerenciar i:active {
+    transform: scale(0.9) !important;
+}
+
+.lista-gerenciar .fa-trash:hover,
+.lista-gerenciar .fa-trash-can:hover,
+.lista-gerenciar button[onclick*="excluir"]:hover {
+    color: #ff4444 !important; 
+}
+
+.lista-gerenciar .fa-pen:hover,
+.lista-gerenciar .fa-edit:hover,
+.lista-gerenciar .fa-pen-to-square:hover,
+.lista-gerenciar button[onclick*="editar"]:hover {
+    color: #4CAF50 !important; 
+}
+
+/* =========================================
+   11. BOTÕES MINI (Nova Marca / Gerenciar ao lado das labels)
+   ========================================= */
+.campo-form header nav button,
+.opcionais-container header nav button {
+    background-color: rgba(255, 255, 255, 0.05) !important; 
+    border: 1px solid var(--cor-borda, #444) !important; 
+    color: var(--cor-texto, #fff) !important; 
+    border-radius: 4px !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3) !important;
+    padding: 4px 10px !important; 
+}
+
+.campo-form header nav button:hover,
+.opcionais-container header nav button:hover {
+    background-color: var(--cor-primaria, #a00b0b) !important;
+    border-color: var(--cor-primaria-hover, #ff4d4d) !important;
+    transform: translateY(-2px) !important;
+}
+
+.campo-form header nav button:active,
+.opcionais-container header nav button:active {
+    transform: translateY(0) scale(0.95) !important;
+}
+
+/* =========================================
+   12. RESPONSIVIDADE (Mobile)
    ========================================= */
 @media (max-width: 768px) {
     .adm-veic-topo { 
@@ -335,7 +616,7 @@
         gap: 15px; 
     }
     .adm-veic-topo .btn-voltar {
-        position: static; /* Remove a fixação na direita no celular */
+        position: static; 
         width: 100%;
         justify-content: center;
     }

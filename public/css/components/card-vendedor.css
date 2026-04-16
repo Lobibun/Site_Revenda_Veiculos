@@ -102,3 +102,28 @@
 .btn-whatsapp i {
     font-size: 1.3rem; /* Aumenta o ícone do Zap */
 }
+
+/* =========================================
+   📱 RESPONSIVIDADE: CARD DO VENDEDOR
+   ========================================= */
+@media (max-width: 768px) {
+    .lista-vendedores {
+        grid-template-columns: 1fr; /* Força 1 vendedor por linha no celular */
+        gap: 20px;
+        padding: 10px;
+    }
+    .card-vendedor {
+        padding: 20px 15px; /* Diminui o espaçamento interno do card */
+    }
+    .foto-container {
+        width: 110px; /* Reduz um pouco o tamanho da foto */
+        height: 110px;
+        margin-bottom: 15px;
+    }
+    .info-vendedor h2 {
+        font-size: 1.2rem;
+    }
+    .info-vendedor p {
+        font-size: 0.85rem;
+    }
+}

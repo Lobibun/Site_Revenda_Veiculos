@@ -1,0 +1,96 @@
+/* =========================================
+   PÁGINA DE ERROS (404, 500, etc)
+   ========================================= */
+
+/* Centraliza o conteúdo na tela inteira */
+.container-erro {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 20px;
+    text-align: center;
+    background-color: var(--cor-fundo, #0a0a0a); /* Puxa o fundo escuro global */
+}
+
+.conteudo-erro {
+    max-width: 600px;
+}
+
+#codigo-erro {
+    font-size: 140px;
+    font-weight: 900;
+    color: var(--cor-primaria); /* Usa o vermelho global */
+    line-height: 1;
+    margin-bottom: 10px;
+    /* Sombra sutil usando rgba fixo para dar um efeito 3D */
+    text-shadow: 5px 5px 0px rgba(204, 0, 0, 0.2); 
+}
+
+#titulo-erro {
+    font-size: 28px;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--cor-texto, #fff); /* Texto branco global */
+}
+
+#mensagem-erro {
+    color: var(--cor-texto-mutado); /* Cinza global */
+    font-size: 1.1rem;
+    margin: 0 auto 35px;
+    line-height: 1.6;
+}
+
+.ilustracao {
+    margin-bottom: 40px;
+}
+
+.botoes-erro {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin-bottom: 35px;
+}
+
+.timer {
+    font-size: 0.95rem;
+    color: var(--cor-texto-mutado);
+}
+
+#segundos {
+    color: var(--cor-primaria); /* Destaca o tempo no vermelho global */
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+/* =========================================
+   📱 RESPONSIVIDADE: PÁGINAS DE ERRO
+   ========================================= */
+@media (max-width: 768px) {
+    #codigo-erro {
+        font-size: 100px; /* Reduz o tamanho do número gigante */
+        text-shadow: 3px 3px 0px rgba(204, 0, 0, 0.2); 
+    }
+    
+    #titulo-erro {
+        font-size: 22px;
+    }
+    
+    #mensagem-erro {
+        font-size: 1rem;
+    }
+    
+    .botoes-erro {
+        flex-direction: column; /* Empilha os botões no celular */
+        gap: 10px;
+        padding: 0 20px;
+    }
+    
+    /* Faz os botões da página de erro ocuparem a largura toda no mobile */
+    .botoes-erro .btn-vermelho, 
+    .botoes-erro .btn-secundario {
+        width: 100%;
+        text-align: center;
+    }
+}

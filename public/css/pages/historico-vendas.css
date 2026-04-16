@@ -67,6 +67,7 @@
     text-align: center;
     outline: none;
     transition: border-color 0.3s ease;
+    height: 44px; /* Padronizado para mobile */
 }
 
 .config-acao input[type="number"]:focus {
@@ -87,6 +88,7 @@
     cursor: pointer;
     font-weight: bold;
     transition: all 0.3s ease;
+    height: 44px; /* Padronizado para mobile */
 }
 
 .config-acao button:hover {
@@ -118,6 +120,7 @@
     color: #ccc;
     text-transform: uppercase;
     font-size: 0.85rem;
+    white-space: nowrap; /* Evita que o texto encavale no mobile */
 }
 
 .tabela-admin td {
@@ -200,8 +203,43 @@
 /* Formatação da Foto Aberta no SweetAlert (Lightbox) */
 .swal-img-historico {
     max-width: 100%;
-    max-height: 70vh; /* Não deixa a foto ser maior que a altura da tela */
+    max-height: 70vh;
     object-fit: contain;
     border-radius: 8px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+}
+
+/* =========================================
+   RESPONSIVIDADE (NOVO BLOCO MOBILE)
+   ========================================= */
+@media (max-width: 768px) {
+    /* Painel de configuração fica empilhado */
+    .painel-configuracao {
+        flex-direction: column;
+        align-items: stretch;
+        text-align: center;
+    }
+    
+    .config-texto h3 {
+        justify-content: center;
+    }
+    
+    .config-acao {
+        flex-direction: column;
+        width: 100%;
+        gap: 15px;
+    }
+    
+    .config-acao input[type="number"],
+    .config-acao button {
+        width: 100%; /* Botão e input ocupam a largura toda */
+    }
+
+    /* Transforma a tabela diretamente em rolagem horizontal */
+    .tabela-admin {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+        -webkit-overflow-scrolling: touch;
+    }
 }

@@ -2,6 +2,12 @@
    PÁGINA DE CONTATO
    ========================================= */
 
+/* Espaçamento extra no topo para manter o padrão do site e não grudar no header */
+.pagina-contato main {
+    padding-top: 120px; 
+    min-height: calc(100vh - 200px); 
+}
+
 /* Layout Principal: Divide as informações e o formulário em duas colunas */
 .contato-layout {
     display: grid;
@@ -42,7 +48,7 @@
 .icone-circulo {
     width: 45px;
     height: 45px;
-    background-color: rgba(204, 0, 0, 0.1); /* Fundo avermelhado sutil */
+    background-color: rgba(204, 0, 0, 0.1); /* Fundo avermelhado sutil usando o tom do seu vermelho global */
     color: var(--cor-primaria);
     border-radius: 50%;
     display: flex;
@@ -153,9 +159,21 @@
     box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
 }
 
-/* Responsividade Mobile */
+/* =========================================
+   📱 RESPONSIVIDADE: CONTATO
+   ========================================= */
 @media (max-width: 768px) {
     .contato-layout {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr; /* Quebra para uma coluna só no telemóvel */
+        gap: 30px;
+    }
+
+    .contato-item {
+        padding: 20px;
+    }
+
+    .contato-item address, .contato-item p {
+        margin-left: 0; /* Centraliza melhor os textos quando a tela é pequena */
+        margin-top: 10px;
     }
 }

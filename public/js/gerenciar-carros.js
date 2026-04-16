@@ -1,9 +1,74 @@
+let carrosDataGlobal = [];
+
 document.addEventListener("DOMContentLoaded", () => {
     carregarMarcasEdicao();
     carregarCarros();
     carregarOpcionaisEdicao(); 
 
-    // Verificações de segurança antes de adicionar Event Listeners
+    // ==========================================
+    // FILTROS DA PÁGINA PRINCIPAL
+    // ==========================================
+    const inputBuscaCarro = document.getElementById("filtro-busca-carro");
+    const selectStatusCarro = document.getElementById("filtro-status-carro");
+
+    if(inputBuscaCarro) inputBuscaCarro.addEventListener("input", aplicarFiltrosMain);
+    if(selectStatusCarro) selectStatusCarro.addEventListener("change", aplicarFiltrosMain);
+
+    // ==========================================
+    // LÓGICA DO SELECT PERSONALIZADO DE MARCAS NO MODAL
+    // ==========================================
+    const btnSelectMarca = document.getElementById("btn-select-marca");
+    const dropdownMarca = document.getElementById("dropdown-marca");
+    const inputBuscaMarca = document.getElementById("busca-marca-modal");
+
+    // 1. Abre/fecha a caixinha ao clicar no botão
+    if (btnSelectMarca && dropdownMarca) {
+        btnSelectMarca.addEventListener("click", () => {
+            dropdownMarca.classList.toggle("mostrar");
+            if (dropdownMarca.classList.contains("mostrar") && inputBuscaMarca) {
+                inputBuscaMarca.focus(); // Foca na pesquisa automaticamente
+            }
+        });
+    }
+
+    // 2. Fecha a caixinha se clicar fora dela
+    document.addEventListener("click", (e) => {
+        if (!e.target.closest("#container-marca") && dropdownMarca) {
+            dropdownMarca.classList.remove("mostrar");
+        }
+    });
+
+    // 3. Filtra as marcas enquanto digita no modal
+    if(inputBuscaMarca) {
+        inputBuscaMarca.addEventListener("input", function(e) {
+            const termo = e.target.value.toLowerCase();
+            const items = document.querySelectorAll(".custom-select-item");
+            items.forEach(item => {
+                const texto = item.textContent.toLowerCase();
+                item.style.display = texto.includes(termo) ? "block" : "none";
+            });
+        });
+    }
+
+    // ==========================================
+    // LÓGICA DE BUSCA DE OPCIONAIS NO MODAL
+    // ==========================================
+    const inputBuscaOpcional = document.getElementById("busca-opcional-modal");
+    if(inputBuscaOpcional) {
+        inputBuscaOpcional.addEventListener("input", function(e) {
+            const termo = e.target.value.toLowerCase();
+            const labels = document.querySelectorAll("#edit-grid-opcionais label");
+            labels.forEach(label => {
+                const texto = label.textContent.toLowerCase();
+                // Usamos 'flex' pois é o display original definido no seu CSS
+                label.style.display = texto.includes(termo) ? "flex" : "none"; 
+            });
+        });
+    }
+
+    // ==========================================
+    // EVENTOS DO FORMULÁRIO E MODAL
+    // ==========================================
     const btnFecharModal = document.getElementById("btn-fechar-modal-carro");
     if (btnFecharModal) {
         btnFecharModal.addEventListener("click", fecharModal);
@@ -58,16 +123,39 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 });
 
+// ==========================================
+// FUNÇÕES DE CARREGAMENTO (API)
+// ==========================================
+
 async function carregarMarcasEdicao() {
     try {
         const resposta = await fetch("/marcas");
         if (resposta.ok) {
             const marcas = await resposta.json();
-            const select = document.getElementById("edit-marca_id");
-            if(select) {
-                select.innerHTML = '<option value="">Selecione uma marca...</option>';
+            const listaCustom = document.getElementById("lista-marcas-custom");
+            
+            if(listaCustom) {
+                listaCustom.innerHTML = ""; // Limpa a lista antes de popular
                 marcas.forEach((marca) => {
-                    select.innerHTML += `<option value="${marca.id}">${marca.nome}</option>`;
+                    const div = document.createElement("div");
+                    div.className = "custom-select-item";
+                    div.dataset.id = marca.id; // Salva o ID da marca no elemento
+                    div.textContent = marca.nome;
+                    
+                    // Ação ao clicar em uma marca da lista
+                    div.addEventListener("click", () => {
+                        // Salva o ID no input invisível para enviar pro servidor
+                        document.getElementById("edit-marca_id").value = marca.id;
+                        
+                        // Atualiza o texto do botão para mostrar a marca escolhida
+                        const btnSpan = document.querySelector("#btn-select-marca span");
+                        if(btnSpan) btnSpan.textContent = marca.nome;
+                        
+                        // Esconde o dropdown
+                        document.getElementById("dropdown-marca").classList.remove("mostrar");
+                    });
+
+                    listaCustom.appendChild(div);
                 });
             }
         }
@@ -100,85 +188,128 @@ async function carregarCarros() {
     if(!listaUl) return;
     
     try {
+        listaUl.innerHTML = '<li class="msg-estado">Carregando veículos...</li>';
         const resposta = await fetch("/admin/api/carros");
-        const carros = await resposta.json();
+        carrosDataGlobal = await resposta.json(); // Salva os carros na variável global
 
-        listaUl.innerHTML = "";
-
-        if (carros.length === 0) {
-            listaUl.innerHTML = '<li class="msg-lista-vazia">Nenhum veículo cadastrado.</li>';
-            return;
-        }
-
-        carros.forEach((carro) => {
-            const foto = carro.imagem_principal || "https://via.placeholder.com/80x60?text=Sem+Foto";
-            const precoFormatado = Number(carro.preco).toLocaleString("pt-BR", {
-                style: "currency",
-                currency: "BRL",
-            });
-
-            let classeStatus = "status-disponivel";
-            if (carro.status === "Vendido") classeStatus = "status-vendido";
-            if (carro.status === "Reservado") classeStatus = "status-reservado"; // Mantido caso haja algum legado no banco
-
-            // Lógica para alternar entre o botão de Vender e o de Desfazer Venda
-            let btnStatusHtml = '';
-            if (carro.status !== "Vendido") {
-                btnStatusHtml = `
-                <button onclick="marcarComoVendido(${carro.id})" class="btn-acao btn-vender-tabela" title="Marcar como Vendido" style="color: #28a745; font-size: 1.1rem;">
-                    <i class="fas fa-hand-holding-dollar"></i>
-                </button>`;
-            } else {
-                btnStatusHtml = `
-                <button onclick="desfazerVenda(${carro.id})" class="btn-acao btn-desfazer-tabela" title="Desfazer Venda (Voltar para Disponível)" style="color: #ffc107; font-size: 1.1rem;">
-                    <i class="fas fa-undo"></i>
-                </button>`;
-            }
-
-            const itemLi = document.createElement("li");
-            itemLi.innerHTML = `
-                <article class="carro-item">
-                    <img src="${foto}" class="foto-lista-personalizada" alt="${carro.modelo}">
-                    
-                    <section class="info-principal">
-                        <h3>${carro.marca}</h3>
-                        <p>${carro.modelo}</p>
-                    </section>
-
-                    <span class="ano-carro-lista">${carro.ano}</span>
-
-                    <strong class="info-preco">${precoFormatado}</strong>
-
-                    <section>
-                        <span class="badge-status ${classeStatus}">${carro.status}</span>
-                    </section>
-
-                    <nav class="acoes-container">
-                        ${btnStatusHtml}
-                        <button onclick="abrirModal(${carro.id})" class="btn-acao btn-editar-tabela" title="Editar">
-                            <i class="fas fa-pencil-alt"></i>
-                        </button>
-                        <button onclick="deletarCarro(${carro.id})" class="btn-acao btn-excluir-tabela" title="Excluir">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                    </nav>
-                </article>
-            `;
-            listaUl.appendChild(itemLi);
-        });
+        renderizarListaCarros(carrosDataGlobal); // Renderiza a lista completa a princípio
     } catch (erro) {
         console.error("Erro:", erro);
         listaUl.innerHTML = '<li class="msg-lista-erro">Erro ao carregar veículos.</li>';
     }
 }
 
+function renderizarListaCarros(listaCarros) {
+    const listaUl = document.getElementById("lista-carros");
+    listaUl.innerHTML = "";
+
+    if (listaCarros.length === 0) {
+        listaUl.innerHTML = '<li class="msg-lista-vazia">Nenhum veículo encontrado.</li>';
+        return;
+    }
+
+    listaCarros.forEach((carro) => {
+        const foto = carro.imagem_principal || "https://via.placeholder.com/80x60?text=Sem+Foto";
+        const precoFormatado = Number(carro.preco).toLocaleString("pt-BR", {
+            style: "currency",
+            currency: "BRL",
+        });
+
+        let classeStatus = "status-disponivel";
+        if (carro.status === "Vendido") classeStatus = "status-vendido";
+        if (carro.status === "Reservado") classeStatus = "status-reservado"; 
+
+        let btnStatusHtml = '';
+        if (carro.status !== "Vendido") {
+            btnStatusHtml = `
+            <button onclick="marcarComoVendido(${carro.id})" class="btn-acao btn-vender-tabela" title="Marcar como Vendido" style="color: #28a745; font-size: 1.1rem;">
+                <i class="fas fa-hand-holding-dollar"></i>
+            </button>`;
+        } else {
+            btnStatusHtml = `
+            <button onclick="desfazerVenda(${carro.id})" class="btn-acao btn-desfazer-tabela" title="Desfazer Venda (Voltar para Disponível)" style="color: #ffc107; font-size: 1.1rem;">
+                <i class="fas fa-undo"></i>
+            </button>`;
+        }
+
+        const itemLi = document.createElement("li");
+        itemLi.innerHTML = `
+            <article class="carro-item">
+                <img src="${foto}" class="foto-lista-personalizada" alt="${carro.modelo}">
+                
+                <section class="info-principal">
+                    <h3>${carro.marca}</h3>
+                    <p>${carro.modelo}</p>
+                </section>
+
+                <span class="ano-carro-lista">${carro.ano}</span>
+
+                <strong class="info-preco">${precoFormatado}</strong>
+
+                <section>
+                    <span class="badge-status ${classeStatus}">${carro.status}</span>
+                </section>
+
+                <nav class="acoes-container">
+                    ${btnStatusHtml}
+                    <button onclick="abrirModal(${carro.id})" class="btn-acao btn-editar-tabela" title="Editar">
+                        <i class="fas fa-pencil-alt"></i>
+                    </button>
+                    <button onclick="deletarCarro(${carro.id})" class="btn-acao btn-excluir-tabela" title="Excluir">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </nav>
+            </article>
+        `;
+        listaUl.appendChild(itemLi);
+    });
+}
+
+function aplicarFiltrosMain() {
+    const termoBusca = document.getElementById("filtro-busca-carro").value.toLowerCase();
+    const statusBusca = document.getElementById("filtro-status-carro").value;
+
+    const carrosFiltrados = carrosDataGlobal.filter(carro => {
+        const matchTexto = carro.marca.toLowerCase().includes(termoBusca) || 
+                           carro.modelo.toLowerCase().includes(termoBusca) || 
+                           String(carro.ano).includes(termoBusca);
+        
+        const matchStatus = statusBusca === "" || carro.status === statusBusca;
+
+        return matchTexto && matchStatus;
+    });
+
+    renderizarListaCarros(carrosFiltrados);
+}
+
+// ==========================================
+// FUNÇÕES DO MODAL E INTEGRAÇÃO
+// ==========================================
+
 window.abrirModal = async function (id) {
+    // 1. Resetando os campos de busca do modal
+    const buscaMarca = document.getElementById("busca-marca-modal");
+    if(buscaMarca) buscaMarca.value = "";
+    
+    const buscaOpc = document.getElementById("busca-opcional-modal");
+    if(buscaOpc) buscaOpc.value = "";
+    
+    // 2. Reseta a visibilidade da lista de marcas e opcionais
+    document.querySelectorAll(".custom-select-item").forEach(item => item.style.display = "block");
+    document.querySelectorAll("#edit-grid-opcionais label").forEach(lbl => lbl.style.display = "flex");
+    
+    const dropdownMarca = document.getElementById("dropdown-marca");
+    if(dropdownMarca) dropdownMarca.classList.remove("mostrar");
+
+    // 3. Mostra o modal (adicionando e removendo as classes certas para funcionar o clique fora)
     const modal = document.getElementById("modal-editar-carro");
     if(!modal) return;
     
+    modal.classList.remove("oculto"); // IMPORTANTE PARA O CLIQUE FORA FUNCIONAR
     modal.style.display = "flex";
     document.body.classList.add("modal-aberto");
 
+    // 4. Esconde os opcionais inicialmente
     const chkOpcionais = document.getElementById("edit-tem-opcionais");
     const listaOpc = document.getElementById("edit-lista-opcionais");
     
@@ -186,6 +317,7 @@ window.abrirModal = async function (id) {
     if(listaOpc) listaOpc.style.display = "none";
     document.querySelectorAll("#edit-grid-opcionais input[name='opcionais']").forEach(el => el.checked = false);
 
+    // 5. Busca as informações do carro no banco
     try {
         const resposta = await fetch(`/carros/${id}`);
         if (!resposta.ok) throw new Error("Erro ao buscar dados");
@@ -198,7 +330,6 @@ window.abrirModal = async function (id) {
         };
 
         setValor("edit-id-carro", carro.id);
-        setValor("edit-marca_id", carro.marca_id);
         setValor("edit-modelo", carro.modelo);
         setValor("edit-ano", carro.ano);
         setValor("edit-preco", carro.preco);
@@ -207,19 +338,29 @@ window.abrirModal = async function (id) {
         setValor("edit-cambio", carro.cambio);
         setValor("edit-combustivel", carro.Combustivel || carro.combustivel);
 
+        // Atualiza a Marca (Lógica Nova do Select Personalizado)
+        setValor("edit-marca_id", carro.marca_id);
+        const itemMarca = document.querySelector(`.custom-select-item[data-id="${carro.marca_id}"]`);
+        const btnTexto = document.querySelector("#btn-select-marca span");
+        if (itemMarca && btnTexto) {
+            btnTexto.textContent = itemMarca.textContent; // Coloca o nome correto da marca
+        } else if (btnTexto) {
+            btnTexto.textContent = "Marca Selecionada (ID: " + carro.marca_id + ")";
+        }
+
         const selectLeilao = document.getElementById("edit-leilao");
         if (selectLeilao) {
             const temLeilao = carro.leilao === 1 || carro.leilao === "1" || carro.leilao === "Sim" || carro.leilao === true;
             selectLeilao.value = temLeilao ? "Sim" : "Não";
         }
 
-        // === NOVA LÓGICA DO DESTAQUE: LÊ DO BANCO PARA O FORMULÁRIO ===
+        // Destaque
         const checkDestaque = document.getElementById("input-destaque");
         if (checkDestaque) {
             checkDestaque.checked = (carro.destaque == 1 || carro.destaque === true);
         }
-        // ===============================================================
 
+        // Opcionais
         if (carro.Opcionais === 1 || carro.opcionais === 1) {
             if(chkOpcionais) chkOpcionais.checked = true;
             if(listaOpc) listaOpc.style.display = "block";
@@ -252,6 +393,7 @@ window.abrirModal = async function (id) {
 function fecharModal() {
     const modal = document.getElementById("modal-editar-carro");
     if(modal) {
+        modal.classList.add("oculto"); // IMPORTANTE PARA O CLIQUE FORA FUNCIONAR
         modal.style.display = "none";
         document.body.classList.remove("modal-aberto");
     }
@@ -368,11 +510,9 @@ async function salvarEdicao(e) {
         });
     }
 
-    // === NOVA LÓGICA DO DESTAQUE: GUARDA O VALOR PARA ENVIAR ===
     const checkDestaque = document.getElementById("input-destaque");
     const isDestaque = (checkDestaque && checkDestaque.checked) ? 1 : 0;
     formData.append("destaque", isDestaque);
-    // ===========================================================
 
     const btnSalvar = document.getElementById("btn-salvar-edicao");
     if(btnSalvar) {
@@ -407,7 +547,7 @@ async function salvarEdicao(e) {
 }
 
 // ==========================================
-// NOVAS FUNÇÕES: VENDER E DESFAZER VENDA
+// FUNÇÕES DE STATUS: VENDER E DESFAZER VENDA
 // ==========================================
 
 window.marcarComoVendido = async function (id) {

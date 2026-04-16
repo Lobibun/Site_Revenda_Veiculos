@@ -1,5 +1,5 @@
 /* =========================================
-   CARD DE VEÍCULO
+   CARD DE VEÍCULO (ATUALIZADO E ALINHADO)
    ========================================= */
 .card-carro {
     background-color: var(--cor-fundo-secundario);
@@ -7,8 +7,11 @@
     border-radius: 8px;
     overflow: hidden;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    
+    /* Faz o card ocupar toda a altura disponível na grade */
     display: flex;
     flex-direction: column;
+    height: 100%; 
 }
 
 .card-carro:hover {
@@ -17,9 +20,21 @@
     border-color: var(--cor-primaria);
 }
 
+/* Transforma o link em um container flexível */
+.link-carro {
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
 .card-carro figure {
+    margin: 0;
+    position: relative;
     height: 200px;
     overflow: hidden;
+    flex-shrink: 0; /* Impede a imagem de espremer */
 }
 
 .foto-carro {
@@ -33,41 +48,97 @@
     transform: scale(1.05);
 }
 
+/* Barra preta de informações (Combustível e Km) */
 .info-carro-bar {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     background-color: #111;
     padding: 8px 15px;
     font-size: 0.8rem;
     color: var(--cor-texto-mutado);
     border-bottom: 1px solid var(--cor-borda);
+    flex-shrink: 0;
+}
+
+/* Garante que o ícone e o texto (ex: Gasolina) nunca se separem */
+.info-carro-bar span {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap; 
 }
 
 .info-carro-bar i {
     color: var(--cor-primaria);
-    margin-right: 4px;
+    margin: 0;
 }
 
+/* Área do Título e Preço */
 .topo-carro {
     padding: 15px;
     background-color: var(--cor-fundo-secundario);
+    
+    /* Ocupa o espaço livre, empurrando a lista de detalhes para baixo */
+    flex-grow: 1; 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .topo-carro h2 {
     color: #fff;
+    margin: 0 0 5px 0;
+    font-size: 1.1rem;
 }
 
+/* Lista inferior (Ano, Câmbio, etc.) */
 .detalhes-lista {
+    padding: 0 15px 15px 15px;
+    margin: 0;
+    list-style: none;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 10px;
+    gap: 8px;
     font-size: 0.85rem;
     color: #ccc;
     border-top: 1px dashed var(--cor-borda);
-    padding-top: 15px !important;
+    padding-top: 12px !important;
+    
+    /* O SEGREDO DO ALINHAMENTO: Joga a lista para o fundo do card */
+    margin-top: auto; 
+}
+
+/* Faz a etiqueta de status ocupar as duas colunas inteiras na base */
+.linha-status {
+    grid-column: span 2;
+    margin-top: 5px;
+    border-top: 1px dashed var(--cor-borda);
+    padding-top: 8px;
+    display: flex;
+    align-items: center;
 }
 
 .label-destaque {
     color: var(--cor-texto-mutado);
     font-weight: bold;
+}
+
+/* =========================================
+   📱 RESPONSIVIDADE: CARD DE VEÍCULO
+   ========================================= */
+@media (max-width: 768px) {
+    .info-carro-bar {
+        flex-wrap: wrap; /* Se a FIPE, Km e Combustível não couberem, quebra linha */
+        justify-content: center;
+        gap: 10px;
+        padding: 10px;
+    }
+    .topo-carro h2 {
+        font-size: 1rem; /* Título levemente menor */
+    }
+    .detalhes-lista {
+        font-size: 0.8rem; /* Textos de ano e câmbio menores para não vazar da tela */
+        padding: 0 10px 15px 10px;
+    }
 }

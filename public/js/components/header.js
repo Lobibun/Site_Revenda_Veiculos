@@ -78,3 +78,44 @@ class Cabecalho extends HTMLElement {
 }
 
 customElements.define("cabecalho-site", Cabecalho);
+
+class Rodape extends HTMLElement {
+    connectedCallback() {
+        this.innerHTML = `
+        <footer class="rodape-site">
+            <section class="rodape-container">
+                <section class="rodape-coluna">
+                    <img src="Img/Logo.png" alt="Logo da Revendedora" width="170" class="rodape-logo" />
+                    <p>A melhor revendedora de carros de SC. Veículos seminovos revisados, com garantia e as melhores taxas de financiamento.</p>
+                </section>
+
+                <nav class="rodape-coluna">
+                    <h3>Links Úteis</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="carros.html">Nosso Estoque</a></li>
+                        <li><a href="vendedores.html">Vendedores</a></li>
+                        <li><a href="sobre.html">Sobre Nós</a></li>
+                        <li><a href="contato.html">Contato</a></li>
+                    </ul>
+                </nav>
+
+                <address class="rodape-coluna" style="font-style: normal;">
+                    <h3>Atendimento</h3>
+                    <ul class="rodape-contato">
+                        <li><i class="fas fa-map-marker-alt"></i> Rua das Flores, 123 - Centro, Araranguá - SC</li>
+                        <li><i class="fas fa-phone"></i> (48) 99999-9999</li>
+                        <li><i class="fas fa-envelope"></i> contato@revendedora.com.br</li>
+                    </ul>
+                </address>
+            </section>
+            
+            <section class="rodape-bottom">
+                <p>© ${new Date().getFullYear()} Revendedora - Todos os direitos reservados</p>
+            </section>
+        </footer>
+        `;
+    }
+}
+
+customElements.define("rodape-site", Rodape);

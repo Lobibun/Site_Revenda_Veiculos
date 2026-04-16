@@ -5,12 +5,12 @@
 /* Cabeçalho da Página */
 .topo-usuarios {
     display: flex;
-    flex-direction: column; /* Coloca um em baixo do outro */
+    flex-direction: column; 
     justify-content: center;
     align-items: center;
-    gap: 15px; /* Espaço entre o título e o botão */
+    gap: 15px; 
     margin-bottom: 30px;
-    border-bottom: 2px solid #333;
+    border-bottom: 2px solid var(--cor-borda, #333);
     padding-bottom: 20px;
 }
 
@@ -19,6 +19,7 @@
     margin: 0;
     padding: 0;
     text-align: center;
+    color: var(--cor-texto, #fff);
 }
 
 .btn-novo {
@@ -27,35 +28,32 @@
     gap: 8px;
     padding: 10px 20px;
     text-decoration: none;
-    background-color: #a00b0b;
+    background-color: var(--cor-primaria, #a00b0b);
     color: white;
     border-radius: 6px;
     font-weight: bold;
-    transition: 0.3s;
+    transition: var(--transicao, 0.3s);
 }
 
 .btn-novo:hover {
-    background-color: #d61a1a;
+    background-color: var(--cor-primaria-hover, #d61a1a);
 }
 
 /* =========================================
    LISTA DE VEÍCULOS (GRID)
    ========================================= */
 .painel-lista-veiculos {
-    background-color: #1a1a1a;
-    border-radius: 8px;
-    border: 1px solid #333;
+    background-color: var(--cor-fundo-secundario, #1a1a1a);
+    border-radius: var(--borda-raio, 8px);
+    border: 1px solid var(--cor-borda, #333);
     overflow: hidden;
-    /* Mantém a borda redonda */
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    box-shadow: var(--sombra-card, 0 5px 15px rgba(0, 0, 0, 0.3));
 }
 
 .scroll-container {
     overflow-x: auto;
-    /* Adiciona scroll lateral no celular */
 }
 
-/* Grid que define a largura das colunas */
 .cabecalho-lista,
 .carro-item {
     display: grid;
@@ -66,10 +64,10 @@
 }
 
 .cabecalho-lista {
-    background-color: #222;
-    border-bottom: 2px solid #a00b0b;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-bottom: 2px solid var(--cor-primaria, #a00b0b);
     font-weight: bold;
-    color: #ccc;
+    color: var(--cor-texto-mutado, #ccc);
     text-transform: uppercase;
     font-size: 0.85rem;
 }
@@ -81,49 +79,49 @@
 }
 
 .lista-veiculos li {
-    border-bottom: 1px solid #333;
+    border-bottom: 1px solid var(--cor-borda, #333);
     transition: background-color 0.2s;
 }
 
 .lista-veiculos li:hover {
-    background-color: #2a2a2a;
+    background-color: rgba(255, 255, 255, 0.03);
 }
 
 .lista-veiculos li:last-child {
     border-bottom: none;
 }
 
-/* Informações dentro da linha */
 .foto-lista-personalizada {
     width: 80px;
     height: 60px;
     object-fit: cover;
     border-radius: 6px;
-    border: 1px solid #444;
+    border: 1px solid var(--cor-borda, #444);
 }
 
 .info-principal h3 {
-    color: #fff;
+    color: var(--cor-texto, #fff);
     font-size: 1.1rem;
     margin-bottom: 2px;
 }
 
 .info-principal p {
-    color: #888;
+    color: var(--cor-texto-mutado, #888);
     font-size: 0.9rem;
 }
 
 .ano-carro-lista {
-    color: #ccc;
+    color: var(--cor-texto-mutado, #ccc);
     font-weight: bold;
 }
 
 .info-preco {
-    color: #25D366;
+    color: #25D366; /* Mantido semântico para visualização de preço */
     font-size: 1.1rem;
+    font-weight: bold;
 }
 
-/* Badges de Status */
+/* Badges de Status (Semânticos - Preservados) */
 .badge-status {
     padding: 5px 10px;
     border-radius: 20px;
@@ -164,7 +162,7 @@
     cursor: pointer;
     padding: 8px;
     border-radius: 6px;
-    transition: 0.3s;
+    transition: var(--transicao, 0.3s);
 }
 
 .btn-editar-tabela {
@@ -192,7 +190,7 @@
 .msg-lista-vazia {
     padding: 30px;
     text-align: center;
-    color: #888;
+    color: var(--cor-texto-mutado, #888);
     font-size: 1.1rem;
 }
 
@@ -215,30 +213,29 @@
 }
 
 .modal-box-largo {
-    background-color: #1a1a1a;
+    background-color: var(--cor-fundo-secundario, #1a1a1a);
     width: 100%;
     max-width: 800px;
     max-height: 90vh;
     border-radius: 12px;
-    border: 1px solid #444;
+    border: 1px solid var(--cor-borda, #444);
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    /* Mantém o cabeçalho fixo e o scroll no form */
 }
 
 .modal-header {
-    background-color: #111;
+    background-color: var(--cor-fundo, #111);
     padding: 20px 30px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 2px solid #a00b0b;
+    border-bottom: 2px solid var(--cor-primaria, #a00b0b);
 }
 
 .modal-header h2 {
-    color: #fff;
+    color: var(--cor-texto, #fff);
     margin: 0;
     font-size: 1.5rem;
 }
@@ -246,23 +243,21 @@
 .btn-fechar-x {
     background: none;
     border: none;
-    color: #ccc;
+    color: var(--cor-texto-mutado, #ccc);
     font-size: 30px;
     cursor: pointer;
     transition: 0.3s;
 }
 
 .btn-fechar-x:hover {
-    color: #a00b0b;
+    color: var(--cor-primaria, #a00b0b);
 }
 
 #form-editar-carro {
     padding: 30px;
     overflow-y: auto;
-    /* Scroll apenas dentro do formulário */
 }
 
-/* Reutilizando as classes de adicionar-carro.css */
 .form-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -278,7 +273,7 @@
 
 .campo-form label {
     font-weight: bold;
-    color: #ccc;
+    color: var(--cor-texto-mutado, #ccc);
     font-size: 0.95rem;
 }
 
@@ -286,19 +281,19 @@
 .campo-form select {
     width: 100%;
     padding: 12px;
-    background-color: #222;
-    border: 1px solid #444;
-    color: #fff;
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--cor-borda, #444);
+    color: var(--cor-texto, #fff);
     border-radius: 6px;
     font-size: 1rem;
-    transition: 0.3s;
+    transition: var(--transicao, 0.3s);
 }
 
 .campo-form input:focus,
 .campo-form select:focus {
-    border-color: #a00b0b;
+    border-color: var(--cor-primaria, #a00b0b);
     outline: none;
-    background-color: #111;
+    background-color: var(--cor-fundo, #111);
 }
 
 /* =========================================
@@ -307,19 +302,20 @@
 .secao-fotos-atuais,
 .secao-novas-fotos {
     margin-top: 30px;
-    border-top: 1px solid #333;
+    border-top: 1px solid var(--cor-borda, #333);
     padding-top: 20px;
 }
 
 .titulo-secao-fotos {
-    color: #a00b0b;
+    color: var(--cor-primaria, #a00b0b);
     margin-bottom: 15px;
     font-size: 1.2rem;
+    font-weight: bold;
 }
 
 .label-novas-fotos {
     font-weight: bold;
-    color: #ccc;
+    color: var(--cor-texto-mutado, #ccc);
     display: block;
     margin-bottom: 15px;
 }
@@ -339,7 +335,7 @@
     border-radius: 8px;
     overflow: hidden;
     background-color: #000;
-    border: 2px solid #444;
+    border: 2px solid var(--cor-borda, #444);
 }
 
 .foto-edit-item img,
@@ -359,7 +355,6 @@
     opacity: 0.7;
 }
 
-/* Botões sobre as fotos */
 .btn-apagar-foto {
     position: absolute;
     top: 5px;
@@ -419,35 +414,34 @@
     padding: 5px;
 }
 
-/* Área tracejada de Upload */
 .upload-box {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     padding: 30px;
-    border: 2px dashed #555;
+    border: 2px dashed var(--cor-borda, #555);
     border-radius: 8px;
-    background-color: #222;
+    background-color: rgba(255, 255, 255, 0.02);
     cursor: pointer;
-    transition: 0.3s;
-    color: #aaa;
+    transition: var(--transicao, 0.3s);
+    color: var(--cor-texto-mutado, #aaa);
     text-align: center;
 }
 
 .upload-box:hover {
-    border-color: #a00b0b;
-    background-color: #2a1111;
-    color: #fff;
+    border-color: var(--cor-primaria, #a00b0b);
+    background-color: rgba(160, 11, 11, 0.1);
+    color: var(--cor-texto, #fff);
 }
 
 .icone-upload {
     font-size: 30px;
-    color: #a00b0b;
+    color: var(--cor-primaria, #a00b0b);
     margin-bottom: 10px;
 }
 
-/* Botão Salvar */
+/* Botão Salvar (Edição) */
 .form-acoes-rodape {
     margin-top: 30px;
     display: flex;
@@ -460,10 +454,10 @@
     border: none;
     cursor: pointer;
     border-radius: 6px;
-    background: linear-gradient(135deg, #a00b0b, #d61a1a);
+    background: linear-gradient(135deg, var(--cor-primaria, #a00b0b), var(--cor-primaria-hover, #d61a1a));
     color: white;
     font-weight: bold;
-    transition: 0.3s;
+    transition: var(--transicao, 0.3s);
 }
 
 .btn-grande:hover {
@@ -472,7 +466,7 @@
 }
 
 /* =========================================
-   LIGHTBOX E RESPONSIVO
+   LIGHTBOX E RESPONSIVO (GERENCIAR)
    ========================================= */
 .lightbox-overlay {
     position: fixed;
@@ -507,7 +501,6 @@
 }
 
 @media (max-width: 768px) {
-
     .cabecalho-lista,
     .carro-item {
         grid-template-columns: 80px 1fr 100px;
@@ -518,7 +511,6 @@
     .ano-carro-lista,
     .badge-status {
         display: none;
-        /* Esconde colunas menos vitais no celular */
     }
 
     .form-grid {
@@ -541,8 +533,8 @@
    CHECKBOX E OPCIONAIS DO MODAL DE EDIÇÃO
    ========================================= */
 .checkbox-caixa {
-    background-color: #222;
-    border: 1px solid #444;
+    background-color: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--cor-borda, #444);
     border-radius: 6px;
     padding: 15px;
     display: flex;
@@ -557,25 +549,25 @@
     cursor: pointer;
     width: 100%;
     margin: 0;
-    color: #fff !important;
+    color: var(--cor-texto, #fff) !important;
 }
 .checkbox-label input {
     width: 18px;
     height: 18px;
     cursor: pointer;
-    accent-color: #a00b0b;
+    accent-color: var(--cor-primaria, #a00b0b);
 }
 
 .opcionais-container {
-    border: 1px solid #444;
+    border: 1px solid var(--cor-borda, #444);
     padding: 20px;
     border-radius: 8px;
     margin-bottom: 30px;
-    background-color: #111;
+    background-color: var(--cor-fundo, #111);
 }
 
 .opcionais-container legend {
-    color: #a00b0b;
+    color: var(--cor-primaria, #a00b0b);
     font-size: 1.1rem;
     font-weight: bold;
 }
@@ -591,11 +583,137 @@
     display: flex;
     align-items: center;
     gap: 8px;
-    color: #ccc;
+    color: var(--cor-texto-mutado, #ccc);
     font-size: 0.9rem;
     cursor: pointer;
 }
 
 .grid-opcionais input {
-    accent-color: #a00b0b;
+    accent-color: var(--cor-primaria, #a00b0b);
+}
+
+/* =========================================
+   FILTROS DA PÁGINA PRINCIPAL
+   ========================================= */
+.filtros-container {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+    background-color: var(--cor-fundo-secundario, #1a1a1a);
+    padding: 15px;
+    border-radius: var(--borda-raio, 8px);
+    border: 1px solid var(--cor-borda, #333);
+}
+
+#filtro-busca-carro {
+    flex: 2;
+    padding: 12px;
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--cor-borda, #444);
+    color: var(--cor-texto, #fff);
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: 0.3s;
+}
+
+#filtro-status-carro {
+    flex: 1;
+    padding: 12px;
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--cor-borda, #444);
+    color: var(--cor-texto, #fff);
+    border-radius: 6px;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+#filtro-busca-carro:focus, #filtro-status-carro:focus {
+    border-color: var(--cor-primaria, #a00b0b);
+    outline: none;
+    background-color: var(--cor-fundo, #111);
+}
+
+@media (max-width: 768px) {
+    .filtros-container {
+        flex-direction: column;
+    }
+}
+
+/* =========================================
+   INPUTS DE BUSCA DENTRO DO MODAL E SELECT (GERENCIAR)
+   ========================================= */
+.input-busca-modal {
+    width: 100%;
+    padding: 8px 12px;
+    margin-bottom: 8px;
+    background-color: var(--cor-fundo, #111);
+    border: 1px solid var(--cor-borda, #444);
+    color: var(--cor-texto, #fff);
+    border-radius: 4px;
+    font-size: 0.9rem;
+}
+
+.input-busca-modal:focus {
+    border-color: var(--cor-primaria, #a00b0b);
+    outline: none;
+}
+
+.custom-select-container {
+    position: relative;
+    width: 100%;
+}
+
+.custom-select-btn {
+    width: 100%;
+    padding: 12px;
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--cor-borda, #444);
+    color: var(--cor-texto, #fff);
+    border-radius: 6px;
+    font-size: 1rem;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.custom-select-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: var(--cor-fundo-secundario, #222);
+    border: 1px solid var(--cor-borda, #444);
+    border-radius: 6px;
+    margin-top: 5px;
+    z-index: 1000;
+    padding: 10px;
+    box-shadow: var(--sombra-card, 0 5px 15px rgba(0,0,0,0.7));
+    display: none; 
+}
+
+.custom-select-dropdown.mostrar {
+    display: block; 
+}
+
+.custom-select-list {
+    max-height: 200px;
+    overflow-y: auto;
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.custom-select-item {
+    padding: 10px;
+    cursor: pointer;
+    color: var(--cor-texto-mutado, #ccc);
+    border-radius: 4px;
+    transition: 0.2s;
+}
+
+.custom-select-item:hover, .custom-select-item.selecionado {
+    background-color: var(--cor-primaria, #a00b0b);
+    color: #fff;
 }

@@ -88,16 +88,8 @@
     background-color: #5a6268;
 }
 
-/* Responsividade do filtro */
-@media (max-width: 768px) {
-    #form-filtro label,
-    #form-filtro button {
-        flex: 1 1 100%;
-    }
-}
-
 /* =========================================
-   LISTA DE CARROS
+   LISTA DE CARROS (PÁGINA ESTOQUE)
    ========================================= */
 #lista-carros {
     display: grid;
@@ -128,13 +120,14 @@
 
 #paginacao {
     display: flex;
+    flex-wrap: wrap; /* Garante que os botões não quebrem o layout se houver muitas páginas */
+    justify-content: center;
     gap: 8px;
     align-items: center;
-    list-style: none; /* Prevenção caso algo afete a UL */
+    list-style: none;
     padding: 0;
 }
 
-/* Estilo padrão dos botões de página */
 #paginacao button {
     background-color: var(--cor-fundo-secundario, #fff);
     color: var(--cor-texto, #333);
@@ -147,24 +140,36 @@
     transition: all 0.3s ease;
 }
 
-/* Efeito ao passar o mouse */
 #paginacao button:hover {
     background-color: var(--cor-primaria-hover, #b30015);
     border-color: var(--cor-primaria-hover, #b30015);
     color: #fff;
 }
 
-/* Estilo da página ATUAL (destacada em vermelho) */
 #paginacao .pagina-atual {
     background-color: var(--cor-primaria, #e3001b);
     border-color: var(--cor-primaria, #e3001b);
     color: #fff;
-    cursor: default; /* Remove a "mãozinha" pois já está na página */
+    cursor: default;
 }
 
-/* Estilo dos pontinhos "..." */
 #paginacao span {
     color: var(--cor-texto-mutado, #888);
     font-weight: bold;
     padding: 0 5px;
+}
+
+/* =========================================
+   📱 RESPONSIVIDADE: PÁGINA DE CARROS
+   ========================================= */
+@media (max-width: 768px) {
+    #form-filtro label,
+    #form-filtro button {
+        flex: 1 1 100%; /* Força os campos e botões a ocuparem 100% da largura no celular */
+    }
+    
+    #paginacao button {
+        padding: 8px 12px; /* Reduz um pouco os botões de página no celular */
+        font-size: 0.9rem;
+    }
 }

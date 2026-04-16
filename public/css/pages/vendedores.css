@@ -1,6 +1,95 @@
 /* =========================================
    PÁGINA DE VENDEDORES
    ========================================= */
+
+/* Espaçamento extra no topo para alinhar com a página de carros */
+.pagina-vendedores main {
+    padding-top: 120px; 
+    min-height: calc(100vh - 200px); 
+}
+
+/* =========================================
+   FILTRO DE VENDEDORES
+   ========================================= */
+#filtro-vendedores {
+    max-width: 1200px;
+    margin: 0 auto 40px auto;
+    padding: 0 20px;
+}
+
+#form-filtro-vendedores fieldset {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    padding: 25px;
+    border: 1px solid var(--cor-borda, #333);
+    border-radius: 8px;
+    background-color: var(--cor-fundo-secundario, #1a1a1a);
+    align-items: flex-end;
+}
+
+#form-filtro-vendedores h2 {
+    font-weight: bold;
+    font-size: 32px;
+    padding: 0 10px;
+    color: var(--cor-primaria, #e3001b);
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+#form-filtro-vendedores label {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-weight: bold;
+    font-size: 0.9rem;
+    flex: 1 1 200px;
+    color: var(--cor-texto, #fff); /* Texto branco para combinar com o card escuro */
+}
+
+#form-filtro-vendedores input {
+    padding: 10px;
+    border: 1px solid #555;
+    border-radius: 4px;
+    font-size: 1rem;
+    outline: none;
+    background-color: #222; /* Fundo escuro no input */
+    color: #fff;
+}
+
+#form-filtro-vendedores input:focus {
+    border-color: var(--cor-primaria, #e3001b);
+}
+
+#form-filtro-vendedores button {
+    padding: 10px 20px;
+    background-color: var(--cor-primaria, #e3001b);
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    height: 42px;
+    flex: 0 1 auto;
+}
+
+#form-filtro-vendedores button:hover {
+    background-color: var(--cor-primaria-hover, #b30015);
+}
+
+#form-filtro-vendedores button[type="reset"] {
+    background-color: #6c757d;
+}
+
+#form-filtro-vendedores button[type="reset"]:hover {
+    background-color: #5a6268;
+}
+
+/* =========================================
+   LISTA DE VENDEDORES
+   ========================================= */
 .lista-vendedores {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -99,80 +188,15 @@
 }
 
 /* =========================================
-   FILTRO DE VENDEDORES
+   📱 RESPONSIVIDADE: PÁGINA DE VENDEDORES
    ========================================= */
-#filtro-vendedores {
-    max-width: 1200px;
-    margin: 0 auto 40px auto;
-    padding: 0 20px;
-}
-
-#form-filtro-vendedores fieldset {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
-    padding: 25px;
-    border: 1px solid var(--cor-borda, #333);
-    border-radius: 8px;
-    background-color: var(--cor-fundo-secundario, #1a1a1a);
-    align-items: flex-end;
-}
-
-#form-filtro-vendedores h2 {
-    font-weight: bold;
-    font-size: 32px;
-    padding: 0 10px;
-    color: var(--cor-primaria, #e3001b);
-    width: 100%;
-    margin-bottom: 10px;
-}
-
-#form-filtro-vendedores label {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    font-weight: bold;
-    font-size: 0.9rem;
-    flex: 1 1 200px;
-    color: var(--cor-texto, #fff); /* Texto branco para combinar com o card */
-}
-
-#form-filtro-vendedores input {
-    padding: 10px;
-    border: 1px solid #555;
-    border-radius: 4px;
-    font-size: 1rem;
-    outline: none;
-    background-color: #222; /* Fundo escuro no input */
-    color: #fff;
-}
-
-#form-filtro-vendedores input:focus {
-    border-color: var(--cor-primaria, #e3001b);
-}
-
-#form-filtro-vendedores button {
-    padding: 10px 20px;
-    background-color: var(--cor-primaria, #e3001b);
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    font-weight: bold;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    height: 42px;
-    flex: 0 1 auto;
-}
-
-#form-filtro-vendedores button:hover {
-    background-color: var(--cor-primaria-hover, #b30015);
-}
-
-#form-filtro-vendedores button[type="reset"] {
-    background-color: #6c757d;
-}
-
-#form-filtro-vendedores button[type="reset"]:hover {
-    background-color: #5a6268;
+@media (max-width: 768px) {
+    #form-filtro-vendedores label,
+    #form-filtro-vendedores button {
+        flex: 1 1 100%; /* Filtros e botões empilham e ocupam a tela toda */
+    }
+    
+    .lista-vendedores {
+        grid-template-columns: 1fr; /* Apenas 1 card de vendedor por linha no celular */
+    }
 }

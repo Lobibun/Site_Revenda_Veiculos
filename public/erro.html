@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Alan Farias Lopes"> <meta name="description" content="Página de erro do sistema.">
+    <title>Ops! Ocorreu um erro - Revendedora</title>
+    
+    <link rel="stylesheet" href="css/base/global.css">
+    <link rel="stylesheet" href="css/pages/erro.css">
+    <link rel="icon" type="image/png" href="Img/favicon.png">
+</head>
+<body>
+
+    <main class="container-erro">
+        
+        <section class="conteudo-erro">
+            <h1 id="codigo-erro">404</h1>
+            <h2 id="titulo-erro">Página não encontrada</h2>
+            <p id="mensagem-erro">Parece que você pegou uma rota inexistente ou o veículo que você procurava já foi vendido.</p>
+            
+            <figure class="ilustracao">
+                <svg viewBox="0 0 24 24" width="90" height="90" fill="var(--cor-primaria)">
+                    <path d="M12 2L1 21h22L12 2zm0 3.45l8.27 14.3H3.73L12 5.45zM11 16h2v2h-2zm0-6h2v4h-2z"/>
+                </svg>
+            </figure>
+
+            <nav class="botoes-erro">
+                <a href="/" class="btn-vermelho">Voltar ao Início</a>
+                <button onclick="window.history.back()" class="btn-secundario">Página Anterior</button>
+            </nav>
+
+            <p class="timer">Você será redirecionado automaticamente em <strong id="segundos">15</strong> segundos...</p>
+        </section>
+
+    </main>
+
+    <script src="js/erro.js"></script>
+</body>
+</html>

@@ -10,6 +10,7 @@
         <link rel="stylesheet" href="/css/base/global.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <link rel="icon" type="image/png" href="Img/favicon.png">
         
         <script src="/js/components/header-adm.js" defer></script>
     </head>
@@ -28,27 +29,47 @@
                 <form id="form-veiculo" class="form-admin" enctype="multipart/form-data">
                     
                     <section class="adm-veic-linha adm-veic-grid-2">
+                        
                         <article class="campo-form">
-                            <label for="marca">Marca</label>
-                            <select name="marca_id" id="marca" required>
-                                <option value="">Carregando...</option>
-                            </select>
+                            <header style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 8px;">
+                                <label style="margin: 0;">Marca *</label>
+                                <nav style="display: flex; gap: 8px;">
+                                    <button type="button" onclick="adicionarNovaMarca()" class="btn-vermelho-mini" style="padding: 2px 8px;" title="Nova Marca">➕</button>
+                                    <button type="button" onclick="abrirGerenciarMarcas()" class="btn-cinza-mini" style="padding: 2px 8px; background: #555;" title="Gerenciar Marcas">⚙️</button>
+                                </nav>
+                            </header>
+                            
+                            <article class="custom-select-container" id="custom-marca-container">
+                                <header class="custom-select-display" onclick="toggleMarcaDropdown()">
+                                    <span id="texto-marca-selecionada">Selecione a marca...</span>
+                                    <i class="fas fa-chevron-down" style="color: #888;"></i>
+                                </header>
+                        
+                                <section class="custom-select-dropdown" style="display: none;">
+                                    <input type="search" id="busca-marca-interna" placeholder="🔍 Digite para buscar..." oninput="filtrarMarcasDropdown()">
+                                    <ul id="lista-marcas-dropdown" class="scroll-personalizado">
+                                        <li>Carregando...</li>
+                                    </ul>
+                                </section>
+                                
+                                <input type="hidden" name="marca_id" id="marca_id_hidden" required>
+                            </article>
                         </article>
 
                         <article class="campo-form">
-                            <label for="modelo">Modelo</label>
+                            <label for="modelo">Modelo *</label>
                             <input type="text" id="modelo" name="modelo" placeholder="Ex: Civic EXL" required />
                         </article>
                     </section>
 
                     <section class="adm-veic-linha adm-veic-grid-3">
                         <article class="campo-form">
-                            <label for="ano">Ano</label>
+                            <label for="ano">Ano *</label>
                             <input type="number" id="ano" name="ano" placeholder="Ex: 2021" min="1900" required />
                         </article>
 
                         <article class="campo-form">
-                            <label for="preco">Preço (R$)</label>
+                            <label for="preco">Preço (R$) *</label>
                             <input type="number" id="preco" name="preco" placeholder="Ex: 120000" min="0" required />
                         </article>
 
@@ -60,12 +81,12 @@
 
                     <section class="adm-veic-linha adm-veic-grid-3">
                         <article class="campo-form">
-                            <label for="quilometragem">Quilometragem</label>
+                            <label for="quilometragem">Quilometragem *</label>
                             <input type="number" id="quilometragem" name="quilometragem" placeholder="Ex: 45000" min="0" required />
                         </article>
 
                         <article class="campo-form">
-                            <label for="cambio">Câmbio</label>
+                            <label for="cambio">Câmbio *</label>
                             <select id="cambio" name="cambio" required>
                                 <option value="Manual">Manual</option>
                                 <option value="Automático">Automático</option>
@@ -73,7 +94,7 @@
                         </article>
 
                         <article class="campo-form">
-                            <label for="combustivel">Combustível</label>
+                            <label for="combustivel">Combustível *</label>
                             <select name="combustivel" id="combustivel" required>
                                 <option value="">Carregando...</option>
                             </select>
@@ -97,9 +118,19 @@
                     </section>
 
                     <fieldset id="lista-opcionais" class="opcionais-container" style="display: none;">
-                        <legend>Selecione os Opcionais</legend>
-                        <div id="grid-opcionais" class="grid-opcionais">
-                            </div>
+                        <header style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                            <legend style="margin: 0; font-size: 1.1rem; font-weight: bold;">Selecione os Opcionais</legend>
+                            <nav style="display: flex; gap: 10px;">
+                                <button type="button" onclick="adicionarNovoOpcional()" class="btn-vermelho" style="padding: 5px 12px; font-size: 0.9rem;">➕ Novo</button>
+                                <button type="button" onclick="abrirGerenciarOpcionais()" class="btn-vermelho" style="padding: 5px 12px; font-size: 0.9rem; background-color: #555;">⚙️ Gerenciar</button>
+                            </nav>
+                        </header>
+                        
+                        <aside style="margin-bottom: 15px;">
+                            <input type="search" id="busca-opcional" placeholder="🔍 Filtrar opcionais na lista abaixo..." style="width: 100%; padding: 8px; border-radius: 4px; border: 1px solid #444; background: #222; color: #fff;">
+                        </aside>
+
+                        <section id="grid-opcionais" class="grid-opcionais"></section>
                     </fieldset>
 
                     <section class="checkbox-caixa">
@@ -131,6 +162,56 @@
         </main>
 
         <rodape-admin></rodape-admin>
+
+        <section id="modal-marcas" class="modal-overlay" style="display: none;">
+            <section class="modal-box modal-gerenciar">
+                <header class="modal-header">
+                    <h2><i class="fa-solid fa-tags"></i> Gerenciar Marcas</h2>
+                    <button type="button" class="btn-fechar-modal" onclick="fecharModalMarcas()">&times;</button>
+                </header>
+                
+                <section class="modal-body">
+                    <article class="area-adicionar">
+                        <input type="text" id="nova-marca-input" placeholder="Digite a nova marca..." />
+                        <button type="button" class="btn-vermelho" onclick="adicionarNovaMarca()">
+                            <i class="fa-solid fa-plus"></i> Adicionar
+                        </button>
+                    </article>
+
+                    <article class="area-pesquisa">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" id="pesquisa-marca" placeholder="Pesquisar marca..." onkeyup="filtrarMarcas()" />
+                    </article>
+
+                    <ul id="lista-marcas-modal" class="lista-gerenciar scroll-personalizado"></ul>
+                </section>
+            </section>
+        </section>
+
+        <section id="modal-opcionais" class="modal-overlay" style="display: none;">
+            <section class="modal-box modal-gerenciar">
+                <header class="modal-header">
+                    <h2><i class="fa-solid fa-list-check"></i> Gerenciar Opcionais</h2>
+                    <button type="button" class="btn-fechar-modal" onclick="fecharModalOpcionais()">&times;</button>
+                </header>
+                
+                <section class="modal-body">
+                    <article class="area-adicionar">
+                        <input type="text" id="novo-opcional-input" placeholder="Digite o novo opcional..." />
+                        <button type="button" class="btn-vermelho" onclick="adicionarNovoOpcional()">
+                            <i class="fa-solid fa-plus"></i> Adicionar
+                        </button>
+                    </article>
+
+                    <article class="area-pesquisa">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" id="pesquisa-opcional" placeholder="Pesquisar opcional..." onkeyup="filtrarOpcionais()" />
+                    </article>
+
+                    <ul id="lista-opcionais-modal" class="lista-gerenciar scroll-personalizado"></ul>
+                </section>
+            </section>
+        </section>
 
         <section id="lightbox-foto" class="lightbox-overlay" style="display: none;">
             <button type="button" class="btn-fechar-lightbox">&times;</button>

@@ -61,6 +61,7 @@
     display: flex;
     align-items: center;
     gap: 10px;
+    min-height: 44px; /* Otimizado para toque */
 }
 
 #menu-perfil li:last-child {
@@ -149,7 +150,7 @@
 .foto-clicavel-cracha:hover {
     transform: scale(1.1);
     border-color: var(--cor-primaria-hover);
-    box-shadow: 0 8px 20px rgba(204, 0, 0, 0.4); /* Usando um tom baseado na primária */
+    box-shadow: 0 8px 20px rgba(204, 0, 0, 0.4);
     z-index: 10;
 }
 
@@ -240,6 +241,7 @@
     border-radius: 4px;
     font-size: 1rem;
     transition: 0.3s;
+    min-height: 44px; /* Otimizado para mobile */
 }
 
 .campo-form input:focus {
@@ -271,6 +273,7 @@
     cursor: pointer;
     transition: background-color 0.3s, transform 0.1s;
     text-align: center;
+    min-height: 44px; /* Otimizado para mobile */
 }
 
 .btn-salvar-perfil:hover {
@@ -313,9 +316,16 @@
         width: 100%;
     }
 
+    /* Transforma o menu lateral em uma barra com scroll horizontal no app */
     #menu-perfil {
         display: flex;
         overflow-x: auto;
+        -webkit-overflow-scrolling: touch; /* Rolagem suave */
+        scrollbar-width: none; /* Esconde barra no Firefox */
+    }
+
+    #menu-perfil::-webkit-scrollbar {
+        display: none; /* Esconde barra no Chrome/Safari para ficar com cara de App */
     }
 
     #menu-perfil li {
@@ -324,7 +334,7 @@
         justify-content: center;
         border-bottom: 2px solid transparent;
         border-left: none !important;
-        padding: 12px;
+        padding: 12px 20px;
         font-size: 0.9rem;
     }
 

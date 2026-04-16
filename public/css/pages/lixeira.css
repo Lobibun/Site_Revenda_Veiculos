@@ -58,10 +58,20 @@
     border-radius: 6px;
     font-size: 1rem;
     outline: none;
+    height: 44px; /* Otimizado para mobile */
 }
 
 .input-dias:focus {
     border-color: var(--cor-primaria, #a00b0b);
+}
+
+/* Caso tenha um botão dentro de config-acao */
+.config-acao button {
+    height: 44px;
+    padding: 0 20px;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
 }
 
 /* =========================================
@@ -85,6 +95,7 @@
     color: #ccc;
     text-transform: uppercase;
     font-size: 0.9rem;
+    white-space: nowrap; /* Evita quebra de linha no header no mobile */
 }
 
 .tabela-admin td {
@@ -124,11 +135,43 @@
 .btn-restaurar {
     background-color: #28a745;
     color: white;
-    padding: 8px 15px;
+    padding: 10px 15px;
     border-radius: 4px;
     border: none;
     cursor: pointer;
     font-weight: bold;
     transition: 0.3s;
+    min-height: 44px; /* Otimizado para mobile */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }
 .btn-restaurar:hover { background-color: #218838; }
+
+/* =========================================
+   RESPONSIVIDADE (MOBILE)
+   ========================================= */
+@media (max-width: 768px) {
+    .config-limpeza {
+        flex-direction: column;
+        align-items: stretch;
+        text-align: center;
+    }
+
+    .config-acao {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .input-dias, .config-acao button {
+        width: 100%;
+    }
+
+    /* Tabela scrollável no mobile */
+    .tabela-admin {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+        -webkit-overflow-scrolling: touch;
+    }
+}

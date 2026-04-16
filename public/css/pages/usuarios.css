@@ -35,13 +35,15 @@
 .btn-novo {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 8px;
-    padding: 10px 20px;
+    padding: 12px 20px;
     font-weight: bold;
     border: none;
     cursor: pointer;
     border-radius: 4px;
     transition: 0.3s;
+    min-height: 44px; /* Otimizado para mobile */
 }
 
 .btn-vermelho {
@@ -60,6 +62,7 @@
     border: 1px solid #333;
     overflow-x: auto;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    -webkit-overflow-scrolling: touch; /* Scroll suave no mobile */
 }
 
 .tabela-dados {
@@ -119,7 +122,7 @@
     background-color: rgba(220, 53, 69, 0.1);
     color: #dc3545;
     border: none;
-    padding: 8px 12px;
+    padding: 10px 15px; /* Aumentado para facilitar o toque */
     border-radius: 4px;
     cursor: pointer;
     transition: 0.3s;
@@ -127,6 +130,7 @@
     display: inline-flex;
     gap: 6px;
     align-items: center;
+    min-height: 44px;
 }
 
 .btn-excluir:hover {
@@ -136,13 +140,14 @@
 
 /* Select de Cargo e Badges */
 .select-cargo {
-    padding: 8px;
+    padding: 10px;
     border-radius: 4px;
     border: 1px solid #444;
     background: #222;
     color: #fff;
     cursor: pointer;
     outline: none;
+    min-height: 44px; /* Otimizado para mobile */
 }
 
 .select-cargo:focus {
@@ -196,6 +201,7 @@
     align-items: center;
     z-index: 99999;
     padding: 20px;
+    box-sizing: border-box;
 }
 
 .modal-box {
@@ -235,6 +241,9 @@
     justify-content: space-between;
     align-items: center;
     border-bottom: 2px solid #a00b0b;
+    position: sticky;
+    top: 0;
+    z-index: 2;
 }
 
 .modal-header h2 {
@@ -251,6 +260,7 @@
     cursor: pointer;
     transition: 0.3s;
     line-height: 1;
+    padding: 5px; /* Facilita o clique */
 }
 
 .btn-fechar-x:hover {
@@ -290,6 +300,7 @@
     border-radius: 6px;
     font-size: 1rem;
     transition: 0.3s;
+    min-height: 44px;
 }
 
 .campo-form input:focus,
@@ -314,6 +325,7 @@
     color: #aaa;
     transition: 0.3s;
     width: 100%;
+    min-height: 44px;
 }
 
 .upload-compacto:hover {
@@ -345,12 +357,13 @@
 }
 
 .btn-grande {
-    padding: 12px 30px;
+    padding: 14px 30px;
     font-size: 1.1rem;
     width: 100%;
     cursor: pointer;
     border: none;
     border-radius: 6px;
+    font-weight: bold;
 }
 
 .swal2-container {
@@ -395,8 +408,8 @@
     color: #fff;
     border: 2px solid #fff;
     border-radius: 50%;
-    width: 40px;
-    height: 40px;
+    width: 44px; /* Ajustado para 44px (padrão mobile) */
+    height: 44px;
     font-size: 20px;
     font-weight: bold;
     cursor: pointer;
@@ -413,13 +426,25 @@
     transform: scale(1.1);
 }
 
+/* =========================================
+   5. RESPONSIVIDADE (MOBILE)
+   ========================================= */
 @media (max-width: 768px) {
-    /* Como já mudamos para column no global, o mobile não precisa alterar muito */
+    .btn-novo {
+        width: 100%; /* Botão "Novo" ocupa tela toda no celular */
+    }
+
+    #form-novo-usuario {
+        padding: 20px;
+    }
+
     .form-grid {
         grid-template-columns: 1fr;
     }
+    
     .btn-fechar-absoluto {
-        top: 5px;
-        right: 5px;
+        top: 10px;
+        right: 10px;
+        border: none; /* Remove borda branca no mobile para não poluir */
     }
 }

@@ -1,181 +1,124 @@
-CREATE DATABASE IF NOT EXISTS revendedora;
+-- ==========================================
+-- 1. ESTRUTURA INICIAL
+-- ==========================================
+CREATE DATABASE IF NOT EXISTS revendedora
+CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 USE revendedora;
 
-CREATE TABLE Carros (
+-- ==========================================
+-- 2. TABELAS DE APOIO (CADASTROS BASE)
+-- ==========================================
+
+-- Tabela de Marcas (Universal: Carros, Motos e Caminhões)
+CREATE TABLE IF NOT EXISTS Marcas (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    marca VARCHAR(50) NOT NULL,
+    nome VARCHAR(50) UNIQUE NOT NULL
+);
+
+-- Tabela de Opcionais (Geral)
+CREATE TABLE IF NOT EXISTS Opcionais (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(50) NOT NULL
+);
+
+-- ==========================================
+-- 3. INSERÇÃO DE DADOS (LISTA COMPLETA)
+-- ==========================================
+
+-- Marcas (Populares, Premium, Motos e Pesados)
+INSERT INTO Marcas (nome) VALUES 
+('Toyota'), ('Honda'), ('Chevrolet'), ('Ford'), ('Volkswagen'), ('Fiat'), -- Populares
+('Hyundai'), ('Renault'), ('Nissan'), ('Jeep'), ('Peugeot'), ('Citroën'), -- Médios
+('BMW'), ('Mercedes-Benz'), ('Audi'), ('Volvo'), ('Land Rover'), ('Porsche'), -- Premium
+('Mitsubishi'), ('Suzuki'), ('Subaru'), ('Kia'), ('CAOA Chery'), ('BYD'), ('GWM'), -- Outras/Elétricos
+('Yamaha'), ('Kawasaki'), ('Harley-Davidson'), ('Triumph'), ('Ducati'), ('Royal Enfield'), -- Motos
+('Scania'), ('Iveco'), ('DAF'), ('MAN'); -- Caminhões
+
+-- Opcionais (Tecnologia, Conforto e Segurança)
+INSERT INTO Opcionais (nome) VALUES 
+('Ar-condicionado'), ('Ar-condicionado Digital'), ('Direção Hidráulica'), ('Direção Elétrica'),
+('Vidros Elétricos'), ('Travas Elétricas'), ('Retrovisores Elétricos'), ('Alarme'),
+('Airbag Frontal'), ('Airbag Lateral'), ('Airbags de Cortina'), ('Freio ABS'),
+('Controle de Estabilidade (ESP)'), ('Controle de Tração'), ('Assistente de Partida em Rampa'),
+('Bancos de Couro'), ('Ajuste Elétrico dos Bancos'), ('Aquecimento de Bancos'),
+('Central Multimídia'), ('Conexão Bluetooth'), ('Espelhamento de Celular (Android/Apple)'),
+('Computador de Bordo'), ('Piloto Automático'), ('Piloto Automático Adaptativo (ACC)'),
+('Câmera de Ré'), ('Sensor de Estacionamento'), ('Sensor de Chuva'), ('Acendimento Automático de Faróis'),
+('Faróis de LED'), ('Faróis de Xenon'), ('Teto Solar'), ('Teto Panorâmico'),
+('Rodas de Liga Leve'), ('Chave Presencial (Keyless)'), ('Partida no Botão (Start/Stop)'),
+('Manual do Proprietário'), ('Chave Reserva'), ('Único Dono'), ('Revisões na Concessionária');
+
+-- ==========================================
+-- 4. TABELAS PRINCIPAIS DO SISTEMA
+-- ==========================================
+
+CREATE TABLE IF NOT EXISTS Vendedores (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE,
+    telefone VARCHAR(20) NOT NULL,
+    foto VARCHAR(255),
+    status VARCHAR(20) DEFAULT 'ativo',
+    deletado_em DATETIME NULL
+);
+
+CREATE TABLE IF NOT EXISTS Usuarios (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    telefone VARCHAR(20),
+    senha_hash VARCHAR(255) NOT NULL,
+    nivel ENUM('admin', 'vendedor', 'gerente') DEFAULT 'vendedor',
+    foto VARCHAR(255),
+    reset_token VARCHAR(255),
+    reset_expires DATETIME,
+    status VARCHAR(20) DEFAULT 'ativo',
+    criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    deletado_em DATETIME NULL
+);
+
+CREATE TABLE IF NOT EXISTS Carros (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    marca_id INT,
+    marca VARCHAR(50) NOT NULL, -- Mantido por segurança de redundância
     modelo VARCHAR(50) NOT NULL,
     ano INT NOT NULL,
     preco DECIMAL(10,2) NOT NULL,
     fipe DECIMAL(10,2),
     quilometragem INT NOT NULL,
     cambio ENUM('Manual', 'Automático') NOT NULL,
+    Combustivel ENUM('Gasolina', 'Etanol', 'Flex', 'Diesel', 'Híbrido', 'Elétrico') NOT NULL,
     leilao BOOLEAN NOT NULL DEFAULT FALSE,
-    status ENUM('Disponível', 'Vendido') DEFAULT 'Disponível'
+    Opcionais BOOLEAN NOT NULL DEFAULT FALSE,
+    destaque BOOLEAN DEFAULT FALSE,
+    imagem_principal VARCHAR(255),
+    status VARCHAR(20) DEFAULT 'Disponível',
+    criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    vendido_em DATETIME NULL,
+    deletado_em DATETIME NULL,
+    FOREIGN KEY (marca_id) REFERENCES Marcas(id)
 );
 
-CREATE TABLE Opcionais (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    nome VARCHAR(50) NOT NULL
-
-);
-
-CREATE TABLE Carro_Opcional (
-    carro_id INT,
-    opcional_id INT,
-    PRIMARY KEY (carro_id, opcional_id),
-    FOREIGN KEY (carro_id) REFERENCES Carros(id),
-    FOREIGN KEY (opcional_id) REFERENCES Opcionais(id)
-);
-
-ALTER TABLE Carros ADD COLUMN imagem VARCHAR(255);
-ALTER TABLE Carros ADD COLUMN imagem_principal VARCHAR(255);
-
-CREATE TABLE FotosCarro (
+CREATE TABLE IF NOT EXISTS FotosCarro (
     id INT AUTO_INCREMENT PRIMARY KEY,
     carro_id INT,
     caminho VARCHAR(255),
-    FOREIGN KEY (carro_id) REFERENCES Carros(id)
+    FOREIGN KEY (carro_id) REFERENCES Carros(id) ON DELETE CASCADE
 );
 
-INSERT INTO FotosCarro (carro_id, caminho)
-VALUES
-(1, 'img/carros/Corolla/corolla1.jpg'),
-(1, 'img/carros/Corolla/corolla2.jpg'),
-(1, 'img/carros/Corolla/corolla3.jpg');
-
-ALTER TABLE Carros ADD COLUMN Combustivel ENUM('Gasolina', 'Etanol', 'Flex', 'Diesel', 'Híbrido') NOT NULL;
-
-UPDATE Carros SET Combustivel = 'Flex' WHERE id = 1;
-UPDATE Carros SET fipe = 106000.00 WHERE id = 1;
-select * from Carros;
-
-ALTER TABLE Carros ADD COLUMN Opcionais BOOLEAN NOT NULL DEFAULT FALSE;
-UPDATE Carros SET Opcionais = TRUE WHERE id = 1;
-
-INSERT INTO FotosCarro (carro_id, caminho)
-VALUES
-(2, 'img/carros/Chevrolet-Vectra/Vectra.png');
-
-DELETE FROM FotosCarro
-WHERE carro_id = 3;
-
-DELETE FROM Carros
-WHERE id = 3;
-
-ALTER TABLE Carros
-ADD destaque BOOLEAN DEFAULT FALSE;
-
-ALTER TABLE Carros
-ADD criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP;
-
-CREATE TABLE CarroOpcionais (
+CREATE TABLE IF NOT EXISTS CarroOpcionais (
     carro_id INT,
     opcional_id INT,
-
     PRIMARY KEY (carro_id, opcional_id),
-
-    FOREIGN KEY (carro_id) REFERENCES Carros(id),
-    FOREIGN KEY (opcional_id) REFERENCES Opcionais(id)
+    FOREIGN KEY (carro_id) REFERENCES Carros(id) ON DELETE CASCADE,
+    FOREIGN KEY (opcional_id) REFERENCES Opcionais(id) ON DELETE CASCADE
 );
 
-INSERT INTO Opcionais (nome) VALUES
-('Ar condicionado'),
-('Direção hidráulica'),
-('Vidro elétrico'),
-('Trava elétrica'),
-('Airbag'),
-('Freio ABS'),
-('Central multimídia'),
-('Sensor de ré'),
-('Câmera de ré'),
-('Controle de estabilidade'),
-('Bancos de couro'),
-('Rodas de liga leve');
-
-CREATE TABLE Marcas (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    nome VARCHAR(50) UNIQUE NOT NULL
+CREATE TABLE IF NOT EXISTS Configuracoes (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    chave VARCHAR(50) UNIQUE,
+    valor VARCHAR(255)
 );
-
-INSERT INTO Marcas (nome) VALUES
-('Toyota'),
-('Honda'),
-('Chevrolet'),
-('Ford'),
-('Volkswagen'),
-('Hyundai'),
-('Fiat'),
-('Jeep'),
-('Nissan'),
-('Renault');
-
-ALTER TABLE Carros
-ADD marca_id INT,
-ADD FOREIGN KEY (marca_id) REFERENCES Marcas(id);
-
-UPDATE Carros SET marca_id = 3 WHERE id = 2;
-UPDATE Carros SET marca_id = 7 WHERE id = 4;
-
-
-INSERT INTO CarroOpcionais (carro_id, opcional_id) VALUES
-(1, 1), -- Ar condicionado
-(1, 2), -- Direção hidráulica
-(1, 4), -- Trava elétrica
-(1, 5), -- Airbag
-(1, 6), -- Freio ABS
-(1, 7), -- Central multimídia
-(1, 8), -- Sensor de ré
-(1, 9), -- Câmera de ré
-(1, 10), -- Controle de estabilidade
-(1, 11), -- Bancos de couro
-(1, 12); -- Rodas de liga leve
-
-CREATE TABLE Vendedores (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    nome VARCHAR(100) NOT NULL,
-    email VARCHAR(100) UNIQUE,
-    telefone VARCHAR(20) NOT NULL
-);
-
-INSERT INTO Vendedores (nome, email, telefone) VALUES
-('João Silva', 'joao.silva@email.com', '(11) 99999-9999');
-
-ALTER TABLE Vendedores
-ADD Foto VARCHAR(255);
-
-UPDATE Vendedores SET foto = 'img/vendedores/Joao Silva/joao_Silva.png' WHERE id = 1;
-
-INSERT INTO Vendedores (nome, email, telefone, foto) VALUES
-('Maria Oliveira', 'maria.oliveira@email.com', '(11) 98765-4321', 'img/vendedores/Maria Oliveira/maria_oliveira.jpg');
-
-UPDATE Vendedores SET foto = 'img/vendedores/Maria Oliveira/maria_oliveira.png' WHERE id = 2;
-
-ALTER TABLE Carros 
-MODIFY Combustivel ENUM(
-    'Gasolina',
-    'Etanol',
-    'Flex',
-    'Diesel',
-    'Híbrido',
-    'Elétrico'
-) NOT NULL;
-
-CREATE TABLE Usuarios (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    nome VARCHAR(100) NOT NULL,
-    email VARCHAR(100) NOT NULL UNIQUE,
-    telefone VARCHAR(20),
-    senha_hash VARCHAR(255) NOT NULL,
-    nivel ENUM('admin', 'vendedor') DEFAULT 'vendedor',
-    criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
-ALTER TABLE Usuarios
-ADD foto VARCHAR(255);
-
-ALTER TABLE Usuarios
-Modify nivel ENUM('admin', 'vendedor', 'gerente') DEFAULT 'vendedor';
 
 CREATE TABLE Auditoria (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -188,37 +131,19 @@ CREATE TABLE Auditoria (
     data_hora TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-ALTER TABLE Usuarios 
-ADD COLUMN reset_token VARCHAR(255),
-ADD COLUMN reset_expires DATETIME;
-
-ALTER TABLE Carros ADD COLUMN status VARCHAR(20) DEFAULT 'ativo';
-ALTER TABLE Vendedores ADD COLUMN status VARCHAR(20) DEFAULT 'ativo';
-ALTER TABLE Usuarios ADD COLUMN status VARCHAR(20) DEFAULT 'ativo';
-
-ALTER TABLE Carros ADD COLUMN deletado_em DATETIME NULL;
-ALTER TABLE Vendedores ADD COLUMN deletado_em DATETIME NULL;
-ALTER TABLE Usuarios ADD COLUMN deletado_em DATETIME NULL;
-CREATE TABLE IF NOT EXISTS Configuracoes (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    chave VARCHAR(50) UNIQUE,
-    valor VARCHAR(255)
-);
-
--- Inserir o padrão de 30 dias se não existir
-INSERT IGNORE INTO Configuracoes (chave, valor) VALUES ('dias_limpeza_lixeira', '30');
-
-ALTER TABLE Carros ADD COLUMN vendido_em DATETIME NULL;
-
-ALTER TABLE Carros MODIFY status VARCHAR(20) DEFAULT 'Disponível';
-
 CREATE TABLE Mensagens (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(100) NOT NULL,
     email VARCHAR(100) NOT NULL,
+    telefone VARCHAR(20),
+    assunto VARCHAR(150),
     mensagem TEXT NOT NULL,
-    lida BOOLEAN DEFAULT FALSE,
+    lida TINYINT(1) DEFAULT 0,
     data_envio TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+INSERT IGNORE INTO Configuracoes (chave, valor) VALUES ('dias_limpeza_lixeira', '30');
+
+ALTER TABLE Carros DROP COLUMN marca;
 ALTER TABLE Mensagens ADD COLUMN lida_por VARCHAR(100) DEFAULT NULL;
+ALTER TABLE Usuarios ADD COLUMN token_ativacao VARCHAR(255) DEFAULT NULL;

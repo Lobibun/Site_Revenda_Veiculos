@@ -6,11 +6,9 @@
 .adm-topo-padrao {
     display: flex;
     flex-direction: column;
-    /* Coloca o botão embaixo do título */
     justify-content: center;
     align-items: center;
     gap: 15px;
-    /* Espaço entre título e botão */
     margin-bottom: 30px;
     border-bottom: 2px solid var(--cor-borda);
     padding-bottom: 20px;
@@ -101,7 +99,6 @@
 .upload-box:hover {
     border-color: var(--cor-primaria);
     background-color: rgba(204, 0, 0, 0.05);
-    /* Fundo avermelhado super sutil */
     color: var(--cor-texto);
 }
 
@@ -150,8 +147,8 @@
     color: #fff;
     border: none;
     border-radius: 50%;
-    width: 40px;
-    height: 40px;
+    width: 44px; /* Otimizado para toque no mobile */
+    height: 44px;
     font-size: 20px;
     font-weight: bold;
     cursor: pointer;
@@ -168,8 +165,7 @@
 
 .btn-remover-foto:hover {
     background-color: var(--cor-primaria-hover);
-    width: 45px;
-    height: 45px;
+    transform: translate(-50%, -50%) scale(1.1);
 }
 
 /* 6. BOTÃO DE ENVIO */
@@ -189,8 +185,7 @@
     cursor: pointer;
 }
 
-/* 7. LIGHTBOX FOTO AMPLIADA 
-   (O fundo escuro .modal-overlay e .oculto agora vêm do global.css) */
+/* 7. LIGHTBOX FOTO AMPLIADA */
 #lightbox-img {
     max-width: 90%;
     max-height: 90vh;
@@ -218,7 +213,9 @@
 
 /* 8. RESPONSIVIDADE */
 @media (max-width: 768px) {
-    /* O Header agora se arruma sozinho graças ao flex-direction: column */
+    .form-admin-container {
+        padding: 20px 15px;
+    }
 
     .adm-veic-grid-2 {
         grid-template-columns: 1fr;
@@ -231,5 +228,10 @@
 
     .btn-grande {
         width: 100%;
+    }
+
+    .btn-remover-foto {
+        opacity: 1; /* Mantém o botão visível no mobile */
+        background-color: rgba(204, 0, 0, 0.7);
     }
 }
