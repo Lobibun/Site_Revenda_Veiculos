@@ -159,6 +159,10 @@ ul.slides, .slide figure {
     display: grid;
     grid-template-columns: 1fr;
     gap: 24px; 
+    
+    /* MUDANÇA AQUI: align-items: start impede que as caixas estiquem. 
+       Elas ficarão exatamente do tamanho do conteúdo. */
+    align-items: start; 
 }
 
 @media (min-width: 900px) {
@@ -439,6 +443,8 @@ mark.tag-desconto {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    /* Remove bordas nativas da tag <dialog> */
+    border: none;
 }
 
 .modal-imagem[style*="display: block"],
@@ -477,12 +483,18 @@ mark.tag-desconto {
     border-color: var(--cor-primaria);
 }
 
+/* MUDANÇA AQUI: Botão X formatado para remover o fundo branco 
+   e tirar a aparência padrão de botões do navegador */
 .modal-imagem .fechar {
     position: absolute;
     top: 25px;
     right: 40px;
     font-size: 45px;
     color: #fff;
+    background: transparent; /* Remove o fundo */
+    border: none;            /* Remove a borda padrão do botão */
+    padding: 0;
+    line-height: 1;
     cursor: pointer;
     transition: var(--transicao);
 }

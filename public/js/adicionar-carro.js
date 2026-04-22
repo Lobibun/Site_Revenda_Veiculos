@@ -182,6 +182,22 @@ document.getElementById("form-veiculo").addEventListener("submit", async functio
     formData.delete("opcionais");
     formData.delete("fotos");
 
+    // ==========================================
+    // 🚀 NOVO: CAPTURANDO OS NOMES PARA O MAKE
+    // ==========================================
+    
+    // Pega o nome da marca que está escrito na tela
+    const marcaNome = document.getElementById('texto-marca-selecionada').textContent;
+    formData.append("marca_nome", marcaNome !== "Selecione a marca..." ? marcaNome : "Marca Indisponível");
+
+    // Pega a palavra exata do combustível (ex: "Flex", "Gasolina")
+    const selectCombustivel = document.getElementById('combustivel');
+    if (selectCombustivel && selectCombustivel.selectedIndex >= 0) {
+        const combustivelNome = selectCombustivel.options[selectCombustivel.selectedIndex].text;
+        formData.append("combustivel_nome", combustivelNome);
+    }
+    // ==========================================
+
     const temOpcionais = document.getElementById("tem-opcionais").checked;
 
     if (temOpcionais) {

@@ -10,6 +10,7 @@ const nodemailer = require("nodemailer");
 const crypto = require("crypto");
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
+const axios = require('axios');
 
 const app = express();
 app.use(
@@ -87,8 +88,41 @@ const limitadorContato = rateLimit({
     message: { erro: "Você já enviou mensagens suficientes. Por favor, aguarde uma hora antes de tentar novamente." }
 });
 
-// Aplica a proteção ANTES da rota real de login
-app.use('/login', limitadorLogin);
+async function postarViaMake(carro, caminhoFotoLocal) {
+    const webhookUrl = "https://hook.us2.make.com/61sorw7psjn55raa32iljw4lm0o3n1s4"; 
+
+    const fotoFakeParaTeste = "https://www.w3schools.com/w3images/cars3.jpg";
+
+    // 🧠 MONTA A LEGENDA NO BACKEND
+    const legenda = `
+🚗 ${carro.marca} ${carro.modelo}
+📅 Ano: ${carro.ano}
+🛣️ ${carro.quilometragem} km
+⚙️ ${carro.cambio}
+⛽ ${carro.combustivel}
+💰 R$ ${carro.preco}
+
+${carro.leilao ? "⚠️ LEILÃO" : ""}
+
+📲 Entre em contato agora! numero 48989901958
+
+`;
+
+    try {
+        await axios.post(webhookUrl, {
+            legenda: legenda, // 👈 ENVIA PRONTO
+            photos: [
+                {
+                    url: fotoFakeParaTeste
+                }
+            ]
+        });
+
+        console.log("✅ Post enviado com legenda pronta!");
+    } catch (erro) {
+        console.error("❌ Erro ao enviar para o Make:", erro.message);
+    }
+}
 
 // PROTEÇÃO DA PÁGINA DE LOGIN
 app.get("/login.html", (req, res, next) => {
@@ -1459,7 +1493,6 @@ app.post(
     upload.array("fotos", 5),
     async (req, res) => {
         try {
-            // Trocado para 'let' para podermos alterar os valores se vierem vazios
             let {
                 marca_id,
                 modelo,
@@ -1467,64 +1500,40 @@ app.post(
                 preco,
                 fipe,
                 quilometragem,
+                km, // Caso o frontend envie como 'km'
                 cambio,
                 combustivel,
+                combustivel_nome, // Que nós arrumamos no frontend
                 leilao,
+                postar_redes // Capturamos o checkbox das redes sociais
             } = req.body;
 
-            // PRECAUÇÃO: Se o combustível vier vazio por algum motivo, define como Flex
-            if (!combustivel) combustivel = "Flex";
+            // Pega o combustível correto
+            if (!combustivel) combustivel = combustivel_nome || "Flex";
 
-            // 1. Pega os opcionais primeiro
             const opcionais = req.body.opcionais;
 
-            // Trata o checkbox do leilão
             let leilaoValor = 0;
-            if (
-                leilao === "on" ||
-                leilao === "Sim" ||
-                leilao === "1" ||
-                leilao === 1 ||
-                leilao === true
-            ) {
+            if (leilao === "on" || leilao === "Sim" || leilao === "1" || leilao === 1 || leilao === true) {
                 leilaoValor = 1;
             }
 
-            // 2. Verifica se foi marcado algum opcional
             let temOpcionais = 0;
-            if (
-                opcionais &&
-                (Array.isArray(opcionais) ? opcionais.length > 0 : true)
-            ) {
+            if (opcionais && (Array.isArray(opcionais) ? opcionais.length > 0 : true)) {
                 temOpcionais = 1;
             }
 
-            // 3. Insere o carro no banco
             const [result] = await db.execute(
                 `INSERT INTO Carros 
                 (marca_id, modelo, ano, preco, fipe, quilometragem, cambio, combustivel, status, leilao, Opcionais)
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'Disponível', ?, ?)`,
-                [
-                    marca_id,
-                    modelo,
-                    ano,
-                    preco,
-                    fipe || null,
-                    quilometragem,
-                    cambio,
-                    combustivel,
-                    leilaoValor,
-                    temOpcionais,
-                ],
+                [marca_id, modelo, ano, preco, fipe || null, quilometragem || km, cambio, combustivel, leilaoValor, temOpcionais],
             );
 
             const carroId = result.insertId;
 
-            // 4. Salva na tabela auxiliar de opcionais
             if (opcionais) {
-                const lista = Array.isArray(opcionais)
-                    ? opcionais
-                    : [opcionais];
+                const lista = Array.isArray(opcionais) ? opcionais : [opcionais];
                 for (const opcionalId of lista) {
                     await db.execute(
                         `INSERT INTO CarroOpcionais (carro_id, opcional_id) VALUES (?, ?)`,
@@ -1533,7 +1542,9 @@ app.post(
                 }
             }
 
-            // 5. Salva as fotos e define a capa
+            // Variável para guardar o caminho da foto para o webhook do Make
+            let imagemCapaParaMake = null;
+
             if (req.files && req.files.length > 0) {
                 let subPasta = path.basename(req.pastaUploadAtual);
                 for (let i = 0; i < req.files.length; i++) {
@@ -1545,12 +1556,14 @@ app.post(
                         [carroId, caminhoFoto],
                     );
 
-                    // A primeira foto vira a capa principal
                     if (i === 0) {
+                        // Salva o caminho para o banco de dados
                         await db.execute(
                             "UPDATE Carros SET imagem_principal = ? WHERE id = ?",
                             [caminhoFoto, carroId],
                         );
+                        // Guarda o caminho para enviar pro Make depois
+                        imagemCapaParaMake = caminhoFoto; 
                     }
                 }
             }
@@ -1563,6 +1576,37 @@ app.post(
                 carroId,
                 { modelo: modelo, preco: preco },
             );
+
+            // ==========================================
+            // AUTOMAÇÃO: ENVIAR PARA O MAKE.COM
+            // ==========================================
+            const vaiPostarNasRedes = postar_redes === 'on' || postar_redes === 'true' || postar_redes === '1';
+
+            if (vaiPostarNasRedes) {
+                // Busca o nome da marca direto do banco para ficar seguro
+                let nomeDaMarca = "Marca";
+                const [marcaDb] = await db.execute("SELECT nome FROM Marcas WHERE id = ?", [marca_id]);
+                if (marcaDb.length > 0) {
+                    nomeDaMarca = marcaDb[0].nome;
+                }
+
+                // ==========================================
+                // 🚀 AQUI ESTAVA O PROBLEMA! AGORA VAI TUDO:
+                // ==========================================
+                const dadosDoCarro = {
+                    marca: nomeDaMarca,
+                    modelo: modelo || "Não informado",
+                    preco: preco || "0,00",
+                    ano: ano || "Não informado",
+                    quilometragem: quilometragem || km || "0",
+                    cambio: cambio || "Não informado",
+                    combustivel: combustivel || "Não informado",
+                    leilao: leilaoValor === 1 ? true : false
+                };
+
+                // Executa em background
+                postarViaMake(dadosDoCarro, imagemCapaParaMake);
+            }
 
             res.json({ mensagem: "Carro adicionado com sucesso!" });
         } catch (erro) {
