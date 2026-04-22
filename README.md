@@ -21,9 +21,15 @@ Este projeto foi construído para resolver o problema de gestão de estoque e ma
 
 
 > *[Imagem do Painel Administrativo]*
+> <img width="1346" height="631" alt="image" src="https://github.com/user-attachments/assets/6bdb3d84-f8f9-4c41-9177-0d242190b778" />
+><img width="1350" height="633" alt="image" src="https://github.com/user-attachments/assets/5c16225e-0f76-4768-bd30-ccccc2bda78b" />
+
 > 
 > *[Imagem da Tela de Adicionar Carros]*
->
+><img width="1342" height="625" alt="Captura de tela 2026-04-22 165829" src="https://github.com/user-attachments/assets/9a5ff50b-ab47-4a5d-89d5-33ae34b9ca70" />
+><img width="1345" height="613" alt="image" src="https://github.com/user-attachments/assets/12bee3d7-a4fc-4062-99f0-70accd4ac8c5" />
+
+
 > *[Imagem da Tela de Detalhes dos Carros]*
 > <img width="1345" height="630" alt="image" src="https://github.com/user-attachments/assets/0b03f38d-1c98-456f-81a9-61ea9bd30f6a" />
 ><img width="1344" height="630" alt="image" src="https://github.com/user-attachments/assets/47cd64b4-8c13-4ccd-9029-e0a2d4ee0599" />
